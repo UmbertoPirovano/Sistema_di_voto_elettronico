@@ -33,7 +33,7 @@ class Elettore {
 		this.name = name;
 		this.surname = surname;
 		this.birth_date = birth_date;
-		//new TesseraElettorale()...
+		//new TesseraElettorale()....
 	}
 	
 	/**

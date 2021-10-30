@@ -14,12 +14,9 @@ import java.util.Objects;
  *
  */
 
-class Elettore {
-	private final int UserId;
-	private final String name;
-	private final String surname;
+class Elettore extends Utente{
 	private final Date birth_date;
-	//private SchedaElettorale
+	//private TesseraElettorale tE;
 	
 	/**
 	 * Istanzia un nuovo oggetto Elettore.
@@ -29,11 +26,9 @@ class Elettore {
 	 * @param birth_date Data di nascita dell'elettore.
 	 */
 	public Elettore(int id, String name, String surname, Date birth_date) {
-		this.UserId = id;
-		this.name = name;
-		this.surname = surname;
+		super(id, name, surname, birth_date)
 		this.birth_date = birth_date;
-		//new TesseraElettorale()...
+		//te = new TesseraElettorale()
 	}
 	
 	/**
@@ -51,6 +46,33 @@ class Elettore {
 	 * @param v Una votazione del sistema.
 	 */
 	private void updateTesseraElettorale(Votazione v) {
+		//TODO: implementazione
+	}
+	
+	/**
+	 * Restituisce un iteratore su tutte le votazioni a cui this ha partecipato.
+	 * @return Un iteratore di votazioni. 
+	 */
+	Iterator<Votazione> votes(){
+		//TODO: implementazione
+	}
+	
+	/**
+	 * Restituisce un iteratore su tutte le votazioni nell'anno specificato a cui ha preso parte this.
+	 * @param year Un anno.
+	 * @return Un iteratore di votazioni.
+	 */
+	Iterator<Votazione> votes(int year){
+		//TODO: implementazione
+	}
+	
+	/**
+	 * Restituisce un iteratore su tutte le votazioni nel mese e nell'anno specificato a cui ha preso parte this. 
+	 * @param month Un mese dell'anno.
+	 * @param year Un anno.
+	 * @return Un iteratore di votazioni.
+	 */
+	Iterator<Votazione> votes(int month, int year){
 		//TODO: implementazione
 	}
 }

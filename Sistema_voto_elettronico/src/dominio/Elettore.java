@@ -42,10 +42,8 @@ class Elettore {
 	 * @return true se this non ha ancora espresso una preferenza, false altrimenti.
 	 */
 	public boolean checkAlreadyVoted(Votazione v) {
-		Objects.requireNonNull(v);
-		if(tessera_elettorale.contains(v))
-			return false;
-		return true;
+		//TODO: implementazione
+		return false;
 	}
 	
 	/**
@@ -53,6 +51,6 @@ class Elettore {
 	 * @param v Una votazione del sistema.
 	 */
 	private void updateTesseraElettorale(Votazione v) {
-		tessera_elettorale.insert(v);
+		//TODO: implementazione
 	}
 }

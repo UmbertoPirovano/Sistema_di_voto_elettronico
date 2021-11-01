@@ -1,4 +1,4 @@
-package dominio;
+package users;
 
 import java.util.Date;
 import java.util.Objects;

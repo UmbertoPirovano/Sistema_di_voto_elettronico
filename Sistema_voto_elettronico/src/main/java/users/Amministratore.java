@@ -1,6 +1,7 @@
 package users;
 
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  * @author Mattia Garavaglia
@@ -14,8 +15,8 @@ import java.util.Date;
  */
 class Amministratore extends Utente{
 	
-	Amministratore(int id, String name, String surname, Date birth_date){
-		super(id, name, surname, birth_date);
+	Amministratore(int id, String name, String surname){
+		super(id, name, surname);
 	}
 	
 	/**
@@ -27,7 +28,7 @@ class Amministratore extends Utente{
 	 * @return La votazione creata.
 	 */
 	Votazione createVote(String name, Date start, Date end, VoteType t) {
-		
+		//TODO: implementazione
 	}
 	
 	/**
@@ -39,24 +40,15 @@ class Amministratore extends Utente{
 		
 	}
 	
-	/**
-	 * Restituisce un iteratore su tutte le votazioni.
-	 * @return Un iteratore di votazioni. 
-	 */
-	Iterator<Votazione> votes();
+	Iterator<Votazione> votes(){
+		//TODO: implementazione
+	}
 	
-	/**
-	 * Restituisce un iteratore su tutte le votazioni nell'anno specificato.
-	 * @param year Un anno.
-	 * @return Un iteratore di votazioni.
-	 */
-	Iterator<Votazione> votes(int year);
+	Iterator<Votazione> votes(int year){
+		//TODO: implementazione
+	}
 	
-	/**
-	 * Restituisce un iteratore su tutte le votazioni nel mese e nell'anno specificato. 
-	 * @param month Un mese dell'anno.
-	 * @param year Un anno.
-	 * @return Un iteratore di votazioni.
-	 */
-	Iterator<Votazione> votes(int month, int year);
+	Iterator<Votazione> votes(int month, int year){
+		//TODO: implementazione
+	}
 }

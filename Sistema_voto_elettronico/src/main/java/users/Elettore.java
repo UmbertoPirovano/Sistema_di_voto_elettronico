@@ -2,6 +2,7 @@ package users;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Iterator;
 
 /**
  * @author Mattia Garavaglia
@@ -26,7 +27,7 @@ class Elettore extends Utente{
 	 * @param birth_date Data di nascita dell'elettore.
 	 */
 	public Elettore(int id, String name, String surname, Date birth_date) {
-		super(id, name, surname, birth_date)
+		super(id, name, surname);
 		this.birth_date = birth_date;
 		//te = new TesseraElettorale()
 	}

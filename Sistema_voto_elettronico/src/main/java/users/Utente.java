@@ -8,7 +8,6 @@ import java.util.Iterator;
  * @author Umberto Pirovano
  * 
  * Un utente generico del sistema di voto elettronico.
- * Le istanze di questa classe sono mutabili.
  *
  */
 abstract class Utente {

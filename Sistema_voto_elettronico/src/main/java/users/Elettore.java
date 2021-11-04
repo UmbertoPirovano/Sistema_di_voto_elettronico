@@ -54,6 +54,7 @@ class Elettore extends Utente{
 	 * Restituisce un iteratore su tutte le votazioni a cui this ha partecipato.
 	 * @return Un iteratore di votazioni. 
 	 */
+	@Override
 	Iterator<Votazione> votes(){
 		//TODO: implementazione
 	}
@@ -63,6 +64,7 @@ class Elettore extends Utente{
 	 * @param year Un anno.
 	 * @return Un iteratore di votazioni.
 	 */
+	@Override
 	Iterator<Votazione> votes(int year){
 		//TODO: implementazione
 	}
@@ -73,6 +75,7 @@ class Elettore extends Utente{
 	 * @param year Un anno.
 	 * @return Un iteratore di votazioni.
 	 */
+	@Override
 	Iterator<Votazione> votes(int month, int year){
 		//TODO: implementazione
 	}

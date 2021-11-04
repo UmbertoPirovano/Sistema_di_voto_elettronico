@@ -40,14 +40,17 @@ class Amministratore extends Utente{
 		
 	}
 	
+	@Override
 	Iterator<Votazione> votes(){
 		//TODO: implementazione
 	}
 	
+	@Override
 	Iterator<Votazione> votes(int year){
 		//TODO: implementazione
 	}
 	
+	@Override
 	Iterator<Votazione> votes(int month, int year){
 		//TODO: implementazione
 	}

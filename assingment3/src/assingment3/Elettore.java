@@ -153,10 +153,10 @@ public class Elettore {
 		age.set(aa, mm, gg);
 		Calendar current = Calendar.getInstance();
 		
-		long mAge = age.getTimeInMillis();
-		long mCurr = current.getTimeInMillis();
+		double mAge = age.getTimeInMillis();
+		double mCurr = current.getTimeInMillis();
 		
-		return mCurr - mAge >= 18 * 365 * 24 * 60 * 60 * 1000;		
+		return mCurr - mAge >= 18.0 * 365.0 * 24.0 * 60.0 * 60.0 * 1000.0;		
 	}
 	
 	/**

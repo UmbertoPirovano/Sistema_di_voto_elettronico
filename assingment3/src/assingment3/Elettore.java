@@ -23,7 +23,9 @@ public class Elettore {
 		voto = false;
 	}
 	
-	
+	/*
+	 * Post-condizioni: restituisce true se il codice fiscale combacia con i dati anagrafici di this, false altrimenti.
+	 */
 	public boolean match(String nome, String cognome, String cod, int gg, int mm, int aa, String luogo, String paese, char sesso){
 		String name = new String(nome);
 		String surname = new String(cognome);
@@ -57,6 +59,10 @@ public class Elettore {
 		switch()
 	}
 	
+	/*
+	 * Post-condizioni: se tra la data fornita in input e quella corrente fornita dal sistema sono passati almeno 18 anni restituisce true,
+	 * 					altrimenti false.
+	 */
 	public static /*@ pure @*/ boolean maggiorenne(int gg, int mm, int aa){
 		Date age = new Date(aa, mm, gg);
 		Date current = new Date(System.currentTimeMillis());
@@ -67,6 +73,9 @@ public class Elettore {
 		return mCurr - mAge >= 18 * 365 * 24 * 60 * 1000;		
 	}
 	
+	/*
+	 * Post-condizioni: trasforma la stringa s in un array di caratteri.
+	 */
 	private /*@ spec_public @*/ static /*@ pure @*/ char [] toCharArray(String s){
 		char[] ch = new char[s.length()];
 
@@ -78,11 +87,16 @@ public class Elettore {
 	    return ch;
 	}
 	
-	private /*@ spec_public @*/ static /*@ pure @*/ boolean checkFiscalCode(char [] code){
+	/*
+	 * Post-condizioni: restituisce true se il codice fiscale è formattato correttamente, false altrimenti.
+	 */
+	public /*@ spec_public @*/ static /*@ pure @*/ boolean checkFiscalCode(char [] code){
 		String regexp = "/^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i";
 		CharSequence seq = java.nio.CharBuffer.wrap(code);
 		return Pattern.matches(regexp, seq);
 	}
+	
+	
     
 
 }

@@ -33,7 +33,7 @@ public class Elettore {
 	/**
 	 * Restituisce una copia della stringa s dalla quale sono state rimosse le vocali.
 	 * @param s
-	 * @return Una copia di s dalla quale sono state rimosse le vocali.
+	 * @return Una copia di s dalla quale sono state rimosse le vocali. 
 	 */
 	public static String removeVowels(String s){
 		String s_cons = s.replace("A", "");

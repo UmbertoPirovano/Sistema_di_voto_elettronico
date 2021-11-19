@@ -4,25 +4,68 @@ import java.util.regex.Pattern;
 public class Elettore {
 	private /*@ spec_public @*/ final String nome, cognome;
 	private /*@ spec_public @*/ int gg, mm, aa;
-	private final /*@ spec_public @*/ String paese, luogo; 
+	private final /*@ spec_public @*/ String nazione, comune; 
 	private /*@ spec_public @*/ char sesso;
 	private final /*@ spec_public @*/ char [] code;
 	private /*@ spec_public @*/ boolean voto;
 	
-	/*@ public invariant nome != null && cognome != null && (sesso == 'M' || sesso == 'F') && maggiorenne(gg, mm, aa) && (stringEquality(toLowerCase(paese),"italia") ==> luogo != null) && checkFiscalCode(code) 
-	 && match(nome, cognome, gg, mm, aa, sesso, code); @*/
+	/*@ public invariant nome != null && cognome != null && (sesso == 'M' || sesso == 'F') && maggiorenne(gg, mm, aa) && (stringEquality(toLowerCase(nazione),"italia") ==> comune != null) && checkFiscalCode(code) 
+	 && match(nome, cognome, gg, mm, aa, nazione, comune, sesso, code); @*/
 	
-	public Elettore(String nome, String cognome, int gg, int mm, int aa, String luogo, String paese, char sesso, String code){
+	public Elettore(String nome, String cognome, int gg, int mm, int aa, String nazione, String comune, char sesso, String code){
 		this.nome = nome;
 		this.cognome = cognome;
 		this.gg = gg;
 		this.mm = mm;
 		this.aa = aa;
-		this.luogo = luogo;
-		this.paese = paese;
+		this.nazione = nazione;
+		this.comune = comune;
 		this.sesso = sesso;
 		this.code = toCharArray(code);
 		voto = false;
+	}
+	
+	
+	private void esprimi_voto(){
+		return;
+	}
+	
+	/**
+	 * Restituisce una copia della stringa s dalla quale sono state rimosse le vocali.
+	 * @param s
+	 * @return Una copia di s dalla quale sono state rimosse le vocali.
+	 */
+	public static String removeVowels(String s){
+		String s_cons = s.replace("A", "");
+		s_cons = s_cons.replace("E", "");
+		s_cons = s_cons.replace("I", "");
+		s_cons = s_cons.replace("O", "");
+		s_cons = s_cons.replace("U", "");
+		return s_cons;
+	}
+	
+	/**
+	 * Restituisce true se il carattere c corrisponde ad una vocale, false altrimenti.
+	 * @param c
+	 * @return true se c è una vocale, false altrimenti.
+	 */
+	public static boolean isVowel(char c){
+		if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')
+			return true;
+		return false;
+	}
+	
+	/**
+	 * Restituisce una copia della stringa s dalla quale sono state rimosse le consonanti.
+	 * @param s
+	 * @return Una copia di s dalla quale sono state rimosse le consonanti.
+	 */
+	public static String removeConsonants(String s){
+		String s_vo = "";
+		for(int i = 0 ; i < s.length() ; i++){
+			if(isVowel(s.charAt(i))) s_vo += s.charAt(i);
+		}
+		return s_vo;
 	}
 	
 	/**
@@ -35,30 +78,18 @@ public class Elettore {
 	 * @param sesso
 	 * @return La porzione di codice fiscale.
 	 */
-	private static String getCode(String nome, String cognome, int gg, int mm, int aa, char sesso){
+	public static String getCode(String nome, String cognome, int gg, int mm, int aa, char sesso){
 		String name_cons = nome.toUpperCase(); //Conterrà il nome formattato per il codice fiscale
 		String surname_cons = cognome.toUpperCase(); //Conterrà il cognome formattato per il codice fiscale
 		String name_vo = "", surname_vo = "";
 		
-		name_cons = name_cons.replace("A", "");
-		name_cons = name_cons.replace("E", "");
-		name_cons = name_cons.replace("I", "");
-		name_cons = name_cons.replace("O", "");
-		name_cons = name_cons.replace("U", "");
-		surname_cons = surname_cons.replace("A", "");
-		surname_cons = surname_cons.replace("E", "");
-		surname_cons = surname_cons.replace("I", "");
-		surname_cons = surname_cons.replace("O", "");
-		surname_cons = surname_cons.replace("U", "");
+		name_cons = removeVowels(name_cons);
+		surname_cons = removeVowels(surname_cons);
+		name_vo = removeConsonants(nome);
+		surname_vo = removeConsonants(cognome);
 		
-		for(int i = 0 ; i < nome.length(); i++)
-			if(nome.charAt(i) == 'a' || nome.charAt(i) == 'e' || nome.charAt(i) == 'i' || nome.charAt(i) == 'o' || nome.charAt(i) == 'u')
-				name_vo += Character.toUpperCase(nome.charAt(i));
-		
-		for(int i = 0 ; i < cognome.length(); i++)
-			if(cognome.charAt(i) == 'a' || cognome.charAt(i) == 'e' || cognome.charAt(i) == 'i' || cognome.charAt(i) == 'o' || cognome.charAt(i) == 'u')
-				surname_vo += Character.toUpperCase(cognome.charAt(i));
-		
+		if(surname_cons.length() > 3) 
+			surname_cons= surname_cons.substring(0, 3); 
 		int j = 0;
 		while(surname_cons.length() < 3){
 			if(j < surname_vo.length())
@@ -67,18 +98,15 @@ public class Elettore {
 				surname_cons += "X";
 		}
 		
-		if(name_cons.length() >= 4)
+		if(name_cons.length() > 3)
 			name_cons = name_cons.charAt(0) + "" + name_cons.charAt(2) + "" + name_cons.charAt(3);
-		else{
-			j = 0;
-			while(name_cons.length() < 3){
-				if(j < name_vo.length())
-					name_cons += name_vo.charAt(j++) ;
-				else
-					name_cons += "X";
-			}
-		}
-			
+		j = 0;
+		while(name_cons.length() < 3){
+			if(j < name_vo.length())
+				name_cons += name_vo.charAt(j++) ;
+			else
+				name_cons += "X";
+		}			
 		
 		String year = String.valueOf(aa).substring(2); //Conterrà l'anno formattato per il codice fiscale
 		char month = ' ';
@@ -120,7 +148,15 @@ public class Elettore {
 				month = 'T';
 		}
 		
-		String day = sesso == 'M' ? day = String.valueOf(gg) : String.valueOf(gg + 40);
+		String day = "";
+		if(sesso == 'M'){
+			if(gg < 10) day += "0" + gg;
+		    else day += gg;
+		}
+		if(sesso == 'F'){
+			day += (gg + 40);
+		}
+			
 			
 		return surname_cons + "" + name_cons + "" + year + "" + month + "" + day; 
 	}
@@ -136,8 +172,18 @@ public class Elettore {
 	 * @param code
 	 * @return true se i primi 11 caratteri di code matchano con quelli ricavati tramite gli altri parametri, false altrimenti.
 	 */
-	private /*@ spec_public @*/ /*@ pure @*/ static boolean match(String nome, String cognome, int gg, int mm, int aa, char sesso, char [] code){
-		return stringEquality(String.valueOf(code).substring(0, 11),getCode(nome, cognome, gg, mm, aa, sesso));
+	private /*@ spec_public @*/ /*@ pure @*/ static boolean match(String nome, String cognome, int gg, int mm, int aa, String nazione, String comune, char sesso, char [] code){
+		//controllo primi 11 caratteri
+		boolean flag = String.valueOf(code).substring(0, 11).equals(getCode(nome, cognome, gg, mm, aa, sesso));
+		if(!flag) return false;
+		//controllo semplificato degli ultimi 5 caratteri
+		flag = Character.isLetter(code[11]);
+		if(nazione != "IT" && nazione != "Italia" && nazione != "italia" && nazione != "Italy") flag = (code[11] == 'Z');
+		flag = Character.isDigit(code[12]);
+		flag = Character.isDigit(code[13]);
+		flag = Character.isDigit(code[14]);
+		flag = Character.isLetter(code[15]);
+		return flag;		
 	}
 	
 	/**

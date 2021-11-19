@@ -25,8 +25,10 @@ public class Elettore {
 		voto = false;
 	}
 	
-	
-	private void esprimi_voto(){
+	//@ requires voto == false;
+	//@ ensures voto == true;
+	public void esprimi_voto(){
+		voto = true;
 		return;
 	}
 	
@@ -35,6 +37,8 @@ public class Elettore {
 	 * @param s
 	 * @return Una copia di s dalla quale sono state rimosse le vocali. 
 	 */
+	//@ requires s != null;
+	//@ ensures \result != null;
 	public static String removeVowels(String s){
 		String s_cons = s.replace("A", "");
 		s_cons = s_cons.replace("E", "");
@@ -248,5 +252,10 @@ public class Elettore {
 	 */
 	private /*@ spec_public @*/ /*@ pure @*/ static boolean stringEquality(String s1, String s2){
 		return s1.equals(s2);
+	}
+	
+	@Override
+	public String toString() {
+		return "" + nome + " " + cognome + ", sesso: " + sesso + ", nato a: " + comune + " il: " + gg + "/" + mm + "/" + aa + "\n codice fiscale: " + new String(code);
 	}
 }

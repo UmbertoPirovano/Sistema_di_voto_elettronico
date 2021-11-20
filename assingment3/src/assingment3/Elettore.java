@@ -3,6 +3,43 @@ import java.sql.Date;
 import java.util.regex.Pattern;
 
 public class Elettore {
+	
+	public static void main(String[] args) {
+		//Caso nome null
+		//Elettore e = new Elettore(null, "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRA95T10A562S");
+		
+		
+		//Caso genere elettore non valido
+		//Elettore e = new Elettore(null, "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", '4', "RSSMRA95T10A562S");
+		
+		//Caso cognome null
+		//Elettore e = new Elettore("Mario", null, 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRA95T10A562S");
+		
+		
+		//Caso elettore non maggiorenne
+		//Elettore e = new Elettore("Mario", "Rossi", 10, 12, 2020, "italia", "San Giuliano Terme", 'M', "RSSMRA20T10A562S");
+		
+		
+		//Caso elettore che vota piu' di una volta
+		/*Elettore e = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRA95T10A562S");
+		  e.esprimi_voto();
+		  e.esprimi_voto();
+		 */
+		
+		
+		//Caso nascita in Italia ma comune non specificato
+		//Elettore e = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", null, 'M', "RSSMRA95T10A562S");
+		
+		
+		//Caso data di nascita successiva alla data corrente
+		//Elettore e = new Elettore("Mario", "Rossi", 10, 12, 2022, "italia", "San Giuliano Terme", 'M', "RSSMRA22T10A562S");
+		
+		
+		//Caso codice fiscale non valido
+		//Elettore e1 = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRA95T10A5624");
+		//Elettore e2 = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRI95T10A562S");
+	}
+	
 	private /*@ spec_public @*/ final String nome, cognome;
 	private /*@ spec_public @*/ int gg, mm, aa;
 	private /*@ spec_public @*/ final String nazione, comune; 

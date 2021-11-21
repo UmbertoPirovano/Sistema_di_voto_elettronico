@@ -1,34 +1,40 @@
 package assingment3;
+/**
+ * ASSIGNMENT 3
+ * CORSO DI INGEGNERIA DEL SOFTWARE anno 2021/2022, UNIVERSITÀ DEGLI STUDI DI MILANO (UNIMI)
+ * 
+ * Autori: Garavaglia Mattia, Pirovano Umberto
+ * data: 21/11/2021
+ */
 import java.sql.Date;
 import java.util.regex.Pattern;
 
 public class Elettore {
 	
 	public static void main(String[] args) {
+		//DECOMMENTARE IL CASO CHE SI DERIDERA TESTARE
+		
 		//Caso nome null
 		//Elettore e = new Elettore(null, "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRA95T10A562S");
-		
-		
-		//Caso genere elettore non valido
-		//Elettore e = new Elettore(null, "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", '4', "RSSMRA95T10A562S");
 		
 		//Caso cognome null
 		//Elettore e = new Elettore("Mario", null, 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRA95T10A562S");
 		
-		
+		//Caso genere elettore non valido
+		//Elettore e = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", '4', "RSSMRA95T10A562S");
+				
 		//Caso elettore non maggiorenne
 		//Elettore e = new Elettore("Mario", "Rossi", 10, 12, 2020, "italia", "San Giuliano Terme", 'M', "RSSMRA20T10A562S");
-		
+		//e.esprimi_voto();
 		
 		//Caso elettore che vota piu' di una volta
-		/*Elettore e = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRA95T10A562S");
-		  e.esprimi_voto();
-		  e.esprimi_voto();
-		 */
-		
-		
+		//Elettore e = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRA95T10A562S");
+		//e.esprimi_voto();
+		//e.esprimi_voto();
+				
 		//Caso nascita in Italia ma comune non specificato
-		//Elettore e = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", null, 'M', "RSSMRA95T10A562S");
+		//Elettore e = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", "", 'M', "RSSMRA95T10A562S");
+		//Elettore f = new Elettore("Mario", "Rossi", 10, 12, 1995, "francia", "", 'M', "RSSMRA95T10Z562S");
 		
 		
 		//Caso data di nascita successiva alla data corrente
@@ -40,16 +46,15 @@ public class Elettore {
 		//Elettore e2 = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRI95T10A562S");
 	}
 	
-	private final String nome, cognome;
-	private int gg, mm, aa;
-	private final String nazione, comune; 
-	private char sesso;
+	private /*@ spec_public @*/ final String nome, cognome;
+	private /*@ spec_public @*/ final int gg, mm, aa;
+	private /*@ spec_public @*/ final String nazione, comune; 
+	private /*@ spec_public @*/ char sesso;
 	private /*@ spec_public @*/ final char [] code;
 	private /*@ spec_public @*/ boolean voto;
 	
+	/*@ public invariant nome != null && cognome != null && (sesso == 'M' || sesso == 'F') && (equalStrings(nazione, "italia") ==> (comune != null && !equalStrings(comune, ""))) && (validDate(gg, mm, aa)) && validateTaxCode();@*/
 	
-	/*@ requires nome != null && cognome != null && (sesso == 'M' || sesso == 'F') && (equalStrings(nazione, "italia") ==> comune != null) && (validDate(gg, mm, aa)) && validateTaxCode(); @*/
-	/*@ ensures validateTaxCode(); @*/
 	public Elettore(String nome, String cognome, int gg, int mm, int aa, String nazione, String comune, char sesso, String code){
 		this.nome = nome;
 		this.cognome = cognome;

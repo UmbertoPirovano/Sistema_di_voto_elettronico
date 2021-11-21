@@ -40,15 +40,16 @@ public class Elettore {
 		//Elettore e2 = new Elettore("Mario", "Rossi", 10, 12, 1995, "italia", "San Giuliano Terme", 'M', "RSSMRI95T10A562S");
 	}
 	
-	private /*@ spec_public @*/ final String nome, cognome;
-	private /*@ spec_public @*/ int gg, mm, aa;
-	private /*@ spec_public @*/ final String nazione, comune; 
-	private /*@ spec_public @*/ char sesso;
+	private final String nome, cognome;
+	private int gg, mm, aa;
+	private final String nazione, comune; 
+	private char sesso;
 	private /*@ spec_public @*/ final char [] code;
 	private /*@ spec_public @*/ boolean voto;
 	
-	/*@ public invariant nome != null && cognome != null && (sesso == 'M' || sesso == 'F') && (equalStrings(nazione, "italia") ==> comune != null) && (validDate(gg, mm, aa)) && validateTaxCode();@*/
 	
+	/*@ requires nome != null && cognome != null && (sesso == 'M' || sesso == 'F') && (equalStrings(nazione, "italia") ==> comune != null) && (validDate(gg, mm, aa)) && validateTaxCode(); @*/
+	/*@ ensures validateTaxCode(); @*/
 	public Elettore(String nome, String cognome, int gg, int mm, int aa, String nazione, String comune, char sesso, String code){
 		this.nome = nome;
 		this.cognome = cognome;

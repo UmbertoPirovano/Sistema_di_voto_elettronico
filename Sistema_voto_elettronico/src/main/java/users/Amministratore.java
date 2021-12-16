@@ -8,7 +8,7 @@ import java.util.Iterator;
  * @author Umberto Pirovano
  * 
  * Un utente di tipo amministratore del sistema di voto elettronico.
- * Questo tipo di utente può creare una nuova votazione, modificare le votazioni create (ma non ancora in corso), aggiungere
+ * Questo tipo di utente puï¿½ creare una nuova votazione, modificare le votazioni create (ma non ancora in corso), aggiungere
  * e rimuovere elettori da una blacklist, visualizzare una lista di votazioni (con stato) ed effettuare logout.
  * Le istanze di questa classe sono mutabili.
  *
@@ -27,15 +27,18 @@ class Amministratore extends Utente{
 	 * @param t Il tipo di votazione.
 	 * @return La votazione creata.
 	 */
+	/*
 	Votazione createVote(String name, Date start, Date end, VoteType t) {
 		//TODO: implementazione
 	}
+	*/
 	
 	/**
 	 * Aggiunge alla blacklist specificata l'elettore indicato.
 	 * @param b La blacklist del sistema.
 	 * @param e Un elettore.
 	 */
+	/*
 	void addToBlackList(BlackList b, Elettore e) {
 		
 	}
@@ -54,4 +57,5 @@ class Amministratore extends Utente{
 	Iterator<Votazione> votes(int month, int year){
 		//TODO: implementazione
 	}
+	*/
 }

@@ -31,20 +31,24 @@ abstract class Utente {
 	 * Restituisce un iteratore su tutte le votazioni.
 	 * @return Un iteratore di votazioni. 
 	 */
+	/*
 	abstract Iterator<Votazione> votes();
-	
+	*/
 	/**
 	 * Restituisce un iteratore su tutte le votazioni nell'anno specificato.
 	 * @param year Un anno.
 	 * @return Un iteratore di votazioni.
 	 */
+	/*
 	abstract Iterator<Votazione> votes(int year);
-	
+	*/
 	/**
 	 * Restituisce un iteratore su tutte le votazioni nel mese e nell'anno specificato. 
 	 * @param month Un mese dell'anno.
 	 * @param year Un anno.
 	 * @return Un iteratore di votazioni.
 	 */
+	/*
 	abstract Iterator<Votazione> votes(int month, int year);
+	*/
 }

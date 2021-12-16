@@ -1,7 +1,6 @@
 package users;
 
 import java.util.Date;
-import java.util.Objects;
 import java.util.Iterator;
 
 /**
@@ -9,7 +8,7 @@ import java.util.Iterator;
  * @author Umberto Pirovano
  * 
  * Un utente di tipo elettore del sistema di voto elettronico.
- * Questo tipo di utente può visualizzare e selezionare le votazioni, effettuare una votazione, esprimere la volontà
+ * Questo tipo di utente puï¿½ visualizzare e selezionare le votazioni, effettuare una votazione, esprimere la volontï¿½
  * di votare a distanza, visualizzare il proprio storico delle votazioni ed effettuare il logout.
  * Le istanze di questa classe sono mutabili.
  *
@@ -33,50 +32,57 @@ class Elettore extends Utente{
 	}
 	
 	/**
-	 * Controlla che this non abbia già espresso la sua preferenza per la votazione v.
+	 * Controlla che this non abbia giï¿½ espresso la sua preferenza per la votazione v.
 	 * @param v Una votazione.
 	 * @return true se this non ha ancora espresso una preferenza, false altrimenti.
 	 */
+	/*
 	public boolean checkAlreadyVoted(Votazione v) {
 		//TODO: implementazione
 		return false;
 	}
-	
+	*/
 	/**
 	 * Aggiorna la tessera elettorale aggiungendo la votazione v.
 	 * @param v Una votazione del sistema.
 	 */
+	/*
 	private void updateTesseraElettorale(Votazione v) {
 		//TODO: implementazione
 	}
-	
+	*/
 	/**
 	 * Restituisce un iteratore su tutte le votazioni a cui this ha partecipato.
 	 * @return Un iteratore di votazioni. 
 	 */
+	/*
 	@Override
 	Iterator<Votazione> votes(){
 		//TODO: implementazione
 	}
+	*/
 	
 	/**
 	 * Restituisce un iteratore su tutte le votazioni nell'anno specificato a cui ha preso parte this.
 	 * @param year Un anno.
 	 * @return Un iteratore di votazioni.
 	 */
+	/*
 	@Override
 	Iterator<Votazione> votes(int year){
 		//TODO: implementazione
 	}
-	
+	*/
 	/**
 	 * Restituisce un iteratore su tutte le votazioni nel mese e nell'anno specificato a cui ha preso parte this. 
 	 * @param month Un mese dell'anno.
 	 * @param year Un anno.
 	 * @return Un iteratore di votazioni.
 	 */
+	/*
 	@Override
 	Iterator<Votazione> votes(int month, int year){
 		//TODO: implementazione
 	}
+	*/
 }

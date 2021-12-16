@@ -13,9 +13,9 @@
 <?import javafx.scene.text.Text?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LogInController">
+<BorderPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="344.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LogInController">
    <top>
-      <AnchorPane prefHeight="99.0" prefWidth="600.0" style="-fx-background-color: #AED6F1;" BorderPane.alignment="CENTER">
+      <AnchorPane onMouseClicked="#removeAllFocus" prefHeight="99.0" prefWidth="600.0" style="-fx-background-color: #AED6F1;" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="183.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Autenticazione">
                <font>
@@ -31,30 +31,30 @@
       </AnchorPane>
    </top>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F4F6F6;" BorderPane.alignment="CENTER">
+      <AnchorPane onMouseClicked="#removeAllFocus" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F4F6F6;" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="userName" layoutX="23.0" layoutY="14.0" prefHeight="25.0" prefWidth="242.0" promptText="Username">
+            <TextField fx:id="userName" focusTraversable="false" layoutX="23.0" layoutY="14.0" prefHeight="25.0" prefWidth="242.0" promptText="Username">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="password" layoutX="23.0" layoutY="77.0" prefHeight="25.0" prefWidth="242.0" promptText="Password">
+            <PasswordField fx:id="password" focusTraversable="false" layoutX="23.0" layoutY="77.0" prefHeight="25.0" prefWidth="242.0" promptText="Password">
                <font>
                   <Font size="14.0" />
                </font>
             </PasswordField>
-            <Button fx:id="loginButton" layoutX="120.0" layoutY="140.0" mnemonicParsing="false" onMouseClicked="#logIn" text="Log in" />
+            <Button fx:id="loginButton" focusTraversable="false" layoutX="120.0" layoutY="140.0" mnemonicParsing="false" onMouseClicked="#logIn" text="Log in" />
             <Text fx:id="error" layoutX="23.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="242.13671875" />
          </children>
       </AnchorPane>
    </center>
    <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: # #AED6F1AED6F1;" BorderPane.alignment="CENTER">
+      <AnchorPane onMouseClicked="#removeAllFocus" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: # #AED6F1AED6F1;" BorderPane.alignment="CENTER">
          <children>
-            <MenuButton layoutX="41.0" layoutY="14.0" mnemonicParsing="false" text="Tipologia utente">
+            <MenuButton fx:id="listTypes" focusTraversable="false" layoutX="41.0" layoutY="14.0" maxHeight="25.0" maxWidth="119.0" minHeight="25.0" minWidth="119.0" mnemonicParsing="false" text="Tipologia utente">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Elettore" />
-                  <MenuItem mnemonicParsing="false" text="Amministratore" />
+                  <MenuItem fx:id="electorItem" mnemonicParsing="false" onAction="#setToElctor" text="Elettore" />
+                  <MenuItem fx:id="adminItem" mnemonicParsing="false" onAction="#setToAdmin" text="Amministratore" />
                </items>
             </MenuButton>
          </children>

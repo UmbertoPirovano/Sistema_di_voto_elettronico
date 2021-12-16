@@ -30,10 +30,7 @@
       <Text layoutX="63.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo di utente:" />
       <ChoiceBox fx:id="modeSelection" layoutX="63.0" layoutY="314.0" prefWidth="150.0" />
       <TextField layoutX="165.0" layoutY="272.0" visible="false" />
-      <Label fx:id="statusLabel" contentDisplay="RIGHT" layoutX="62.0" layoutY="361.0" prefHeight="16.0" prefWidth="377.0">
-         <font>
-            <Font size="17.0" />
-         </font></Label>
+      <Label fx:id="statusLabel" contentDisplay="RIGHT" layoutX="62.0" layoutY="361.0" prefHeight="16.0" prefWidth="377.0" />
       <AnchorPane layoutX="-8.0" layoutY="-5.0" prefHeight="137.0" prefWidth="508.0" style="-fx-background-color: lightblue;">
          <children>
             <ImageView fitHeight="101.0" fitWidth="95.0" layoutX="45.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">

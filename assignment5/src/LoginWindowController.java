@@ -53,7 +53,7 @@ public class LoginWindowController {
     	//da implementare il controllo con il DB
     	if(username.equals("Topolino") && password.equals("ciao")) {    	
     		statusLabel.setTextFill(Color.color(0, 1, 0));
-    		statusLabel.setText("Benvenuto!");
+    		statusLabel.setText("Benvenuto " + username);
     	}else {
     		statusLabel.setTextFill(Color.color(1, 0, 0));
     		statusLabel.setText("Username o password non corretti.");

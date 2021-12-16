@@ -13,8 +13,8 @@ public class Main extends Application {
         System.out.println(Main.class.getResource("LoginWindow.fxml"));
     	Parent root = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
         
-    	primaryStage.setTitle("Login - Sistema di voto elettronico");
-        primaryStage.setScene(new Scene(root, 500, 300));
+    	primaryStage.setTitle("Sistema di voto elettronico - Login");
+        primaryStage.setScene(new Scene(root, 500, 390));
         primaryStage.setResizable(false);
         primaryStage.show();
     }

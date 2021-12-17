@@ -48,10 +48,11 @@ public class LoginWindowController {
     void submit(ActionEvent event) {
     	String username = userField.getText();
     	String password = pwField.getText();
-    	String mode = modeSelection.getValue();
+    	String mode = modeSelection.getValue().toLowerCase();
     	
-    	//da implementare il controllo con il DB
-    	if(username.equals("Topolino") && password.equals("ciao")) {    	
+    	ConnectToDb conn = new ConnectToDb();
+    	
+    	if(conn.checkCredentials(username, password, mode)) {    	
     		statusLabel.setTextFill(Color.color(0, 1, 0));
     		statusLabel.setText("Benvenuto " + username);
     	}else {

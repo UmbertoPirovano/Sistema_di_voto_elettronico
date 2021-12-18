@@ -30,14 +30,15 @@ public class ConnectToDb {
 			}else if(userMode.equals("amministratore")) {
 				st = con.prepareStatement("SELECT password FROM amministratore WHERE amministratore.username = BINARY ?;");
 			}
+			
 			st.setString(1, username);
-			//System.out.println(st);
 					
 			ResultSet res = st.executeQuery();
 			ResultSetMetaData rsmd = res.getMetaData();
 			if(res.next()) {
 				String columnValue = res.getString(1);
-	        	if(columnValue.equals(MD5(password))) return true;
+	        	if(columnValue.equals(MD5(password))) 
+	        		return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -56,7 +57,7 @@ public class ConnectToDb {
 		}
 	      m.update(s.getBytes(),0,s.length());     
 	      return new BigInteger(1,m.digest()).toString(16); 
-	   }
+	}
 	
 	public void addUser(String username, String password, String userMode) {
 		password = MD5(password);

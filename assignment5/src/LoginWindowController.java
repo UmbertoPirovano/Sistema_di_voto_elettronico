@@ -10,10 +10,15 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 
 public class LoginWindowController {
+	
+	@FXML
+	private Pane container;
 
     @FXML
     private ResourceBundle resources;
@@ -57,7 +62,7 @@ public class LoginWindowController {
     		statusLabel.setText("Benvenuto " + username);
     	}else {
     		statusLabel.setTextFill(Color.color(1, 0, 0));
-    		statusLabel.setText("Username o password non corretti.");
+    		statusLabel.setText("Verificare le credenziali e il tipo di utente.");
     	}
     	
     }
@@ -83,6 +88,11 @@ public class LoginWindowController {
             	}
         	}
         });
+    }
+    
+    @FXML
+    void setFocus(MouseEvent event) {
+    	container.requestFocus();
     }
 
 }

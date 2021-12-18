@@ -20,7 +20,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-    	ConnectToDb conn = new ConnectToDb();
+    	ConnectToDb conn = new ManageUserConnection();
     	launch();
     }
 

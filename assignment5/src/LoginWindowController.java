@@ -55,9 +55,9 @@ public class LoginWindowController {
     	String password = pwField.getText();
     	String mode = modeSelection.getValue().toLowerCase();
     	
-    	ConnectToDb conn = new ConnectToDb();
+    	ConnectToDb conn = new LogInConnection();
     	
-    	if(conn.checkCredentials(username, password, mode)) {    	
+    	if(((LogInConnection) conn).checkCredentials(username, password, mode)) {    	
     		statusLabel.setTextFill(Color.color(0, 1, 0));
     		statusLabel.setText("Benvenuto " + username);
     	}else {

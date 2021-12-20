@@ -1,3 +1,5 @@
+import dbConnection.ConnectToDb;
+import dbConnection.ManageUserConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,8 +13,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        System.out.println(Main.class.getResource("LoginWindow.fxml"));
-    	Parent root = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
+        System.out.println(Main.class.getResource("/gui/LoginWindow.fxml"));
+    	Parent root = FXMLLoader.load(getClass().getResource("/gui/LoginWindow.fxml"));
         
     	primaryStage.setTitle("Sistema di voto elettronico - Login");
         primaryStage.setScene(new Scene(root, 500, 390));

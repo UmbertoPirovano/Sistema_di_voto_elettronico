@@ -1,5 +1,9 @@
+package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import dbConnection.ConnectToDb;
+import dbConnection.LogInConnection;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

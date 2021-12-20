@@ -1,4 +1,3 @@
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -9,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+//DAO: questa classe rappresenta una classe concreta DAO.
 
 public class LogInConnection extends ConnectToDb {
 	

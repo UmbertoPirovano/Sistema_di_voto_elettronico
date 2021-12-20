@@ -1,10 +1,11 @@
-
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+/*MVC: questa classe rappresenta la classe View del pattern MVC. La classe model e' invece rappresentata temporaneamente dalle tabelle elettore
+e amministratore del db*/
 
 public class Main extends Application {
 

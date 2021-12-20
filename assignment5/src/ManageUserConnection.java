@@ -1,6 +1,8 @@
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+//DAO: questa classe rappresenta una classe concreta DAO.
+
 public class ManageUserConnection extends ConnectToDb {
 	
 	public ManageUserConnection() {

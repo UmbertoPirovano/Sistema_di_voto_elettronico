@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/* DAO: questa classe rappresenta l'interfaccia DAO.
+La classe model è rappresentata dal db.*/
+
 public abstract class ConnectToDb {
 	protected Connection con;
 	

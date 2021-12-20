@@ -15,6 +15,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 
+//MVC: questa classe e' il Controller nel pattern MVC
+
 public class LoginWindowController {
 	
 	@FXML

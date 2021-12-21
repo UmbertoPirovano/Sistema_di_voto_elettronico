@@ -11,7 +11,7 @@ public class ManageUserConnection extends ConnectToDb {
 	}
 	
 	public void addUser(String username, String password, String userMode) {
-		password = MD5(password);
+		password = Sha512(password);
 		
 		PreparedStatement st = null;
 		try {

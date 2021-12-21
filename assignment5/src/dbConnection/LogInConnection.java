@@ -10,6 +10,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/*MVC: questa classe rappresenta la classe Model del pattern MVC in quanto contiene i metodi d'accesso ai dati del database
+ 		necessari nella LoginWindow.*/
 //DAO: questa classe rappresenta una classe concreta DAO.
 
 public class LogInConnection extends ConnectToDb {
@@ -18,7 +20,7 @@ public class LogInConnection extends ConnectToDb {
 		super();	
 	}
 	
-	public boolean checkCredentials(String username, String password, String userMode) {
+	public boolean checkCredentials(String username, String encryptedPwd, String userMode) {
 		PreparedStatement st = null;
 		try {
 			if(userMode.equals("elettore")) {
@@ -33,7 +35,7 @@ public class LogInConnection extends ConnectToDb {
 			ResultSetMetaData rsmd = res.getMetaData();
 			if(res.next()) {
 				String columnValue = res.getString(1);
-	        	if(columnValue.equals(MD5(password))) 
+	        	if(columnValue.equals(encryptedPwd)) 
 	        		return true;
 			}
 		} catch (SQLException e) {
@@ -42,36 +44,4 @@ public class LogInConnection extends ConnectToDb {
 		
 		return false;
 	}
-	
-	/*
-	public static void main(String[] args) {
-		ConnectToDb c = new ConnectToDb();
-		System.out.println(c.checkCredentials("topolino", "1234", "Elettore"));
-	}
-	*/
-	/*
-	public static void main(String[] args) {
-		
-
-		try {
-			Statement s = con.createStatement();
-			ResultSet res = s.executeQuery("SELECT * FROM test");
-			ResultSetMetaData rsmd = res.getMetaData();
-			System.out.println("querying SELECT * FROM XXX");
-			int columnsNumber = rsmd.getColumnCount();
-			while (res.next()) {
-				for (int i = 1; i <= columnsNumber; i++) {
-					if (i > 1) System.out.print(",  ");
-			        	String columnValue = res.getString(i);
-			        	System.out.print(columnValue + " " + rsmd.getColumnName(i));
-			       	}
-			       System.out.println("");
-			   	}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	*/
 }

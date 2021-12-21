@@ -21,15 +21,22 @@ public abstract class ConnectToDb {
 		}	
 	}
 	
-	public static String MD5(String s) {
+	public static String Sha512(String s) {
 	      MessageDigest m = null;
 		try {
-			m = MessageDigest.getInstance("MD5");
+			m = MessageDigest.getInstance("SHA-512");
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	      m.update(s.getBytes(),0,s.length());     
 	      return new BigInteger(1,m.digest()).toString(16); 
+	}
+	
+	public void close() {
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

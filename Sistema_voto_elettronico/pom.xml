@@ -47,7 +47,7 @@
 				<version>${javafx.maven.plugin.version}</version>
 				<configuration>
 					<release>${maven.compiler.release}</release>
-					<mainClass>gui.View</mainClass>
+					<mainClass>Main</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

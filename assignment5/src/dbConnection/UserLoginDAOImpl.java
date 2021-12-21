@@ -1,26 +1,29 @@
 package dbConnection;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-/*MVC: questa classe rappresenta la classe Model del pattern MVC in quanto contiene i metodi d'accesso ai dati del database
- 		necessari nella LoginWindow.*/
-//DAO: questa classe rappresenta una classe concreta DAO.
+public class UserLoginDAOImpl implements UserLoginDAO {
+	Connection con = null;
 
-public class LogInConnection extends ConnectToDb {
-	
-	public LogInConnection() {
-		super();	
+	private static Connection getConnection() {
+		Connection c = null;
+		try {
+			c = DriverManager.getConnection("jdbc:mysql://localhost/sistema_di_voto?user=Mattia&password=sweng2021");
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return c;
 	}
 	
-	public boolean checkCredentials(String username, String encryptedPwd, String userMode) {
+	@Override
+	public boolean authenticate(String username, String password, String userMode) {
+		con = getConnection();
+		password = Encryption.Sha512(password);
+		
 		PreparedStatement st = null;
 		try {
 			if(userMode.equals("elettore")) {
@@ -32,10 +35,9 @@ public class LogInConnection extends ConnectToDb {
 			st.setString(1, username);
 					
 			ResultSet res = st.executeQuery();
-			ResultSetMetaData rsmd = res.getMetaData();
 			if(res.next()) {
 				String columnValue = res.getString(1);
-	        	if(columnValue.equals(encryptedPwd)) 
+	        	if(columnValue.equals(password)) 
 	        		return true;
 			}
 		} catch (SQLException e) {
@@ -44,4 +46,5 @@ public class LogInConnection extends ConnectToDb {
 		
 		return false;
 	}
+
 }

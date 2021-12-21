@@ -13,10 +13,10 @@ import java.util.Iterator;
  * Le istanze di questa classe sono mutabili.
  *
  */
-class Amministratore extends Utente{
+public class Amministratore extends User{
 	
-	Amministratore(int id, String name, String surname){
-		super(id, name, surname);
+	public Amministratore(String name, String surname, String username){
+		super(name, surname, username);
 	}
 	
 }

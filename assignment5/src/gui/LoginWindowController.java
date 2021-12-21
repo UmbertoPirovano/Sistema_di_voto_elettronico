@@ -2,8 +2,7 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import dbConnection.ConnectToDb;
-import dbConnection.LogInConnection;
+import dbConnection.Encryption;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -64,7 +63,7 @@ public class LoginWindowController {
     	String password = pwField.getText();
     	String mode = modeSelection.getValue().toLowerCase();
     	
-    	boolean conn = LoginWindowView.executeLogin(username, ConnectToDb.Sha512(password), mode);
+    	boolean conn = LoginWindowView.executeLogin(username, Encryption.Sha512(password), mode);
     	
     	
     	if(conn) {    	

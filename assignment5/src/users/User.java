@@ -10,10 +10,10 @@ import java.util.Iterator;
  * Un utente generico del sistema di voto elettronico.
  *
  */
-abstract class Utente {
-	private final int userId;
+public abstract class User {
 	private final String name;
 	private final String surname;
+	private final String username;
 	
 	/**
 	 * Crea un nuovo oggetto utente.
@@ -21,13 +21,21 @@ abstract class Utente {
 	 * @param name Nome dell'utente.
 	 * @param surname Cognome dell'utente.
 	 */
-	Utente(int id, String name, String surname){
-		userId = id;
+	public User(String name, String surname, String username){
 		this.name = name;
 		this.surname = surname;
+		this.username = username;
 	}
 	
-	int getUserId() {
-		return userId;
+	public String getName() {
+		return name;
+	}
+	
+	public String getSurname() {
+		return surname;
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 }

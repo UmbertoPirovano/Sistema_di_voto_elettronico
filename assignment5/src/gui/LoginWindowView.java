@@ -1,7 +1,7 @@
 package gui;
-import dbConnection.ConnectToDb;
-import dbConnection.LogInConnection;
-import dbConnection.ManageUserConnection;
+
+import dbConnection.UserLoginDAO;
+import dbConnection.UserLoginDAOImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,9 +29,8 @@ public class LoginWindowView extends Application {
     }
     
     public static boolean executeLogin(String username, String encryptedPwd, String mode) {
-    	LogInConnection conn = new LogInConnection();
-    	boolean result =  conn.checkCredentials(username, encryptedPwd, mode);
-    	conn.close();
+    	UserLoginDAO conn = new UserLoginDAOImpl();
+    	boolean result =  conn.authenticate(username, encryptedPwd, mode);
     	return result;
     }
 

@@ -14,19 +14,15 @@ import java.util.Iterator;
  *
  */
 
-class Elettore extends Utente{
-	private final Date birth_date;
-	
+public class Elettore extends User{
 	/**
 	 * Istanzia un nuovo oggetto Elettore.
 	 * @param id Identificatore univoco di this assegnato dal sistema.
 	 * @param name Nome dell'elettore.
 	 * @param surname Cognome dell'elettore.
-	 * @param birth_date Data di nascita dell'elettore.
 	 */
-	public Elettore(int id, String name, String surname, Date birth_date) {
-		super(id, name, surname);
-		this.birth_date = birth_date;
+	public Elettore(String name, String surname, String username) {
+		super(name, surname, username);
 	}
 	
 }

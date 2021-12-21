@@ -2,7 +2,7 @@ package dbConnection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-//DAO: questa classe rappresenta una classe concreta DAO.
+//DAO: questa classe rappresenta una classe concreta DAO che implementa la connessione di gestione utenti con il db.
 
 public class ManageUserConnection extends ConnectToDb {
 	

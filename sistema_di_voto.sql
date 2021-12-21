@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Dic 17, 2021 alle 15:42
+-- Creato il: Dic 21, 2021 alle 15:01
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.0.13
 
@@ -29,16 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `amministratore` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `surname` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `username` varchar(20) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `amministratore`
---
-
-INSERT INTO `amministratore` (`id`, `username`, `password`) VALUES
-(4, 'admin', '21232f297a57a5a743894a0e4a801fc3');
 
 -- --------------------------------------------------------
 
@@ -48,18 +43,11 @@ INSERT INTO `amministratore` (`id`, `username`, `password`) VALUES
 
 CREATE TABLE `elettore` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `surname` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `cF` varchar(16) NOT NULL,
-  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL
+  `password` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `elettore`
---
-
-INSERT INTO `elettore` (`id`, `cF`, `password`) VALUES
-(5, 'Umberto', '7ec8336709bf8a8d71d0ffff69127903'),
-(6, 'Mattia', '83227a721a3363d2c78381664c78657f'),
-(7, 'Pippo', '165801c0cce07c7a8751949845c93d2');
 
 -- --------------------------------------------------------
 
@@ -104,13 +92,13 @@ ALTER TABLE `elettore`
 -- AUTO_INCREMENT per la tabella `amministratore`
 --
 ALTER TABLE `amministratore`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `elettore`
 --
 ALTER TABLE `elettore`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

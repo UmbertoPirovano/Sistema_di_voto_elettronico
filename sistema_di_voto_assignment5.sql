@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Dic 21, 2021 alle 15:35
+-- Creato il: Dic 21, 2021 alle 17:10
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.0.13
 
@@ -35,6 +35,13 @@ CREATE TABLE `amministratore` (
   `password` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `amministratore`
+--
+
+INSERT INTO `amministratore` (`id`, `name`, `surname`, `username`, `password`) VALUES
+(6, 'adminName', 'adminSur', 'admin', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db');
+
 -- --------------------------------------------------------
 
 --
@@ -54,24 +61,8 @@ CREATE TABLE `elettore` (
 --
 
 INSERT INTO `elettore` (`id`, `name`, `surname`, `cF`, `password`) VALUES
-(11, 'Mattia', 'Garavaglia', 'mattia', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db');
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `test`
---
-
-CREATE TABLE `test` (
-  `test1` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `test`
---
-
-INSERT INTO `test` (`test1`) VALUES
-(1);
+(11, 'Mattia', 'Garavaglia', 'mattia', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db'),
+(13, 'Umberto', 'Pirovano', 'umberto', 'a0c299b71a9e59d5ebb07917e70601a3570aa103e99a7bb65a58e780ec9077b1902d1dedb31b1457beda595fe4d71d779b6ca9cad476266cc07590e31d84b206');
 
 --
 -- Indici per le tabelle scaricate
@@ -101,13 +92,13 @@ ALTER TABLE `elettore`
 -- AUTO_INCREMENT per la tabella `amministratore`
 --
 ALTER TABLE `amministratore`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `elettore`
 --
 ALTER TABLE `elettore`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

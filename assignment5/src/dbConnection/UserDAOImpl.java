@@ -1,3 +1,7 @@
+/**
+ * DAO concrete class.
+ * Implementa i metodi della relativa interfaccia.
+ */
 package dbConnection;
 
 import java.sql.Connection;
@@ -18,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
 	private static Connection getConnection() {
 		Connection c = null;
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://localhost/sistema_di_voto?user=Mattia&password=sweng2021");
+			c = DriverManager.getConnection("jdbc:mysql://localhost/sistema_di_voto?user=root&password=");
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}

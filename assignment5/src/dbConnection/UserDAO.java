@@ -1,3 +1,7 @@
+/**
+ * DAO interface.
+ * Fornisce le operazioni eseguibili sugli utenti registrati nel database.
+ */
 package dbConnection;
 
 import java.util.List;

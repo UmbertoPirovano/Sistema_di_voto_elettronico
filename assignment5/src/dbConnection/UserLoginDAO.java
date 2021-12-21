@@ -1,3 +1,7 @@
+/**
+ * DAO interface.
+ * Fornisce l'operazione che permette ad un utente di autenticarsi nel sistema.
+ */
 package dbConnection;
 
 public interface UserLoginDAO {

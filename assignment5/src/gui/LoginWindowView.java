@@ -8,14 +8,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/*MVC: questa classe rappresenta la classe View del pattern MVC in quanto si occupa di visualizzare i dati
+/*MVC: questa classe rappresenta la classe View del pattern MVC in quanto si occupa di mostrare i dati
  		all'utente e gestisce le interazioni con l'infrastuttura sottostante.*/
 
 public class LoginWindowView extends Application {
 	
     @Override
     public void start(Stage primaryStage) throws Exception{
-        System.out.println(LoginWindowView.class.getResource("/gui/LoginWindow.fxml"));
+        //System.out.println(LoginWindowView.class.getResource("/gui/LoginWindow.fxml"));
     	Parent root = FXMLLoader.load(getClass().getResource("/gui/LoginWindow.fxml"));
         
     	primaryStage.setTitle("Sistema di voto elettronico - Login");
@@ -29,8 +29,8 @@ public class LoginWindowView extends Application {
     }
     
     public static boolean executeLogin(String username, String encryptedPwd, String mode) {
-    	UserLoginDAO conn = new UserLoginDAOImpl();
-    	boolean result =  conn.authenticate(username, encryptedPwd, mode);
+    	UserLoginDAO loginDao = new UserLoginDAOImpl();
+    	boolean result =  loginDao.authenticate(username, encryptedPwd, mode);
     	return result;
     }
 

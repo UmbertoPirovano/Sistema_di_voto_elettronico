@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Dic 21, 2021 alle 15:01
+-- Creato il: Dic 21, 2021 alle 15:35
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.0.13
 
@@ -49,6 +49,13 @@ CREATE TABLE `elettore` (
   `password` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `elettore`
+--
+
+INSERT INTO `elettore` (`id`, `name`, `surname`, `cF`, `password`) VALUES
+(11, 'Mattia', 'Garavaglia', 'mattia', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db');
+
 -- --------------------------------------------------------
 
 --
@@ -75,14 +82,16 @@ INSERT INTO `test` (`test1`) VALUES
 --
 ALTER TABLE `amministratore`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+  ADD UNIQUE KEY `id` (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indici per le tabelle `elettore`
 --
 ALTER TABLE `elettore`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+  ADD UNIQUE KEY `id` (`id`),
+  ADD UNIQUE KEY `cF` (`cF`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
@@ -98,7 +107,7 @@ ALTER TABLE `amministratore`
 -- AUTO_INCREMENT per la tabella `elettore`
 --
 ALTER TABLE `elettore`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -22,7 +22,7 @@ public class UserLoginDAOImpl implements UserLoginDAO {
 	@Override
 	public boolean authenticate(String username, String password, String userMode) {
 		con = getConnection();
-		password = Encryption.Sha512(password);
+		//password = Encryption.Sha512(password);
 		
 		PreparedStatement st = null;
 		try {

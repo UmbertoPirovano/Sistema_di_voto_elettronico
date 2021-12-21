@@ -23,8 +23,6 @@ import javafx.scene.control.Label;
 
 public class LoginWindowController {
 	
-	private LoginWindowView view;
-	
 	@FXML
 	private Pane container;
 

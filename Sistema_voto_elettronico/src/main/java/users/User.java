@@ -16,10 +16,10 @@ public abstract class User {
 	private final String username;
 	
 	/**
-	 * Crea un nuovo oggetto utente.
-	 * @param id Identificatore univoco di this assegnato dal sistema.
+	 * Costruttore ereditato da tutti le classi che estendono User.
 	 * @param name Nome dell'utente.
 	 * @param surname Cognome dell'utente.
+	 * @param username Lo username dell'utente.
 	 */
 	public User(String name, String surname, String username){
 		this.name = name;
@@ -27,14 +27,26 @@ public abstract class User {
 		this.username = username;
 	}
 	
+	/**
+	 * Restituisce il nome dello user.
+	 * @return Il nome dello user.
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * Restituisce il cognome dello user.
+	 * @return Il cognome dello user.
+	 */
 	public String getSurname() {
 		return surname;
 	}
 	
+	/**
+	 * Restituisce lo username dello user.
+	 * @return Lo username dello user.
+	 */
 	public String getUsername() {
 		return username;
 	}

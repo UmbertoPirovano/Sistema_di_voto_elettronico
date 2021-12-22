@@ -17,9 +17,9 @@ import java.util.Iterator;
 public class Elettore extends User{
 	/**
 	 * Istanzia un nuovo oggetto Elettore.
-	 * @param id Identificatore univoco di this assegnato dal sistema.
 	 * @param name Nome dell'elettore.
 	 * @param surname Cognome dell'elettore.
+	 * @param username Lo username dell'elettore.
 	 */
 	public Elettore(String name, String surname, String username) {
 		super(name, surname, username);

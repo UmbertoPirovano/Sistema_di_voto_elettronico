@@ -13,6 +13,11 @@ import java.sql.SQLException;
 public class UserLoginDAOImpl implements UserLoginDAO {
 	Connection con = null;
 
+	/**
+	 * Restituisce una connessione al DB contenente gli utenti.
+	 * 
+	 * @return Connessione al DB contenente gli utenti.
+	 */
 	private static Connection getConnection() {
 		Connection c = null;
 		try {
@@ -22,32 +27,32 @@ public class UserLoginDAOImpl implements UserLoginDAO {
 		}
 		return c;
 	}
-	
+
 	@Override
-	public boolean authenticate(String username, String password, String userMode) {
+	public boolean authenticate(String username, String encryptedPwd, String userMode) {
 		con = getConnection();
-		//password = Encryption.Sha512(password);
-		
+
 		PreparedStatement st = null;
 		try {
-			if(userMode.equals("elettore")) {
+			if (userMode.equals("elettore")) {
 				st = con.prepareStatement("SELECT password FROM elettore WHERE elettore.cF = BINARY ?;");
-			}else if(userMode.equals("amministratore")) {
-				st = con.prepareStatement("SELECT password FROM amministratore WHERE amministratore.username = BINARY ?;");
+			} else if (userMode.equals("amministratore")) {
+				st = con.prepareStatement(
+						"SELECT password FROM amministratore WHERE amministratore.username = BINARY ?;");
 			}
-			
+
 			st.setString(1, username);
-					
+
 			ResultSet res = st.executeQuery();
-			if(res.next()) {
+			if (res.next()) {
 				String columnValue = res.getString(1);
-	        	if(columnValue.equals(password)) 
-	        		return true;
+				if (columnValue.equals(encryptedPwd))
+					return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 

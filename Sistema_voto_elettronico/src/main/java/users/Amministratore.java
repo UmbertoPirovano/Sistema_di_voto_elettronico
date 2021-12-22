@@ -15,6 +15,12 @@ import java.util.Iterator;
  */
 public class Amministratore extends User{
 	
+	/**
+	 * Istanzia this come Amminsitratore con i parametri forniti.
+	 * @param name Il nome dell'amministratore.
+	 * @param surname Il cognome dell'amministratore.
+	 * @param username Lo username dell'amministratore.
+	 */
 	public Amministratore(String name, String surname, String username){
 		super(name, surname, username);
 	}

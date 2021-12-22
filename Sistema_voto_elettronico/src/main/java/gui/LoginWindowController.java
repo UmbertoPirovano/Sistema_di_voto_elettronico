@@ -47,14 +47,22 @@ public class LoginWindowController {
     @FXML
     private Label statusLabel;
     
+    /**
+     * Quando viene premuto il tasto invio esegue il login con i dati inseriti in userField e pwField.
+     * @param ke Il tasto premuto.
+     */
     @FXML
-    //Premere il tasto invio equivale a schiacciare il bottone per effettuare il login.
     public void enterPressed(KeyEvent ke) {
     	if(ke.getCode().equals(KeyCode.ENTER)) {
     		submitButton.fire();
     	}    		
     }
     
+    /**
+     * Quando viene premuto il bottone submitButton tenta di eseguire il login al sistema. In caso di fallimento stampa un messaggio sulla
+     * form. Altrimenti reindirizza ad un'altra finestra (temporaneamente stampa un messaggio di benvenuto).
+     * @param event L'evento di click del bottone submitButton.
+     */
     @FXML
     void submit(ActionEvent event) {
     	String username = userField.getText();
@@ -74,6 +82,9 @@ public class LoginWindowController {
     	
     }
     
+    /**
+     * Inizializza questo Controller.
+     */
     @FXML
     void initialize() {
         assert modeSelection != null : "fx:id=\"modeSelection\" was not injected: check your FXML file 'LoginWindow.fxml'.";
@@ -97,6 +108,10 @@ public class LoginWindowController {
         });
     }
     
+    /**
+     * Quando viene clickato container viene tolto il focus dai possibili elementi selezionati precedentemente.
+     * @param event Indica il punto in cui avviene il click del mouse.
+     */
     @FXML
     void setFocus(MouseEvent event) {
     	container.requestFocus();

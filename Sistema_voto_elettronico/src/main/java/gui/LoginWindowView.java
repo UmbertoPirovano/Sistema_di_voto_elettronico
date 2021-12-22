@@ -23,15 +23,24 @@ public class LoginWindowView extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-
+    
+    /**
+     * Lancia il metodo start.
+     */
     public static void show() {
     	launch();
     }
     
+    /**
+     * Verifica che nel DB sia presente un utente con le credenziali passate come parametro.
+     * @param username Lo username dell'utente da cercare.
+     * @param encryptedPwd La password criptata dell'utente da cercare.
+     * @param mode Il tipo di utente da cercare (elettore / amministratore).
+     * @return true se e' stato trovato un untente corrispondente alle credenziali inserite, false altrimenti.
+     */
     public static boolean executeLogin(String username, String encryptedPwd, String mode) {
     	UserLoginDAO loginDao = new UserLoginDAOImpl();
-    	boolean result =  loginDao.authenticate(username, encryptedPwd, mode);
-    	return result;
+    	return loginDao.authenticate(username, encryptedPwd, mode);
     }
 
 }

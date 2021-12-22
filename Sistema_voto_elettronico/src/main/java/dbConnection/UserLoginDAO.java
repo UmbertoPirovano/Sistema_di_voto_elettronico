@@ -5,5 +5,14 @@
 package dbConnection;
 
 public interface UserLoginDAO {
-	public boolean authenticate(String username, String password, String userMode);
+	/**
+	 * Esegue l'autenticazione al sistema con le credenziali passate come parametro.
+	 * 
+	 * @param username     Uno username.
+	 * @param encryptedPwd Una password criptata con SHA512.
+	 * @param userMode     Il tipo di utente da autenticare (elettore /
+	 *                     amministratore).
+	 * @return true se l'autenticazione e' andata a buon fine, false altrimenti.
+	 */
+	public boolean authenticate(String username, String encryptedPwd, String userMode);
 }

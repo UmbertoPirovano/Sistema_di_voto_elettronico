@@ -1,0 +1,10 @@
+USE CASE DIAGRAM
+1) Aggiunta generalizzazione: caso d'uso "Visualizza votazioni", esteso da "Visualizza votazioni in corso", "Visualizza votazioni terminate", "Visualizza votazioni
+future".
+2) Aggiunta relazione include tra i casi d'uso "Votare" e "Visualizza votazioni in corso".
+3) Aggiunta relazione include tra i casi d'uso "Esprimi volontà di votare elettronicamente" e "Visualizza votazioni future".
+4) Aggiunti attori "Gestore utenti" e "Gestore votazioni". Sono attori che rappresentano il db.
+
+
+CLASS DIAGRAM
+1)Creato un class diagram nuovo (quello vecchio c'è ancora).

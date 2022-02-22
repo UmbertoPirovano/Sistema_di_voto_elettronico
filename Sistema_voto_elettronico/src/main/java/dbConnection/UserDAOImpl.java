@@ -112,6 +112,24 @@ public class UserDAOImpl implements UserDAO {
 
 		return users;
 	}
+	
+	@Override
+	public User findByUsername(String username) {
+		con = getConnection();
+		try {
+			PreparedStatement st = null;
+			st = con.prepareStatement("SELECT * FROM utenti WHERE utenti.username = BINARY ?;");
+			st.setString(1, username);
+			ResultSet res = st.executeQuery();
+			while(res.next()) {
+				if(res.getBoolean("admin")) return new Amministratore(res.getString("name"), res.getString("surname"), res.getString("username"));
+				else return new Elettore(res.getString("name"), res.getString("surname"), res.getString("username"));
+			}
+		}catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public boolean insertUser(User user, String password) {
@@ -121,9 +139,9 @@ public class UserDAOImpl implements UserDAO {
 		PreparedStatement st = null;
 		try {
 			if(user instanceof Elettore) {
-				st = con.prepareStatement("INSERT INTO elettore(name, surname, cF,password) VALUES (?,?,?,?);");
+				st = con.prepareStatement("INSERT INTO utenti(name, surname, username, password, admin) VALUES (?,?,?,?, 0);");
 			}else if(user instanceof Amministratore) {
-				st = con.prepareStatement("INSERT INTO amministratore(name, surname, username,password) VALUES (?,?,?,?);");
+				st = con.prepareStatement("INSERT INTO utenti(name, surname, username, password, admin) VALUES (?,?,?,?, 1);");
 			}else {
 				throw new IllegalArgumentException("Undefined user mode.");
 			}
@@ -147,9 +165,9 @@ public class UserDAOImpl implements UserDAO {
 		PreparedStatement st = null;
 		try {
 			if(user instanceof Elettore) {
-				st = con.prepareStatement("UPDATE elettore SET (name, surname, cF) VALUES (?,?,?) WHERE elettore.cF = BINARY ?;");
+				st = con.prepareStatement("UPDATE utenti SET (name, surname, username) VALUES (?,?,?) WHERE elettore.cF = BINARY ?;");
 			}else if(user instanceof Amministratore) {
-				st = con.prepareStatement("UPDATE amministratore SET (name, surname, username) VALUES (?,?,?) WHERE elettore.cF = BINARY ?;");
+				st = con.prepareStatement("UPDATE utenti SET (name, surname, username) VALUES (?,?,?) WHERE elettore.cF = BINARY ?;");
 			}else {
 				throw new IllegalArgumentException("Undefined user mode.");
 			}
@@ -173,9 +191,9 @@ public class UserDAOImpl implements UserDAO {
 		PreparedStatement st = null;
 		try {
 			if(user instanceof Elettore) {
-				st = con.prepareStatement("DELETE FROM elettore WHERE elettore.cF = BINARY ?;");
+				st = con.prepareStatement("DELETE FROM utenti WHERE utenti.username = BINARY ?;");
 			}else if(user instanceof Amministratore) {
-				st = con.prepareStatement("DELETE FROM amministratore WHERE amministratore.username = BINARY ?;");
+				st = con.prepareStatement("DELETE FROM utenti WHERE utenti.username = BINARY ?;");
 			}else {
 				throw new IllegalArgumentException("Undefined user mode.");
 			}
@@ -189,5 +207,7 @@ public class UserDAOImpl implements UserDAO {
 		}		
 		return true;
 	}
+
+	
 
 }

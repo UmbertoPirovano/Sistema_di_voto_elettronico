@@ -36,6 +36,13 @@ public interface UserDAO {
 	 *         passati come parametro.
 	 */
 	List<User> findByName(String name, String surname);
+	
+	/**
+	 * Restituisce l'oggetto Utente costruito a partire dai dati recuperati dal db.
+	 * @param username
+	 * @return L'oggetto User costruito con i dati associati a 'username' nel db.
+	 */
+	User findByUsername(String username);
 
 	/**
 	 * Inserisce nel DB degli utenti del sistema lo User e la password (che viene

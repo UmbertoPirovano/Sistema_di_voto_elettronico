@@ -9,7 +9,16 @@ import users.Elettore;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("Consultare il readme.txt per le credenziali di testing.");
+		/*
+		Elettore u = new Elettore("Umberto", "Pirovano", "umberto");
+		Elettore m = new Elettore("Mattia", "Garavaglia", "mattia");
+		Amministratore a = new Amministratore("Admin", "Admin", "admin");
+		UserDAO db = new UserDAOImpl();
+		db.insertUser(u, "1234");
+		db.insertUser(m, "1234");
+		db.insertUser(a, "admin");
+		*/
+		//System.out.println("Consultare il readme.txt per le credenziali di testing.");
 		LoginWindowView.show();
-	}	
+	}
 }

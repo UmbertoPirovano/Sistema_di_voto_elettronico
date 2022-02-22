@@ -1,4 +1,5 @@
 package gui;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -6,7 +7,10 @@ import dbConnection.Encryption;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
@@ -17,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 /*MVC: questa classe e' il Controller nel pattern MVC in qanto riceve i comandi utente ricevuti attraverso il view e 
  		reagisce ad essi attraverso operazioni che possono interessare il model. */
@@ -75,6 +80,8 @@ public class LoginWindowController {
     	if(conn) {    	
     		statusLabel.setTextFill(Color.color(0, 1, 0));
     		statusLabel.setText("Benvenuto " + username);
+    		showUserSelection(username);
+    		
     	}else {
     		statusLabel.setTextFill(Color.color(1, 0, 0));
     		statusLabel.setText("Verificare le credenziali e il tipo di utente.");
@@ -115,6 +122,23 @@ public class LoginWindowController {
     @FXML
     void setFocus(MouseEvent event) {
     	container.requestFocus();
+    }
+    
+    /**
+     * Chiude la schermata di login ed apre la schermata di selezione votazione dedicata agli Elettori.
+     */
+    void showUserSelection(String username) {
+    	try {
+			submitButton.getScene().getWindow().hide();
+    		Parent root = FXMLLoader.load(getClass().getResource("UserSelection.fxml"));
+            Stage stage = new Stage();
+        	stage.setTitle("Sistema di voto elettronico - Selezione votazioni");
+        	stage.setScene(new Scene(root, 900, 780));
+        	stage.setResizable(false);
+        	stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
     }
 
 }

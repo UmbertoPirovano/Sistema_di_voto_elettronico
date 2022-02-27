@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 import dbConnection.UserDAO;
 import dbConnection.UserDAOImpl;
-import gui.LoginWindowView;
+import gui.GuiApplication;
 import system.Sessione;
 import users.Amministratore;
 import users.Elettore;
@@ -21,7 +21,7 @@ public class Main {
 		*/
 		//System.out.println("Consultare il readme.txt per le credenziali di testing.");
 		Sessione s = Sessione.getSessione();
-		LoginWindowView.show();
+		GuiApplication.show();
 		s.destroy();
 	}
 }

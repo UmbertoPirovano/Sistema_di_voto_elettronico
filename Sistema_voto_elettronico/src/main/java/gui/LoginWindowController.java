@@ -75,14 +75,13 @@ public class LoginWindowController {
     	String password = pwField.getText();
     	String mode = modeSelection.getValue().toLowerCase();
     	
-    	boolean login = LoginWindowView.executeLogin(username, Encryption.Sha512(password), mode);
+    	boolean login = Sessione.getSessione().executeLogin(username, Encryption.Sha512(password), mode);
     	
     	
     	if(login) {    	
     		statusLabel.setTextFill(Color.color(0, 1, 0));
     		statusLabel.setText("Benvenuto " + username);
-    		showUserSelection(username);
-    		
+    		showPollSelection();    		
     	}else {
     		statusLabel.setTextFill(Color.color(1, 0, 0));
     		statusLabel.setText("Verificare le credenziali e il tipo di utente.");
@@ -128,10 +127,10 @@ public class LoginWindowController {
     /**
      * Chiude la schermata di login ed apre la schermata di selezione votazione dedicata agli Elettori.
      */
-    void showUserSelection(String username) {
+    void showPollSelection() {
     	try {
 			submitButton.getScene().getWindow().hide();
-    		Parent root = FXMLLoader.load(getClass().getResource("UserSelection.fxml"));
+    		Parent root = FXMLLoader.load(getClass().getResource("PollSelection.fxml"));
             Stage stage = new Stage();
         	stage.setTitle("Sistema di voto elettronico - Selezione votazioni");
         	stage.setScene(new Scene(root, 900, 780));

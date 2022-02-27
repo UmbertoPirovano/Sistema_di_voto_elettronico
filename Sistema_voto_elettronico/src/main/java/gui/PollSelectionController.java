@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import poll.Votazione;
 import system.Sessione;
 
-public class UserSelectionController {
+public class PollSelectionController {
 	private Sessione sessione;
 	
 	@FXML
@@ -63,7 +63,7 @@ public class UserSelectionController {
 
     @FXML
     void logout(ActionEvent event) {
-    	LoginWindowView.executeLogout();
+    	Sessione.getSessione().logoutUser();
     	showLoginWindow();
     }
 

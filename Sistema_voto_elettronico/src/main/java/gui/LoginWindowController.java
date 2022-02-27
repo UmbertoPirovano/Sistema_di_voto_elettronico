@@ -22,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import system.Sessione;
 
 /*MVC: questa classe e' il Controller nel pattern MVC in qanto riceve i comandi utente ricevuti attraverso il view e 
  		reagisce ad essi attraverso operazioni che possono interessare il model. */
@@ -74,10 +75,10 @@ public class LoginWindowController {
     	String password = pwField.getText();
     	String mode = modeSelection.getValue().toLowerCase();
     	
-    	boolean conn = LoginWindowView.executeLogin(username, Encryption.Sha512(password), mode);
+    	boolean login = LoginWindowView.executeLogin(username, Encryption.Sha512(password), mode);
     	
     	
-    	if(conn) {    	
+    	if(login) {    	
     		statusLabel.setTextFill(Color.color(0, 1, 0));
     		statusLabel.setText("Benvenuto " + username);
     		showUserSelection(username);

@@ -1,5 +1,7 @@
 package gui;
 
+import dbConnection.UserDAO;
+import dbConnection.UserDAOImpl;
 import dbConnection.UserLoginDAO;
 import dbConnection.UserLoginDAOImpl;
 import javafx.application.Application;
@@ -7,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import system.Sessione;
 
 /*MVC: questa classe rappresenta la classe View del pattern MVC in quanto si occupa di mostrare i dati
  		all'utente e gestisce le interazioni con l'infrastuttura sottostante.*/
@@ -40,7 +43,16 @@ public class LoginWindowView extends Application {
      */
     public static boolean executeLogin(String username, String encryptedPwd, String mode) {
     	UserLoginDAO loginDao = new UserLoginDAOImpl();
-    	return loginDao.authenticate(username, encryptedPwd, mode);
+    	UserDAO userDao = new UserDAOImpl();
+    	if (loginDao.authenticate(username, encryptedPwd, mode)) {
+    		Sessione.getSessione().loginUser(userDao.findByUsername(username));
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public static void executeLogout() {
+    	Sessione.getSessione().logoutUser();
     }
 
 }

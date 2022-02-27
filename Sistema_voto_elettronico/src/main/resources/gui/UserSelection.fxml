@@ -10,7 +10,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="779.0" prefWidth="905.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UserSelectionController">
    <children>
       <AnchorPane prefHeight="110.0" prefWidth="903.0" style="-fx-background-color: lightblue;" AnchorPane.bottomAnchor="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -33,20 +32,23 @@
             <Button fx:id="logoutButton" layoutX="707.0" layoutY="71.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
          </children>
       </AnchorPane>
-      <TableView fx:id="votazioniTable" layoutX="114.0" layoutY="174.0" prefHeight="414.0" prefWidth="674.0">
+      <TableView fx:id="votazioniTable" layoutX="54.0" layoutY="174.0" prefHeight="414.0" prefWidth="789.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <columns>
-          <TableColumn prefWidth="187.20008850097656" text="Votazione" />
-          <TableColumn minWidth="0.0" prefWidth="120.7999267578125" text="Data" />
-            <TableColumn prefWidth="364.7999633789062" text="Descrizione" />
+          <TableColumn fx:id="col_id" maxWidth="100.0" prefWidth="60.0" text="id" />
+          <TableColumn fx:id="col_name" maxWidth="1000.0" prefWidth="150.0" text="nome" />
+            <TableColumn fx:id="col_type" maxWidth="1000.0" text="tipo" />
+            <TableColumn fx:id="col_startDate" maxWidth="300.0" prefWidth="120.0" text="inizio" />
+            <TableColumn fx:id="col_endDate" maxWidth="300.0" prefWidth="120.0" text="fine" />
+            <TableColumn fx:id="col_description" maxWidth="1000.0" prefWidth="120.0" text="descrizione" />
         </columns>
       </TableView>
-      <Text layoutX="114.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Votazioni presenti nel sistema:" wrappingWidth="342.13673400878906">
+      <Text layoutX="114.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Votazioni presenti nel sistema:" wrappingWidth="342.13673400878906" AnchorPane.leftAnchor="50.0">
          <font>
             <Font size="16.0" />
          </font>
       </Text>
       <ComboBox fx:id="votazioneSelect" layoutX="114.0" layoutY="670.0" prefHeight="26.0" prefWidth="414.0" />
-      <Button fx:id="nextButton" layoutX="713.0" layoutY="670.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="26.0" prefWidth="74.0" text="Next" />
+      <Button fx:id="nextButton" layoutX="713.0" layoutY="670.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="26.0" prefWidth="74.0" text="Next" AnchorPane.rightAnchor="70.0" />
       <Text layoutX="114.0" layoutY="652.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleziona una votazione:" wrappingWidth="184.73597717285156">
          <font>
             <Font size="14.0" />

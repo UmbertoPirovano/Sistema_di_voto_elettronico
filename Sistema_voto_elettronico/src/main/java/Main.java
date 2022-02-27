@@ -3,6 +3,7 @@ import java.util.Scanner;
 import dbConnection.UserDAO;
 import dbConnection.UserDAOImpl;
 import gui.LoginWindowView;
+import system.Sessione;
 import users.Amministratore;
 import users.Elettore;
 
@@ -19,6 +20,8 @@ public class Main {
 		db.insertUser(a, "admin");
 		*/
 		//System.out.println("Consultare il readme.txt per le credenziali di testing.");
+		Sessione s = Sessione.getSessione();
 		LoginWindowView.show();
+		s.destroy();
 	}
 }

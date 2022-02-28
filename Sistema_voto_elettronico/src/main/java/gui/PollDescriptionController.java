@@ -25,11 +25,6 @@ public class PollDescriptionController {
 	@FXML
     private TextArea msg_field;
     
-    public void setMessage(String msg) {
-    	Objects.requireNonNull(msg);
-    	msg_field.setText(msg);
-    }
-    
     @FXML
     void initialize() {
     	Votazione v = Sessione.getSessione().getVotazione();
@@ -40,6 +35,11 @@ public class PollDescriptionController {
     	msg_field.setText(stringPadding(v.getDescrizione()));
     }
     
+    /**
+     * Suddivide la stringa fornita come argomento in una stringa di righe di circa 75 caratteri.
+     * @param s La stringa iniziale
+     * @return La stringa con padding di "\n"
+     */
     private String stringPadding(String s) {
     	String nuova = new String();
     	int n = 0;

@@ -1,62 +1,68 @@
 package poll;
 
-import java.util.Objects;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Button;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 
 public abstract class Votazione {
 	
-	private final SimpleIntegerProperty id;
-	private final SimpleStringProperty nome;
-	private final SimpleStringProperty tipo;
-	private final SimpleStringProperty data_inizio;
-	private final SimpleStringProperty data_fine;
-	private final SimpleStringProperty descrizione;
-	private Button button_info;
-	private Button button_azione;
+	private final int id;
+	private final String nome;
+	private final String tipo;
+	private final Date data_inizio;
+	private final Date data_fine;
+	private final String descrizione;
 	
 	public Votazione(int id, String nome, String tipo, String data_inizio, String data_fine, String descrizione) {
-		this.id = new SimpleIntegerProperty(id);
-		this.nome = new SimpleStringProperty(nome);
-		this.tipo = new SimpleStringProperty(tipo);
-		this.data_inizio = new SimpleStringProperty(data_inizio);
-		this.data_fine = new SimpleStringProperty(data_fine);
-		this.descrizione = new SimpleStringProperty(descrizione);
-		this.button_info = new Button("Info");
-		this.button_azione = new Button("Prenota o vota");
+		this.id = id;
+		this.nome = Objects.requireNonNull(nome);
+		this.tipo = Objects.requireNonNull(tipo);
+		this.data_inizio = stringToDate(data_inizio);
+		this.data_fine = stringToDate(data_fine);
+		this.descrizione = Objects.requireNonNull(descrizione);
+		
+		assert repOk();
 	}
 	
 	public int getId() {
-		return id.get();
+		return id;
 	}
 	
 	public String getNome() {
-		return nome.get();
+		return nome;
 	}
 	
 	public String getTipo() {
-		return tipo.get();
+		return tipo;
 	}
 	
 	public String getData_inizio() {
-		return data_inizio.get();
+		return data_inizio.toGMTString();
 	}
 	
 	public String getData_fine() {
-		return data_fine.get();
+		return data_fine.toGMTString();
 	}
 	
 	public String getDescrizione() {
-		return descrizione.get();
+		return descrizione;
 	}
 	
-	public Button getButton_info() {
-		return button_info;
+	private boolean repOk() {
+		return (id > 0) && data_inizio.before(data_fine);
 	}
 	
-	public Button getButton_azione() {
-		return button_azione;
+	private Date stringToDate(String date) {
+		try {
+			Objects.requireNonNull(date);
+			DateFormat df = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+			return df.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

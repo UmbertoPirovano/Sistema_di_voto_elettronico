@@ -10,12 +10,14 @@ import dbConnection.UserDAO;
 import dbConnection.UserDAOImpl;
 import dbConnection.UserLoginDAO;
 import dbConnection.UserLoginDAOImpl;
+import poll.Votazione;
 import users.User;
 
 public class Sessione {
 	
 	private static Sessione sessione = null;
 	public User utente;
+	public Votazione votazione;
 	
 	private Sessione() {
 		
@@ -35,6 +37,7 @@ public class Sessione {
 	 */
 	public void destroy() {
 		utente = null;
+		votazione = null;
 		sessione = null;		
 	}
 	
@@ -44,7 +47,23 @@ public class Sessione {
 	 */
 	private void setUser(User u) {
 		utente = Objects.requireNonNull(u);
-	}	
+	}
+	
+	/**
+	 * Imposta la votazione v come votazione attualmente selezionata.
+	 * @param v Una votazione.
+	 */
+	public void setVotazione(Votazione v) {
+		votazione = Objects.requireNonNull(v);
+	}
+	
+	/**
+	 * Restituisce la votazione attualmente selezionata.
+	 * @return votazione
+	 */
+	public Votazione getVotazione() {
+		return votazione;
+	}
 	
 	/**
      * Verifica che nel DB sia presente un utente con le credenziali passate come parametro.

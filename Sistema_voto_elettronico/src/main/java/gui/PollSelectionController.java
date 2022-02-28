@@ -25,23 +25,28 @@ import system.Sessione;
 public class PollSelectionController {
 	private Sessione sessione;
 	
-	@FXML
-    private TableColumn<Votazione, String> col_description;
+
 
     @FXML
-    private TableColumn<Votazione, String> col_endDate;
+    private TableColumn<RowVotazione, Integer> col_id;
 
     @FXML
-    private TableColumn<Votazione, Integer> col_id;
+    private TableColumn<RowVotazione, String> col_name;
+    
+    @FXML
+    private TableColumn<RowVotazione, String> col_type;
 
     @FXML
-    private TableColumn<Votazione, String> col_name;
+    private TableColumn<RowVotazione, String> col_startDate;
 
     @FXML
-    private TableColumn<Votazione, String> col_startDate;
-
+    private TableColumn<RowVotazione, String> col_endDate;
+    
     @FXML
-    private TableColumn<Votazione, String> col_type;
+    private TableColumn<RowVotazione, String> col_description;
+    
+    @FXML
+    private TableColumn<RowVotazione, String> col_action;
 	
     @FXML
     private Button logoutButton;
@@ -50,16 +55,10 @@ public class PollSelectionController {
     private Text nameSurnameLabel;
 
     @FXML
-    private Button nextButton;
-
-    @FXML
     private Text usernameLabel;
 
     @FXML
-    private ComboBox<String> votazioneSelect;
-
-    @FXML
-    private TableView<Votazione> votazioniTable;
+    private TableView<RowVotazione> votazioniTable;
 
     @FXML
     void logout(ActionEvent event) {
@@ -85,16 +84,13 @@ public class PollSelectionController {
     	col_endDate.setCellValueFactory(new PropertyValueFactory<>("Data_fine"));
     	
     	col_description.setCellValueFactory(new PropertyValueFactory<>("button_info"));
-    	
-    	TableColumn col_action = new TableColumn("Azione");
-    	votazioniTable.getColumns().add(col_action);
     	col_action.setCellValueFactory(new PropertyValueFactory<>("button_azione"));
     	
     	PollDAO polls = new PollDAOImpl();
     	List<Votazione> votazioni = polls.getAll();
     	for(Votazione v : votazioni) {
-    		votazioniTable.getItems().add(v);
-    		votazioneSelect.getItems().add(v.getId() + " - " + v.getNome());
+    		RowVotazione rv = new RowVotazione(v);
+    		votazioniTable.getItems().add(rv);
     	}
     	
     	

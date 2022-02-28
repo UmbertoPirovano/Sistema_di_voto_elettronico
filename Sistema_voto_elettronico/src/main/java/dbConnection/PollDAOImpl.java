@@ -11,8 +11,10 @@ import java.util.List;
 import poll.Referendum;
 import poll.Votazione;
 import poll.VotazioneOrdinale;
+import system.Sessione;
 import users.Amministratore;
 import users.Elettore;
+import users.User;
 
 public class PollDAOImpl implements PollDAO {	
 	Connection con = null;
@@ -51,6 +53,34 @@ public class PollDAOImpl implements PollDAO {
 			se.printStackTrace();
 		}
 		return votazioni;
+	}
+
+	@Override
+	public boolean checkBooking(User u, Votazione v) {
+		con = getConnection();
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT * FROM prenotazioni WHERE votazione= ? AND elettore= ?;");
+			st.setInt(1, v.getId());
+			st.setString(2, u.getUsername());
+			ResultSet res = st.executeQuery();
+			if(res.next()) return true;
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public void book(User u, Votazione v) {
+		con = getConnection();
+		try {
+			PreparedStatement st = con.prepareStatement("INSERT INTO prenotazioni(votazione, elettore) VALUES( ?, ?);");
+			st.setInt(1, v.getId());
+			st.setString(2, u.getUsername());
+			st.executeUpdate();
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}		
 	}
 
 }

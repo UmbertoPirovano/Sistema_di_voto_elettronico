@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2022 at 05:25 PM
+-- Generation Time: Feb 28, 2022 at 06:48 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -52,6 +52,35 @@ CREATE TABLE `elettore` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ha_votato`
+--
+
+CREATE TABLE `ha_votato` (
+  `votazione` bigint(20) UNSIGNED NOT NULL,
+  `persona` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ha_votato`
+--
+
+INSERT INTO `ha_votato` (`votazione`, `persona`) VALUES
+(1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prenotazioni`
+--
+
+CREATE TABLE `prenotazioni` (
+  `votazione` bigint(20) UNSIGNED NOT NULL,
+  `elettore` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `utenti`
 --
 
@@ -76,22 +105,25 @@ INSERT INTO `utenti` (`id`, `name`, `surname`, `username`, `password`, `admin`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `votazioni_programmate`
+-- Table structure for table `votazioni`
 --
 
-CREATE TABLE `votazioni_programmate` (
+CREATE TABLE `votazioni` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nome` varchar(50) NOT NULL,
-  `data` date NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `data_inizio` datetime NOT NULL,
+  `data_fine` datetime NOT NULL,
+  `tipo` varchar(100) NOT NULL,
   `descrizione` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `votazioni_programmate`
+-- Dumping data for table `votazioni`
 --
 
-INSERT INTO `votazioni_programmate` (`id`, `nome`, `data`, `descrizione`) VALUES
-(1, 'trivelle', '2022-08-01', 'Referendum sulle trivelle');
+INSERT INTO `votazioni` (`id`, `nome`, `data_inizio`, `data_fine`, `tipo`, `descrizione`) VALUES
+(1, 'referendum trivelle', '2022-03-01 08:00:00', '2022-03-03 23:00:00', 'referendum', 'referendum per l\'approvazione degli interventi di estrazione del gas nel mar Adriatico'),
+(2, 'Elezioni politiche', '2022-05-13 08:00:00', '2022-05-15 23:00:00', 'votazione ordinale', 'Votazione per l\'elezione dei rappresentanti del parlamento della Repubblica Italiana.');
 
 -- --------------------------------------------------------
 
@@ -116,6 +148,20 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 
 --
+-- Indexes for table `ha_votato`
+--
+ALTER TABLE `ha_votato`
+  ADD PRIMARY KEY (`votazione`,`persona`),
+  ADD KEY `utente` (`persona`);
+
+--
+-- Indexes for table `prenotazioni`
+--
+ALTER TABLE `prenotazioni`
+  ADD PRIMARY KEY (`votazione`,`elettore`),
+  ADD KEY `elettori` (`elettore`);
+
+--
 -- Indexes for table `utenti`
 --
 ALTER TABLE `utenti`
@@ -123,9 +169,10 @@ ALTER TABLE `utenti`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `votazioni_programmate`
+-- Indexes for table `votazioni`
 --
-ALTER TABLE `votazioni_programmate`
+ALTER TABLE `votazioni`
+  ADD PRIMARY KEY (`id`,`nome`,`data_inizio`),
   ADD UNIQUE KEY `id` (`id`);
 
 --
@@ -139,10 +186,28 @@ ALTER TABLE `utenti`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `votazioni_programmate`
+-- AUTO_INCREMENT for table `votazioni`
 --
-ALTER TABLE `votazioni_programmate`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `votazioni`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `ha_votato`
+--
+ALTER TABLE `ha_votato`
+  ADD CONSTRAINT `utente` FOREIGN KEY (`persona`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `votazione` FOREIGN KEY (`votazione`) REFERENCES `votazioni` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `prenotazioni`
+--
+ALTER TABLE `prenotazioni`
+  ADD CONSTRAINT `elettori` FOREIGN KEY (`elettore`) REFERENCES `utenti` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `votazioni` FOREIGN KEY (`votazione`) REFERENCES `votazioni` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

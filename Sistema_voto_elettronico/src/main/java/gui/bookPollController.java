@@ -65,6 +65,9 @@ public class bookPollController {
     	label_nomeVotazione.setText(v.getNome());    	
     }
     
+    /**
+     * Chiude la schermata corrente ed apre la schermata di login.
+     */
     void showLoginWindow() {
     	try {
 			logoutButton.getScene().getWindow().hide();

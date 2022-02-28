@@ -1,3 +1,9 @@
+/**
+ * Le istanze di questa classe rappresentano una riga della tabella della schermata "PollSelection.fxml".
+ * Conserva un riferimento all'oggetto Votazione dal quale viene creato, rende gli attributi di questo rappresentabili in forma tabellare
+ * ed aggiunge i due tasti "info" e "prenota o vota" necessari rispettivamente a visualizzare i dettagli della votazione o a prenotarsi/votare
+ * per essa.
+ */
 package gui;
 
 import java.io.IOException;
@@ -74,6 +80,9 @@ public class RowVotazione {
 		return button_azione;
 	}
 	
+	/**
+	 * Alla pressione del bottone "info" viene aperta una schermata che mostra i dettagli di questa votazione.
+	 */
 	private void showMessageWindow() {
 		try {
     		Sessione.getSessione().setVotazione(v);
@@ -89,10 +98,14 @@ public class RowVotazione {
 		}
 	}
 	
+	/**
+	 * Alla pressione del bottone "Prenota o vota" se l'utente non è ancora prenotato per questa votazione apre la schermata di prenotazione,
+	 * altrimenti apre la schermata di votazione. La schermata corrente viene chiusa.
+	 */
 	private void handleAzione() {
 		PollDAO p = new PollDAOImpl();
 		if(p.checkBooking(Sessione.getSessione().utente, Sessione.getSessione().getVotazione())) {
-			
+			//TODO: schermata di votazione
 		}else{
 			try {
 				button_azione.getScene().getWindow().hide();

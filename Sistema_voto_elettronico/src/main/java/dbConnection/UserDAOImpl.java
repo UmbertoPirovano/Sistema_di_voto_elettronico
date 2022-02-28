@@ -71,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
 
 			st = null;
 			st = con.prepareStatement("SELECT * FROM amministratore WHERE amministratore.id = ?;");
-			st.setInt(0, id);
+			st.setInt(1, id);
 			res = st.executeQuery();
 			while (res.next()) {
 				users.add(new Amministratore(res.getString(2), res.getString(3), res.getString(4)));

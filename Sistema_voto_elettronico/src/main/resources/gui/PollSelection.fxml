@@ -13,22 +13,22 @@
    <children>
       <AnchorPane prefHeight="110.0" prefWidth="903.0" style="-fx-background-color: lightblue;" AnchorPane.bottomAnchor="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="90.0" fitWidth="99.0" layoutX="789.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="789.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <image>
                   <Image url="@user_icon.png" />
                </image>
             </ImageView>
-            <Text fx:id="nameSurnameLabel" layoutX="517.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome Cognome" textAlignment="RIGHT" wrappingWidth="242.13671875">
+            <Text fx:id="nameSurnameLabel" layoutX="517.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome Cognome" textAlignment="RIGHT" wrappingWidth="242.13671875" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="25.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Text>
-            <Text fx:id="usernameLabel" layoutX="517.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="RIGHT" wrappingWidth="242.13671875">
+            <Text fx:id="usernameLabel" layoutX="517.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="RIGHT" wrappingWidth="242.13671875" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="50.0">
                <font>
                   <Font size="13.0" />
                </font>
             </Text>
-            <Button fx:id="logoutButton" layoutX="707.0" layoutY="71.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            <Button fx:id="logoutButton" layoutX="707.0" layoutY="71.0" mnemonicParsing="false" onAction="#logout" text="Logout" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="75.0" />
          </children>
       </AnchorPane>
       <TableView fx:id="votazioniTable" layoutX="54.0" layoutY="174.0" prefHeight="554.0" prefWidth="805.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">

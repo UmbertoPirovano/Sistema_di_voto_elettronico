@@ -3,6 +3,8 @@ package gui;
 import java.io.IOException;
 import java.util.Objects;
 
+import dbConnection.PollDAO;
+import dbConnection.PollDAOImpl;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +38,8 @@ public class RowVotazione {
 		this.button_info = new Button("Info");
 		this.button_azione = new Button("Prenota o vota");
 		
-		button_info.setOnAction(event -> showMessageWindow(getDescrizione()));
+		button_info.setOnAction(event -> showMessageWindow());
+		button_azione.setOnAction(event -> handleAzione());
 	}
 	
 	public int getId() {
@@ -71,7 +74,7 @@ public class RowVotazione {
 		return button_azione;
 	}
 	
-	public void showMessageWindow(String s) {
+	private void showMessageWindow() {
 		try {
     		Sessione.getSessione().setVotazione(v);
 			
@@ -83,6 +86,25 @@ public class RowVotazione {
         	stage.show();
 		}catch (IOException e) {
 			System.out.println(e.getMessage());
+		}
+	}
+	
+	private void handleAzione() {
+		PollDAO p = new PollDAOImpl();
+		if(p.checkBooking(Sessione.getSessione().utente, Sessione.getSessione().getVotazione())) {
+			
+		}else{
+			try {
+				button_azione.getScene().getWindow().hide();
+	    		Parent root = FXMLLoader.load(getClass().getResource("bookPoll.fxml"));
+	            Stage stage = new Stage();
+	        	stage.setTitle("Sistema di voto elettronico - Prenotazione");
+	        	stage.setScene(new Scene(root, 900, 780));
+	        	stage.setResizable(false);
+	        	stage.show();
+			}catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 	

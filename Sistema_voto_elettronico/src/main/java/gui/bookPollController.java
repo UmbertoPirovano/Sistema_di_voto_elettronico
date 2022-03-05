@@ -17,7 +17,7 @@ import poll.Votazione;
 import system.Sessione;
 import users.User;
 
-public class BookPollController {
+public class bookPollController {
 
     @FXML
     private Label label_nomeVotazione;

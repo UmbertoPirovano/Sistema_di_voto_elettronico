@@ -4,15 +4,12 @@
  */
 
 package system;
-import java.util.List;
 import java.util.Objects;
 
-import dbConnection.PollDAOImpl;
 import dbConnection.UserDAO;
 import dbConnection.UserDAOImpl;
 import dbConnection.UserLoginDAO;
 import dbConnection.UserLoginDAOImpl;
-import poll.Candidato;
 import poll.Votazione;
 import users.User;
 
@@ -23,7 +20,7 @@ public class Sessione {
 	public Votazione votazione;
 	
 	private Sessione() {
-		super();
+		
 	}
 	
 	/**
@@ -90,7 +87,5 @@ public class Sessione {
      */
     public void logoutUser() {
     	utente = null;
-    } 
-    
-    
+    }	
 }

@@ -104,8 +104,19 @@ public class RowVotazione {
 	 */
 	private void handleAzione() {
 		PollDAO p = new PollDAOImpl();
+		Sessione.getSessione().setVotazione(v);
 		if(p.checkBooking(Sessione.getSessione().utente, Sessione.getSessione().getVotazione())) {
-			//TODO: schermata di votazione
+			try {
+				button_azione.getScene().getWindow().hide();
+	    		Parent root = FXMLLoader.load(getClass().getResource("votazioneOrdinale.fxml"));
+	            Stage stage = new Stage();
+	        	stage.setTitle("Sistema di voto elettronico - Votazione");
+	        	stage.setScene(new Scene(root, 900, 780));
+	        	stage.setResizable(false);
+	        	stage.show();
+			}catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
 		}else{
 			try {
 				button_azione.getScene().getWindow().hide();

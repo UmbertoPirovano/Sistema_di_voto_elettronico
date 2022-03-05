@@ -1,6 +1,8 @@
 package dbConnection;
 
 import java.util.List;
+
+import poll.Candidato;
 import poll.Votazione;
 import users.User;
 
@@ -26,5 +28,19 @@ public interface PollDAO {
 	 * @param v
 	 */
 	void book(User u, Votazione v);
+	
+	/**
+	 * Restituisce una lista di persone candidate per la votazione v.
+	 * @param v
+	 * @return
+	 */
+	List<Candidato> getCandidati(Votazione v);
+	
+	/**
+	 * Restituisce una lista di partiti candidati per la votazione v.
+	 * @param v
+	 * @return
+	 */
+	List<Candidato> getPartiti(Votazione v);
 	
 }

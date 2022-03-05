@@ -7,7 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import poll.Candidato;
+import poll.CandidatoPersona;
+import poll.CandidatoPartito;
 import poll.Referendum;
 import poll.Votazione;
 import poll.VotazioneOrdinale;
@@ -57,6 +61,8 @@ public class PollDAOImpl implements PollDAO {
 
 	@Override
 	public boolean checkBooking(User u, Votazione v) {
+		Objects.requireNonNull(u);
+		Objects.requireNonNull(v);
 		con = getConnection();
 		try {
 			PreparedStatement st = con.prepareStatement("SELECT * FROM prenotazioni WHERE votazione= ? AND elettore= ?;");
@@ -81,6 +87,44 @@ public class PollDAOImpl implements PollDAO {
 		}catch(SQLException se) {
 			se.printStackTrace();
 		}		
+	}
+
+	@Override
+	public List<Candidato> getCandidati(Votazione v) {
+		con = getConnection();
+		List<Candidato> candidati = new ArrayList<>();
+		try {
+			PreparedStatement st = null;
+			st = con.prepareStatement("SELECT R.nome, R.cognome, R.partito FROM candidati_rappresentanti AS C JOIN votazioni AS V ON V.id=C.votazione JOIN rappresentanti AS R ON R.id=C.rappresentante WHERE V.id= ?;");
+			st.setInt(1, Sessione.getSessione().getVotazione().getId());
+			ResultSet res = st.executeQuery();
+			while(res.next()) {				
+				Candidato c = new CandidatoPersona(res.getString("nome"), res.getString("cognome"), new CandidatoPartito(res.getString("partito")));
+				candidati.add(c);
+			}
+		}catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return candidati;
+	}
+
+	@Override
+	public List<Candidato> getPartiti(Votazione v) {
+		con = getConnection();
+		List<Candidato> candidati = new ArrayList<>();
+		try {
+			PreparedStatement st = null;
+			st = con.prepareStatement("SELECT C.partito FROM votazioni AS V JOIN candidati_partiti AS C ON C.votazione=V.id WHERE V.id= ?;");
+			st.setInt(1, Sessione.getSessione().getVotazione().getId());
+			ResultSet res = st.executeQuery();
+			while(res.next()) {				
+				Candidato c = new CandidatoPartito(res.getString("partito"));
+				candidati.add(c);
+			}
+		}catch (SQLException se) {
+			se.printStackTrace();
+		}
+		return candidati;
 	}
 
 }

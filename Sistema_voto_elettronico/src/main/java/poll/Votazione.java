@@ -5,7 +5,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+
+import dbConnection.PollDAOImpl;
 
 public abstract class Votazione {
 	
@@ -15,6 +18,8 @@ public abstract class Votazione {
 	private final Date data_inizio;
 	private final Date data_fine;
 	private final String descrizione;
+	
+	private int index_candidate;
 	
 	public Votazione(int id, String nome, String tipo, String data_inizio, String data_fine, String descrizione) {
 		this.id = id;
@@ -65,4 +70,20 @@ public abstract class Votazione {
 		}
 		return null;
 	}
+	
+	public List<Candidato> getCandidati(){
+    	return new PollDAOImpl().getCandidati(this); 
+    }
+    
+    public Candidato listCandidato() {
+    	List<Candidato> candidati = getCandidati();
+    	if(index_candidate == candidati.size()) {
+    		index_candidate = 0;
+    	}
+    	return candidati.get(index_candidate++);
+    }
+    
+    public int countCandidati() {
+    	return getCandidati().size();
+    }
 }

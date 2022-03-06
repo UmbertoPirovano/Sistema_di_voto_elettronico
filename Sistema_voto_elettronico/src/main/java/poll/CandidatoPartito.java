@@ -1,17 +1,18 @@
 package poll;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class CandidatoPartito implements Candidato {
+public class CandidatoPartito implements Candidato, Iterable<CandidatoPersona> {
 	
 	private String nome;
 	private List<CandidatoPersona> candidati;
 	
 	public CandidatoPartito(String nome) {
 		this.nome = Objects.requireNonNull(nome);
-		candidati = new ArrayList<>();
+		this.candidati = new ArrayList<>();
 	}
 	
 	public CandidatoPartito(String nome, List<CandidatoPersona> candidati) {
@@ -80,7 +81,12 @@ public class CandidatoPartito implements Candidato {
 		Objects.requireNonNull(cognome);
 		for(CandidatoPersona p : candidati) {
 			if(p.getNome().equals(nome + " " + cognome)) candidati.remove(p);
-		}		
+		}
+	}
+
+	@Override
+	public Iterator<CandidatoPersona> iterator() {
+		return candidati.iterator();
 	}
 
 }

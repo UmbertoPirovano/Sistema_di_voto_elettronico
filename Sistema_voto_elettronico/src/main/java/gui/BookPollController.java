@@ -40,7 +40,7 @@ public class BookPollController {
     @FXML
     void confirm(ActionEvent event) {
     	PollDAO p = new PollDAOImpl();
-    	p.book(Sessione.getSessione().utente, Sessione.getSessione().getVotazione());
+    	p.book(Sessione.getSessione().getUser(), Sessione.getSessione().getVotazione());
     	showPollSelection();
     }
 
@@ -57,7 +57,7 @@ public class BookPollController {
     
     @FXML
     void initialize() {
-    	User u = Sessione.getSessione().utente;
+    	User u = Sessione.getSessione().getUser();
     	nameSurnameLabel.setText(u.getName() + " " + u.getSurname());
     	usernameLabel.setText(u.getUsername());
     	

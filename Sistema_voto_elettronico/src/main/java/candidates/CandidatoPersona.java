@@ -1,4 +1,4 @@
-package poll;
+package candidates;
 
 import java.util.Objects;
 
@@ -41,8 +41,6 @@ public class CandidatoPersona implements Candidato {
 	 */
 	public void setAffiliazione(CandidatoPartito p) {
 		affiliazione = Objects.requireNonNull(p);
-	}
-	
-	
+	}	
 
 }

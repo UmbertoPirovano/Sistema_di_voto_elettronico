@@ -2,7 +2,7 @@ package dbConnection;
 
 import java.util.List;
 
-import poll.Candidato;
+import candidates.Candidato;
 import poll.Votazione;
 import users.User;
 

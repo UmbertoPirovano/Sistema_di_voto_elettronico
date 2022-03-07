@@ -1,4 +1,4 @@
-package poll;
+package candidates;
 
 public interface Candidato {
 	

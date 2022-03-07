@@ -104,11 +104,11 @@ public class RowVotazione {
 	 */
 	private void handleAzione() {
 		PollDAO p = new PollDAOImpl();
-		Sessione.getSessione().setVotazione(v);
-		if(p.checkBooking(Sessione.getSessione().utente, Sessione.getSessione().getVotazione())) {
+		Sessione.getSessione().setVotazione(v);																//!!!Qui impostiamo la votazione attiva.
+		if(p.checkBooking(Sessione.getSessione().getUser(), Sessione.getSessione().getVotazione())) {
 			try {
 				button_azione.getScene().getWindow().hide();
-	    		Parent root = FXMLLoader.load(getClass().getResource("votazioneOrdinale.fxml"));
+	    		Parent root = FXMLLoader.load(getClass().getResource("votazioneStandard.fxml"));
 	            Stage stage = new Stage();
 	        	stage.setTitle("Sistema di voto elettronico - Votazione");
 	        	stage.setScene(new Scene(root, 900, 780));

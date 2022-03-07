@@ -74,8 +74,8 @@ public class PollSelectionController {
     @FXML
     void initialize() {
     	sessione = Sessione.getSessione();
-    	nameSurnameLabel.setText(sessione.utente.getName() + " " + sessione.utente.getSurname());
-    	usernameLabel.setText(sessione.utente.getUsername());
+    	nameSurnameLabel.setText(sessione.getUser().getName() + " " + sessione.getUser().getSurname());
+    	usernameLabel.setText(sessione.getUser().getUsername());
     	
     	col_id.setCellValueFactory(new PropertyValueFactory<>("Id"));
     	col_name.setCellValueFactory(new PropertyValueFactory<>("Nome"));

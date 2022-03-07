@@ -3,12 +3,13 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import candidates.Candidato;
+import candidates.CandidatoPartito;
+import candidates.CandidatoPersona;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import poll.Candidato;
-import poll.CandidatoPartito;
-import poll.CandidatoPersona;
+import poll.VotazioneStandard;
 import system.Sessione;
 
 public class NodeCandidatoController implements Initializable {
@@ -21,7 +22,9 @@ public class NodeCandidatoController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Candidato c = Sessione.getSessione().getVotazione().listCandidato();
+		VotazioneStandard v = (VotazioneStandard) Sessione.getSessione().getVotazione();
+		//Candidato c = v.iterator().next();
+		Candidato c = Sessione.getSessione().candidati.next();
 		if(c instanceof CandidatoPersona) {
 			CandidatoPersona p = (CandidatoPersona) c;
 			labelNome.setText(p.getNome());

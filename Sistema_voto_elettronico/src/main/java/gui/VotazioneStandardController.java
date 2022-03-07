@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import candidates.Candidato;
 import dbConnection.PollDAO;
 import dbConnection.PollDAOImpl;
 import javafx.event.ActionEvent;
@@ -22,10 +23,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import poll.VotazioneOrdinale;
+import poll.VotazioneStandard;
 import system.Sessione;
 
-public class VotazioneOrdinaleController implements Initializable {
+public class VotazioneStandardController implements Initializable {
 
     @FXML
     private Button logoutButton;
@@ -61,9 +62,10 @@ public class VotazioneOrdinaleController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		System.out.println("Carico schermata votazione.");
 		labelVotazione.setText(Sessione.getSessione().getVotazione().getNome().toUpperCase());
-		nameSurnameLabel.setText(Sessione.getSessione().utente.getName() + " " + Sessione.getSessione().utente.getSurname());
-		usernameLabel.setText(Sessione.getSessione().utente.getUsername());	
+		nameSurnameLabel.setText(Sessione.getSessione().getUser().getName() + " " + Sessione.getSessione().getUser().getSurname());
+		usernameLabel.setText(Sessione.getSessione().getUser().getUsername());	
 		
 		loadCandidates();		
 	}
@@ -83,7 +85,9 @@ public class VotazioneOrdinaleController implements Initializable {
     }
 	
 	private void loadCandidates() {
-		for(int i=0 ; i<Sessione.getSessione().getVotazione().countCandidati() ; i++) {
+		System.out.println("Carico i candidati.");
+		VotazioneStandard v = (VotazioneStandard) Sessione.getSessione().getVotazione();
+		for(Candidato c : v.getCandidati()) {
 			try {
 				final Node n = FXMLLoader.load(getClass().getResource("NodeCandidato.fxml"));
 				

@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import poll.Candidato;
-import poll.CandidatoPersona;
-import poll.CandidatoPartito;
+import candidates.Candidato;
+import candidates.CandidatoPartito;
+import candidates.CandidatoPersona;
 import poll.Referendum;
 import poll.Votazione;
-import poll.VotazioneOrdinale;
+import poll.VotazioneStandard;
 import system.Sessione;
 import users.Amministratore;
 import users.Elettore;
@@ -48,8 +48,7 @@ public class PollDAOImpl implements PollDAO {
 									res.getString("data_fine"), res.getString("descrizione")));
 					break;
 				case "votazione ordinale":
-					votazioni.add(new VotazioneOrdinale(res.getInt("id"), res.getString("nome"), res.getString("data_inizio"),
-							res.getString("data_fine"), res.getString("descrizione")));
+					votazioni.add(VotazioneStandard.newOrdinale(res.getInt("id"), res.getString("nome"), res.getString("data_inizio"), res.getString("data_fine"), res.getString("descrizione"), false, false));
 					break;
 				}
 			}

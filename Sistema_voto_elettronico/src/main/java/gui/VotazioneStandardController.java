@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import candidates.Candidato;
-import dbConnection.PollDAO;
-import dbConnection.PollDAOImpl;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -57,12 +55,17 @@ public class VotazioneStandardController implements Initializable {
     
     @FXML
     void confirmVote(ActionEvent event) {
-
+    	List<String> ids = new ArrayList<>();
+    	for(Node n : selectedList.getItems()) {
+    		ids.add(n.getId());
+    	}
+    	VotazioneStandard v = (VotazioneStandard) Sessione.getSessione().getVotazione();
+    	v.vota(ids);
     }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("Carico schermata votazione.");
+		//System.out.println("Carico schermata votazione.");
 		labelVotazione.setText(Sessione.getSessione().getVotazione().getNome().toUpperCase());
 		nameSurnameLabel.setText(Sessione.getSessione().getUser().getName() + " " + Sessione.getSessione().getUser().getSurname());
 		usernameLabel.setText(Sessione.getSessione().getUser().getUsername());	
@@ -85,10 +88,12 @@ public class VotazioneStandardController implements Initializable {
     }
 	
 	private void loadCandidates() {
-		System.out.println("Carico i candidati.");
+		
 		VotazioneStandard v = (VotazioneStandard) Sessione.getSessione().getVotazione();
-		for(Candidato c : v.getCandidati()) {
+		v.updateCandidati();
+		for(int i=0; i < v.countCandidati(); i++) {
 			try {
+				
 				final Node n = FXMLLoader.load(getClass().getResource("NodeCandidato.fxml"));
 				
 				n.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -103,11 +108,13 @@ public class VotazioneStandardController implements Initializable {
 						}
 					}					
 				});
-				
+				n.setId("" + i);
+				v.assocNodeCandidate(v.getCandidati().get(i), n.getId());
 				candidateList.getItems().add(n);
 			}catch(IOException e){
 				e.printStackTrace();
 			}
 		}
+		
 	}	
 }

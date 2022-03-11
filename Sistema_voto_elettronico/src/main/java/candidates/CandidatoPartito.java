@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class CandidatoPartito implements Candidato, Iterable<CandidatoPersona> {
+public class CandidatoPartito implements Candidato, Iterable<CandidatoPersona>, Comparable<CandidatoPartito> {
 	
 	private String nome;
 	private List<CandidatoPersona> candidati;
@@ -87,6 +87,12 @@ public class CandidatoPartito implements Candidato, Iterable<CandidatoPersona> {
 	@Override
 	public Iterator<CandidatoPersona> iterator() {
 		return candidati.iterator();
+	}
+
+	@Override
+	public int compareTo(CandidatoPartito o) {
+		CandidatoPartito tmp = (CandidatoPartito) o;
+		return this.nome.compareTo(tmp.nome);
 	}
 
 }

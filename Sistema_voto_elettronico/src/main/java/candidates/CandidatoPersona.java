@@ -2,7 +2,7 @@ package candidates;
 
 import java.util.Objects;
 
-public class CandidatoPersona implements Candidato {
+public class CandidatoPersona implements Candidato, Comparable<CandidatoPersona> {
 	
 	private String nome;
 	private String cognome;
@@ -41,6 +41,16 @@ public class CandidatoPersona implements Candidato {
 	 */
 	public void setAffiliazione(CandidatoPartito p) {
 		affiliazione = Objects.requireNonNull(p);
+	}
+
+	@Override
+	public int compareTo(CandidatoPersona o) {
+		CandidatoPersona tmp = (CandidatoPersona) o;
+		if(this.affiliazione.compareTo(tmp.affiliazione) != 0) {
+			return this.affiliazione.compareTo(tmp.affiliazione);
+		}else {
+			return this.nome.compareTo(tmp.nome);
+		}
 	}	
 
 }

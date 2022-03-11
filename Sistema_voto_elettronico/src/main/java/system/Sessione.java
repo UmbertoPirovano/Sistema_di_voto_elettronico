@@ -4,27 +4,22 @@
  */
 
 package system;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 
-import candidates.Candidato;
-import dbConnection.PollDAOImpl;
 import dbConnection.UserDAO;
 import dbConnection.UserDAOImpl;
 import dbConnection.UserLoginDAO;
 import dbConnection.UserLoginDAOImpl;
 import poll.Votazione;
-import poll.VotazioneStandard;
 import users.User;
+import vote.Voto;
 
 public class Sessione {
 	
 	private static Sessione sessione = null;
 	private User utente;
 	private Votazione votazione;
-	public Iterator<Candidato> candidati;		//Necessario per inizializzare i NodeCandidato
-	
+	private Voto voto;	
 	
 	private Sessione() {
 		super();
@@ -70,10 +65,6 @@ public class Sessione {
 	 */
 	public void setVotazione(Votazione v) {
 		votazione = Objects.requireNonNull(v);
-		if(votazione instanceof VotazioneStandard) {
-			VotazioneStandard tmp = (VotazioneStandard) votazione;
-			candidati = tmp.getCandidati().iterator();
-		}
 	}
 	
 	/**
@@ -106,7 +97,6 @@ public class Sessione {
      */
     public void logoutUser() {
     	utente = null;
-    } 
-    
+    }
     
 }

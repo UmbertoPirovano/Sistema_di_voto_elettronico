@@ -1,9 +1,11 @@
 package poll;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import candidates.Candidato;
 import dbConnection.PollDAOImpl;
@@ -12,13 +14,18 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 	
 	private boolean maggioranzaAssoluta;
 	private boolean votoAPartiti;
-	private List<Candidato> candidati;
+	private Map<Candidato, String> candidati;		//la String è l'id del Node con cui viene rappresentata v
+	
+	
+	private int init_index;
 	
 	private VotazioneStandard(int id, String nome, String tipo, String data_inizio, String data_fine, String descrizione, boolean maggioranzaAssoluta, boolean votoAPartiti) {
 		super(id, nome, tipo, data_inizio, data_fine, descrizione);
 		this.maggioranzaAssoluta = maggioranzaAssoluta;
 		this.votoAPartiti = votoAPartiti;
-		//updateCandidati();
+		this.candidati = new HashMap<>();
+		updateCandidati();
+		init_index = 0;
 	}
 	
 	public static VotazioneStandard newCategorico(int id, String nome, String data_inizio, String data_fine, String descrizione, boolean maggioranzaAssoluta, boolean votoAPartiti) {
@@ -51,17 +58,20 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 	 * @return una lista di oggetti Candidato.
 	 */
 	public List<Candidato> getCandidati(){
-		System.out.println("Recupero i candidati.");
-		updateCandidati();
-		return candidati; 
+		List<Candidato> tmp = new ArrayList<>(candidati.keySet());
+		tmp.sort(null);
+		return tmp;
     }
 	
 	/**
 	 * Aggiorna il contenuto della lista candidati interrogando il db.
 	 */
-	private void updateCandidati() {
-		System.out.println("Chiedo i candidati al db.");
-		candidati = new PollDAOImpl().getCandidati(this);
+	public void updateCandidati() {
+		candidati.clear();
+		List<Candidato> tmp = new PollDAOImpl().getCandidati(this);
+		for(Candidato c : tmp) {
+			candidati.put(c, null);
+		}
 	}
     
 	/**
@@ -74,6 +84,37 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 
 	@Override
 	public Iterator<Candidato> iterator() {
-		return candidati.iterator();
+		return getCandidati().iterator();
+	}
+	
+	/**
+	 * Iteratore custom necessario ad inizializzare gli oggetti Node usati per rappresentare
+	 * gli oggetti Candidato nella gui.
+	 * @return Il candidato next().
+	 */
+	public Candidato initNode_next() {
+		if(init_index == countCandidati()) {
+			init_index = 0;
+		}
+		return getCandidati().get(init_index++);
+	}
+	
+	/**
+	 * Associa ad un Canidato già presente nella mappa un id di tipo String che si riferisce
+	 * al Nodo utilizzato per rappresentare c nella gui.
+	 * @param c Un candidato.
+	 * @param node_id L'id del nodo che rappresenta c nella gui.
+	 */
+	public void assocNodeCandidate(Candidato c, String node_id) {
+		if(candidati.containsKey(c))
+			candidati.put(c, node_id);
+	}
+	
+	public void vota(List<String> scelte) {
+		for(int i=0 ; i < scelte.size() ; i++) {
+			for(Entry<Candidato, String> e : candidati.entrySet()) {
+				if(e.getValue() == scelte.get(i)) System.out.println(e.getKey().getNome());
+			}
+		}
 	}
 }

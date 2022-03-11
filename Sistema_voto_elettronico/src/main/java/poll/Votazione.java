@@ -4,13 +4,8 @@ package poll;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-
-import candidates.Candidato;
-import dbConnection.PollDAOImpl;
 
 public abstract class Votazione {
 	
@@ -73,6 +68,7 @@ public abstract class Votazione {
 	 * Restitusice la data in cui la votazione this inizierà.
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public String getData_inizio() {
 		return data_inizio.toGMTString();
 	}
@@ -81,6 +77,7 @@ public abstract class Votazione {
 	 * Restituisce la data in cui la votaione this finirà.
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public String getData_fine() {
 		return data_fine.toGMTString();
 	}

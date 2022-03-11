@@ -9,7 +9,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.release>11</maven.compiler.release>
-		<javafx.version>11</javafx.version>
+		<javafx.version>17</javafx.version>
 		<javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
 	</properties>
 	<dependencies>
@@ -32,6 +32,11 @@
 
 	</dependencies>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

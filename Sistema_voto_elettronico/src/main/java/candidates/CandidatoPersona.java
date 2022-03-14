@@ -52,5 +52,10 @@ public class CandidatoPersona implements Candidato, Comparable<CandidatoPersona>
 			return this.nome.compareTo(tmp.nome);
 		}
 	}	
+	
+	@Override
+	public String toString() {
+		return "" + nome + " " + cognome + " ("+ affiliazione + ")";
+	}
 
 }

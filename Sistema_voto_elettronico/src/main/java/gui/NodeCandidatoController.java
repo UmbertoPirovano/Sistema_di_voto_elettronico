@@ -22,7 +22,6 @@ public class NodeCandidatoController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("Creo il nodo.");
 		VotazioneStandard v = (VotazioneStandard) Sessione.getSessione().getVotazione();
 		Candidato c = v.initNode_next();
 		if(c instanceof CandidatoPersona) {

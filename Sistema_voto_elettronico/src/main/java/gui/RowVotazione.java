@@ -105,31 +105,44 @@ public class RowVotazione {
 	private void handleAzione() {
 		PollDAO p = new PollDAOImpl();
 		Sessione.getSessione().setVotazione(v);																//!!!Qui impostiamo la votazione attiva.
+		button_azione.getScene().getWindow().hide();
 		if(p.checkBooking(Sessione.getSessione().getUser(), Sessione.getSessione().getVotazione())) {
-			try {
-				button_azione.getScene().getWindow().hide();
-	    		Parent root = FXMLLoader.load(getClass().getResource("votazioneStandard.fxml"));
-	            Stage stage = new Stage();
-	        	stage.setTitle("Sistema di voto elettronico - Votazione");
-	        	stage.setScene(new Scene(root, 900, 780));
-	        	stage.setResizable(false);
-	        	stage.show();
-			}catch (IOException e) {
-				System.out.println(e.getMessage());
-			}
+			showStandardPoll();
 		}else{
-			try {
-				button_azione.getScene().getWindow().hide();
-	    		Parent root = FXMLLoader.load(getClass().getResource("bookPoll.fxml"));
-	            Stage stage = new Stage();
-	        	stage.setTitle("Sistema di voto elettronico - Prenotazione");
-	        	stage.setScene(new Scene(root, 900, 780));
-	        	stage.setResizable(false);
-	        	stage.show();
-			}catch (IOException e) {
-				System.out.println(e.getMessage());
-			}
+			showBookingWindow();
 		}
 	}
+	
+	/**
+	 * Apre la schermata per effettuare la votazione di una votazione standard.
+	 */
+	private void showStandardPoll() {
+    	try {
+    		Parent root = FXMLLoader.load(getClass().getResource("votazioneStandard.fxml"));
+            Stage stage = new Stage();
+        	stage.setTitle("Sistema di voto elettronico - Votazione");
+        	stage.setScene(new Scene(root, 900, 780));
+        	stage.setResizable(false);
+        	stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+    }
+	
+	/**
+	 * Apre la schermata di prenotazione della votazione selezionata.
+	 */
+	private void showBookingWindow() {
+    	try {
+    		Parent root = FXMLLoader.load(getClass().getResource("bookPoll.fxml"));
+    		Stage stage = new Stage();
+    		stage.setTitle("Sistema di voto elettronico - Prenotazione");
+    		stage.setScene(new Scene(root, 900, 780));
+    		stage.setResizable(false);
+    		stage.show();
+    	}catch (IOException e) {
+    		System.out.println(e.getMessage());
+    	}
+    }
 	
 }

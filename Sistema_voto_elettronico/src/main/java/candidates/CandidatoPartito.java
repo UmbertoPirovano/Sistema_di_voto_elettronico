@@ -94,5 +94,10 @@ public class CandidatoPartito implements Candidato, Iterable<CandidatoPersona>, 
 		CandidatoPartito tmp = (CandidatoPartito) o;
 		return this.nome.compareTo(tmp.nome);
 	}
+	
+	@Override
+	public String toString() {
+		return nome;
+	}
 
 }

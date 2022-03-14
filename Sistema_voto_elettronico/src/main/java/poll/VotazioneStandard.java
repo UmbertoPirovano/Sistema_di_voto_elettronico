@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Map.Entry;
 
 import candidates.Candidato;
@@ -110,11 +111,28 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 			candidati.put(c, node_id);
 	}
 	
+	/*
 	public void vota(List<String> scelte) {
 		for(int i=0 ; i < scelte.size() ; i++) {
 			for(Entry<Candidato, String> e : candidati.entrySet()) {
 				if(e.getValue() == scelte.get(i)) System.out.println(e.getKey().getNome());
 			}
 		}
+	}
+	*/
+	
+	/**
+	 * Fornito un array di id di Node che rappresentano oggetti Candidato, restituisce una lista di Candidati
+	 * associati a quegli id.
+	 * @param ids Lista di String cioè id di nodi.
+	 * @return Una lista di oggetti Candidato.
+	 */
+	public List<Candidato> getCandidatiFromNode(List<String> ids){
+		Objects.requireNonNull(ids);
+		List<Candidato> c = new ArrayList<>();
+		for(Entry<Candidato, String> e : candidati.entrySet()) {
+			if(ids.contains(e.getValue())) c.add(e.getKey());
+		}
+		return c;
 	}
 }

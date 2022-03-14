@@ -10,6 +10,7 @@ import dbConnection.UserDAO;
 import dbConnection.UserDAOImpl;
 import dbConnection.UserLoginDAO;
 import dbConnection.UserLoginDAOImpl;
+import gui.GuiApplication;
 import poll.Votazione;
 import users.User;
 import vote.Voto;
@@ -19,7 +20,7 @@ public class Sessione {
 	private static Sessione sessione = null;
 	private User utente;
 	private Votazione votazione;
-	private Voto voto;	
+	private Voto voto;
 	
 	private Sessione() {
 		super();
@@ -73,6 +74,14 @@ public class Sessione {
 	 */
 	public Votazione getVotazione() {
 		return votazione;
+	}
+	
+	public void setVoto(Voto v) {
+		this.voto = v;
+	}
+	
+	public Voto getVoto() {
+		return voto;
 	}
 	
 	/**

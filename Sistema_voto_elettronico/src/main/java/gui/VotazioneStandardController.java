@@ -23,6 +23,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import poll.VotazioneStandard;
 import system.Sessione;
+import vote.Voto;
+import vote.VotoStandard;
 
 public class VotazioneStandardController implements Initializable {
 
@@ -55,40 +57,31 @@ public class VotazioneStandardController implements Initializable {
     
     @FXML
     void confirmVote(ActionEvent event) {
+    	VotazioneStandard p = (VotazioneStandard) Sessione.getSessione().getVotazione();
     	List<String> ids = new ArrayList<>();
+
     	for(Node n : selectedList.getItems()) {
     		ids.add(n.getId());
     	}
-    	VotazioneStandard v = (VotazioneStandard) Sessione.getSessione().getVotazione();
-    	v.vota(ids);
+    	Voto v = new VotoStandard(p.getCandidatiFromNode(ids));
+    	Sessione.getSessione().setVoto(v);
+    	showConfirmWindow();
     }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//System.out.println("Carico schermata votazione.");
 		labelVotazione.setText(Sessione.getSessione().getVotazione().getNome().toUpperCase());
 		nameSurnameLabel.setText(Sessione.getSessione().getUser().getName() + " " + Sessione.getSessione().getUser().getSurname());
 		usernameLabel.setText(Sessione.getSessione().getUser().getUsername());	
 		
 		loadCandidates();		
-	}
-    
-	void showLoginWindow() {
-    	try {
-			logoutButton.getScene().getWindow().hide();
-    		Parent root = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
-            Stage stage = new Stage();
-        	stage.setTitle("Sistema di voto elettronico - Login");
-        	stage.setScene(new Scene(root, 500, 390));
-        	stage.setResizable(false);
-        	stage.show();
-		}catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-    }
+	}    
 	
-	private void loadCandidates() {
-		
+	/**
+	 * Renderizza ed inserisce nella lista candidateList una visualizzazione dei candidati
+	 * disponibili per la votazione.
+	 */
+	private void loadCandidates() {		
 		VotazioneStandard v = (VotazioneStandard) Sessione.getSessione().getVotazione();
 		v.updateCandidati();
 		for(int i=0; i < v.countCandidati(); i++) {
@@ -114,7 +107,40 @@ public class VotazioneStandardController implements Initializable {
 			}catch(IOException e){
 				e.printStackTrace();
 			}
+		}		
+	}
+	
+	/**
+	 * Chiude la schermata corrente ed apre qella di login.
+	 */
+	private void showLoginWindow() {
+		try {
+			logoutButton.getScene().getWindow().hide();
+			Parent root = FXMLLoader.load(getClass().getResource("LoginWindow.fxml"));
+			Stage stage = new Stage();
+			stage.setTitle("Sistema di voto elettronico - Login");
+			stage.setScene(new Scene(root, 500, 390));
+			stage.setResizable(false);
+			stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
 		}
-		
-	}	
+	}
+	
+	/**
+	 * Apre la schermata di riepilogo dove è possibile confermare il proprio voto.
+	 */
+	private void showConfirmWindow() {
+		try {
+			submitButton.getScene().getWindow().hide();
+			Parent root = FXMLLoader.load(getClass().getResource("ConfirmVoteWindow.fxml"));
+	        Stage stage = new Stage();
+	    	stage.setTitle("Sistema di voto elettronico - Conferma voto");
+	    	stage.setScene(new Scene(root, 600, 400));
+	    	stage.setResizable(false);
+	    	stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}	    
+	}
 }

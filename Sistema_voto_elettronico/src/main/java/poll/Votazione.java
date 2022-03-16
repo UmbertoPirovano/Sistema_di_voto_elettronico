@@ -19,6 +19,13 @@ public abstract class Votazione {
 	public Votazione(int id, String nome, String tipo, String data_inizio, String data_fine, String descrizione) {
 		this.id = id;
 		this.nome = Objects.requireNonNull(nome);
+		/*ATTENZIONE ---------------------- LEGGERE--------------------------------------------------------------------
+		 * Non avrebbe più senso mettere il controllo del tipo di vooto in VotazioneStandard?
+		 * E poi perchè hai messo referendum tra i tipi di voto? Non lo vai già a distinguere considerato che un oggetto
+		 * Referendum ha campi di classe diversi rispetto a VotazioneStandard? Io tipo l'avevo pensato per distinguere
+		 * voto Ordinale, Categorico e con Preferenze.
+		 * P.S. Non sto dicendo che e' sbagliato, volevo solo capire la logica.
+		 */
 		switch(Objects.requireNonNull(tipo).toLowerCase()) {
 			case "referendum":
 				this.tipo = TipoVotazione.REFERENDUM;

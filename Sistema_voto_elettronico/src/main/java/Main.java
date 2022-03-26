@@ -20,8 +20,12 @@ public class Main {
 		db.insertUser(a, "admin");
 		*/
 		//System.out.println("Consultare il readme.txt per le credenziali di testing.");
+		
+		
+		
+		
 		Sessione s = Sessione.getSessione();
-		GuiApplication.show();
+		GuiApplication.show();		
 		s.destroy();
 	}
 }

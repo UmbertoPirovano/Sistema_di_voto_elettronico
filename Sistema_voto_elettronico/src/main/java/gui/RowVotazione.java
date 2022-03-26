@@ -19,7 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import poll.Referendum;
 import poll.Votazione;
+import poll.VotazioneStandard;
 import system.Sessione;
 
 public class RowVotazione {
@@ -106,28 +108,17 @@ public class RowVotazione {
 		PollDAO p = new PollDAOImpl();
 		Sessione.getSessione().setVotazione(v);																//!!!Qui impostiamo la votazione attiva.
 		button_azione.getScene().getWindow().hide();
-		if(p.checkBooking(Sessione.getSessione().getUser(), Sessione.getSessione().getVotazione())) {
-			showStandardPoll();
+		if(p.checkBooking(Sessione.getSessione().getUser(), v)) {
+			if(v instanceof Referendum) {
+				showReferendum();
+			} else if(v instanceof VotazioneStandard) {
+				showStandardPoll();				
+			}
 		}else{
 			showBookingWindow();
 		}
 	}
 	
-	/**
-	 * Apre la schermata per effettuare la votazione di una votazione standard.
-	 */
-	private void showStandardPoll() {
-    	try {
-    		Parent root = FXMLLoader.load(getClass().getResource("votazioneStandard.fxml"));
-            Stage stage = new Stage();
-        	stage.setTitle("Sistema di voto elettronico - Votazione");
-        	stage.setScene(new Scene(root, 900, 780));
-        	stage.setResizable(false);
-        	stage.show();
-		}catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-    }
 	
 	/**
 	 * Apre la schermata di prenotazione della votazione selezionata.
@@ -145,4 +136,35 @@ public class RowVotazione {
     	}
     }
 	
+	/**
+	 * Apre la schermata per effettuare la votazione di una votazione standard.
+	 */
+	private void showStandardPoll() {
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("votazioneStandard.fxml"));
+			Stage stage = new Stage();
+			stage.setTitle("Sistema di voto elettronico - Votazione");
+			stage.setScene(new Scene(root, 900, 780));
+			stage.setResizable(false);
+			stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Apre la schermata per effettuare la votazione di una votazione standard.
+	 */
+	private void showReferendum() {
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("Referendum.fxml"));
+			Stage stage = new Stage();
+			stage.setTitle("Sistema di voto elettronico - Votazione");
+			stage.setScene(new Scene(root, 900, 780));
+			stage.setResizable(false);
+			stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}	
 }

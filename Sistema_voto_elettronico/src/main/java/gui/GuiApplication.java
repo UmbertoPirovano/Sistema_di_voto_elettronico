@@ -34,6 +34,7 @@ public class GuiApplication extends Application {
     	launch();
     }
     
+	
 	/*
     public void showLoginWindow() {
     	try {
@@ -49,19 +50,19 @@ public class GuiApplication extends Application {
 		}
     }    
     
-    public void showPollSelection() {
-    	try {
+	public void showPollSelection() {
+		try {
 			//submitButton.getScene().getWindow().hide();
-    		Parent root = FXMLLoader.load(getClass().getResource("PollSelection.fxml"));
-            Stage stage = new Stage();
-        	stage.setTitle("Sistema di voto elettronico - Selezione votazioni");
-        	stage.setScene(new Scene(root, 900, 780));
-        	stage.setResizable(false);
-        	stage.show();
+			Parent root = FXMLLoader.load(getClass().getResource("PollSelection.fxml"));
+			Stage stage = new Stage();
+			stage.setTitle("Sistema di voto elettronico - Selezione votazioni");
+			stage.setScene(new Scene(root, 900, 780));
+			stage.setResizable(false);
+			stage.show();
 		}catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-    }
+	}
     
     public void showBookingWindow() {
     	try {

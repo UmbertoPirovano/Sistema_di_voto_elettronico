@@ -91,9 +91,7 @@ public class PollSelectionController {
     	for(Votazione v : votazioni) {
     		RowVotazione rv = new RowVotazione(v);
     		votazioniTable.getItems().add(rv);
-    	}
-    	
-    	
+    	}    	
     }
     
     void showLoginWindow() {

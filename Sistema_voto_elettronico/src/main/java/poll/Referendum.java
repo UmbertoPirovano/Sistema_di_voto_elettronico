@@ -1,16 +1,20 @@
 package poll;
 
+import dbConnection.ReferendumDAO;
+
 public class Referendum extends Votazione {
 	
 	private boolean quorum;
 	
 	public Referendum(int id, String nome, String data_inizio, String data_fine, String descrizione) {
-		super(id, nome, "referendum", data_inizio, data_fine, descrizione);
+		super(id, nome, data_inizio, data_fine, descrizione);
+		dbConnection = new ReferendumDAO();
 		this.quorum = false;
 	}
 	
 	public Referendum(int id, String nome, String data_inizio, String data_fine, String descrizione, boolean quorum) {
-		super(id, nome, "referendum", data_inizio, data_fine, descrizione);
+		super(id, nome, data_inizio, data_fine, descrizione);
+		dbConnection = new ReferendumDAO();
 		this.quorum = quorum;
 	}
 	
@@ -20,6 +24,12 @@ public class Referendum extends Votazione {
 	 */
 	public boolean getQuorum() {
 		return quorum;
+	}
+
+	@Override
+	public void vota() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

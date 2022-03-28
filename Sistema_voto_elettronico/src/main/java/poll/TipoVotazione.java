@@ -1,7 +1,7 @@
 package poll;
 
 public enum TipoVotazione {
-	REFERENDUM,
+	PREFERENZIALE,
 	ORDINALE,
 	CATEGORICO;
 }

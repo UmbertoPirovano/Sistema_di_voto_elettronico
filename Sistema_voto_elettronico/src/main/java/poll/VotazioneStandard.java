@@ -10,18 +10,32 @@ import java.util.Map.Entry;
 
 import candidates.Candidato;
 import dbConnection.PollDAOImpl;
+import dbConnection.StandardVoteDAO;
 
 public class VotazioneStandard extends Votazione implements Iterable<Candidato> {
 	
 	private boolean maggioranzaAssoluta;
 	private boolean votoAPartiti;
+	private TipoVotazione tipo;
 	private Map<Candidato, String> candidati;		//la String è l'id del Node con cui viene rappresentata v
 	
 	
 	private int init_index;
 	
-	private VotazioneStandard(int id, String nome, String tipo, String data_inizio, String data_fine, String descrizione, boolean maggioranzaAssoluta, boolean votoAPartiti) {
-		super(id, nome, tipo, data_inizio, data_fine, descrizione);
+	private VotazioneStandard(int id, String nome, String data_inizio, String data_fine, String descrizione, TipoVotazione tipo, boolean maggioranzaAssoluta, boolean votoAPartiti) {
+		super(id, nome, data_inizio, data_fine, descrizione);
+		dbConnection = new StandardVoteDAO();
+		Objects.requireNonNull(tipo);
+		switch(tipo) {
+			case PREFERENZIALE:
+				this.tipo = TipoVotazione.PREFERENZIALE;
+				break;
+			case ORDINALE:
+				this.tipo = TipoVotazione.ORDINALE;
+				break;
+			case CATEGORICO:
+				this.tipo = TipoVotazione.CATEGORICO;
+		}
 		this.maggioranzaAssoluta = maggioranzaAssoluta;
 		this.votoAPartiti = votoAPartiti;
 		this.candidati = new HashMap<>();
@@ -30,11 +44,11 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 	}
 	
 	public static VotazioneStandard newCategorico(int id, String nome, String data_inizio, String data_fine, String descrizione, boolean maggioranzaAssoluta, boolean votoAPartiti) {
-		return new VotazioneStandard(id, nome, "categorico", data_inizio, data_fine, descrizione, maggioranzaAssoluta, votoAPartiti);
+		return new VotazioneStandard(id, nome, data_inizio, data_fine, descrizione, TipoVotazione.CATEGORICO, maggioranzaAssoluta, votoAPartiti);
 	}
 	
 	public static VotazioneStandard newOrdinale(int id, String nome, String data_inizio, String data_fine, String descrizione, boolean maggioranzaAssoluta, boolean votoAPartiti) {
-		return new VotazioneStandard(id, nome, "ordinale", data_inizio, data_fine, descrizione, maggioranzaAssoluta, votoAPartiti);
+		return new VotazioneStandard(id, nome, data_inizio, data_fine, descrizione, TipoVotazione.ORDINALE, maggioranzaAssoluta, votoAPartiti);
 	}	
 	
 	/**
@@ -101,7 +115,7 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 	}
 	
 	/**
-	 * Associa ad un Canidato già presente nella mappa un id di tipo String che si riferisce
+	 * Associa ad un Candidato già presente nella mappa un id di tipo String che si riferisce
 	 * al Nodo utilizzato per rappresentare c nella gui.
 	 * @param c Un candidato.
 	 * @param node_id L'id del nodo che rappresenta c nella gui.
@@ -134,5 +148,15 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 			if(ids.contains(e.getValue())) c.add(e.getKey());
 		}
 		return c;
+	}
+
+	@Override
+	public void vota() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public String getTipo() {
+		return tipo.toString();
 	}
 }

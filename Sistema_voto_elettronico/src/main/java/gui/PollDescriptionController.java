@@ -5,7 +5,9 @@ import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import poll.Referendum;
 import poll.Votazione;
+import poll.VotazioneStandard;
 import system.Sessione;
 
 public class PollDescriptionController {
@@ -29,7 +31,10 @@ public class PollDescriptionController {
     void initialize() {
     	Votazione v = Sessione.getSessione().getVotazione();
     	label_nome.setText(v.getNome());
-    	label_tipo.setText(v.getTipo());
+    	if(v instanceof Referendum)
+    		label_tipo.setText("Referendum");
+    	else
+    		label_tipo.setText(((VotazioneStandard) v).getTipo());
     	label_dataInizio.setText(v.getData_inizio());
     	label_dataFine.setText(v.getData_fine());
     	msg_field.setText(stringPadding(v.getDescrizione()));

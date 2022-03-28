@@ -39,7 +39,10 @@ public class RowVotazione {
 		this.v = Objects.requireNonNull(v);
 		this.id = new SimpleIntegerProperty(v.getId());
 		this.nome = new SimpleStringProperty(v.getNome());
-		this.tipo = new SimpleStringProperty(v.getTipo());
+		if(v instanceof Referendum)
+			this.tipo = new SimpleStringProperty("REFERENDUM");
+		else
+			this.tipo = new SimpleStringProperty(((VotazioneStandard) v).getTipo());
 		this.data_inizio = new SimpleStringProperty(v.getData_inizio());
 		this.data_fine = new SimpleStringProperty(v.getData_fine());
 		this.descrizione = new SimpleStringProperty(v.getDescrizione());

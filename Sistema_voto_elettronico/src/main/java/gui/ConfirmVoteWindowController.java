@@ -29,6 +29,7 @@ public class ConfirmVoteWindowController implements Initializable {
 
     @FXML
     void confirmVote(ActionEvent event) {
+    	Sessione.getSessione().getVotazione().vota();
     	showPollSelection();
     }
 

@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 import poll.VotazioneStandard;
 import system.Sessione;
 import vote.Voto;
-import vote.VotoStandard;
+import vote.VotoOrdinale;
 
 public class VotazioneStandardController implements Initializable {
 
@@ -63,7 +63,7 @@ public class VotazioneStandardController implements Initializable {
     	for(Node n : selectedList.getItems()) {
     		ids.add(n.getId());
     	}
-    	Voto v = new VotoStandard(p.getCandidatiFromNode(ids));
+    	Voto v = new VotoOrdinale(p.getCandidatiFromNode(ids));
     	Sessione.getSessione().setVoto(v);
     	showConfirmWindow();
     }

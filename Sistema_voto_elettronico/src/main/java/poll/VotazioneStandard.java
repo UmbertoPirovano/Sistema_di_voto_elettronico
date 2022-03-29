@@ -152,7 +152,7 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 
 	@Override
 	public void vota() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	

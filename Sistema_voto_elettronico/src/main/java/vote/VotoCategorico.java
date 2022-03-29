@@ -35,22 +35,50 @@ public class VotoCategorico extends VotoStandard{
 		this.preferenze = new HashSet<>(preferenze);
 	}
 	
+	/**
+	 * Restituisce true se il partito non e' stato selezionato, false altrimenti.
+	 */
 	@Override
 	public boolean schedaBianca() {
-		// TODO Auto-generated method stub
-		return false;
+		return partito == null;
 	}
-
+	
+	/**
+	 * Aggiunge una preferenza a questo voto, settando il partito se esso non e' ancora stato scelto o aggiungendo
+	 * una persona appartenente al partito a cui si riferisce this (se il partito e' gia' stato selezionato).
+	 */
 	@Override
 	public void addPreferenza(Candidato c) {
-		// TODO Auto-generated method stub
+		if(c instanceof CandidatoPartito) {
+			if(schedaBianca()) {
+				CandidatoPartito p = (CandidatoPartito) c;
+				List<CandidatoPersona> persone = new ArrayList<>();
+				for(CandidatoPersona per: p) {
+					persone.add(per);
+				}
+				partito = new CandidatoPartito(new String(p.getNome()), persone);
+			}
+		}else {
+			if(!schedaBianca()) {
+				CandidatoPersona p = (CandidatoPersona) c;
+				if(partito.contains(p))
+					preferenze.add(p);
+			}
+		}
 		
 	}
 
 	@Override
 	public void removePreferenza(Candidato c) {
-		// TODO Auto-generated method stub
-		
+		if(c instanceof CandidatoPersona)
+			preferenze.remove(c);
+		else {
+			CandidatoPartito other = (CandidatoPartito) c;
+			if(other.equals(partito)) {
+				partito = null;
+				preferenze = new HashSet<>();
+			}
+		}
 	}
 
 }

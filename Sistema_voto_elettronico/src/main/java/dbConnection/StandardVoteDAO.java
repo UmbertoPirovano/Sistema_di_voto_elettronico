@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import poll.Votazione;
 import poll.VotazioneStandard;
 import vote.Voto;
-import vote.VotoStandard;
+import vote.VotoOrdinale;
 
 public class StandardVoteDAO implements VoteDAO{
 	Connection con = null;
@@ -24,7 +24,7 @@ public class StandardVoteDAO implements VoteDAO{
 
 	@Override
 	public boolean vota(Votazione v, Voto voto) {
-		if(!(v instanceof VotazioneStandard) || !(voto instanceof VotoStandard))
+		if(!(v instanceof VotazioneStandard) || !(voto instanceof VotoOrdinale))
 			throw new IllegalArgumentException();
 		con = getConnection();
 		return false;

@@ -5,7 +5,7 @@ import poll.Votazione;
 import poll.VotazioneStandard;
 import vote.Voto;
 import vote.VotoReferendum;
-import vote.VotoStandard;
+import vote.VotoOrdinale;
 
 public class ReferendumDAO implements VoteDAO{
 

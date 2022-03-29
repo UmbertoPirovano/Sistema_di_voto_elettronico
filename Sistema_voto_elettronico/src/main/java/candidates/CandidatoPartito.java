@@ -26,14 +26,6 @@ public class CandidatoPartito implements Candidato, Iterable<CandidatoPersona>, 
 	}
 	
 	/**
-	 * Restituisce la lista di candidati.
-	 * @return
-	 */
-	public List<CandidatoPersona> getCandidati(){
-		return candidati;
-	}
-	
-	/**
 	 * Sostituisce la lista di candidati con quella fornita in argomento.
 	 * @param candidati
 	 */
@@ -83,6 +75,15 @@ public class CandidatoPartito implements Candidato, Iterable<CandidatoPersona>, 
 			if(p.getNome().equals(nome + " " + cognome)) candidati.remove(p);
 		}
 	}
+	
+	/**
+	 * Valuta se la persona passata come parametro appartiene a questo partito.
+	 * @param p La persona di cui valutare la presenza in this.
+	 * @return true se p e' presente in this, false altrimenti.
+	 */
+	public boolean contains(CandidatoPersona p) {
+		return candidati.contains(p);
+	}
 
 	@Override
 	public Iterator<CandidatoPersona> iterator() {
@@ -93,6 +94,16 @@ public class CandidatoPartito implements Candidato, Iterable<CandidatoPersona>, 
 	public int compareTo(CandidatoPartito o) {
 		CandidatoPartito tmp = (CandidatoPartito) o;
 		return this.nome.compareTo(tmp.nome);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof CandidatoPartito) {
+			CandidatoPartito other = (CandidatoPartito) o;
+			return other.nome.equals(this.nome);
+		}
+		
+		return false;
 	}
 	
 	@Override

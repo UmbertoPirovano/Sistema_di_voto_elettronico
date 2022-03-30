@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 28, 2022 alle 11:48
+-- Creato il: Mar 30, 2022 alle 10:50
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.0.13
 
@@ -207,16 +207,19 @@ CREATE TABLE `votazioni` (
   `data_inizio` datetime NOT NULL,
   `data_fine` datetime NOT NULL,
   `tipo` varchar(100) NOT NULL,
-  `descrizione` text NOT NULL
+  `descrizione` text NOT NULL,
+  `maggioranzaAssoluta` tinyint(1) DEFAULT NULL,
+  `votoAPartiti` tinyint(1) DEFAULT NULL,
+  `quorum` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `votazioni`
 --
 
-INSERT INTO `votazioni` (`id`, `nome`, `data_inizio`, `data_fine`, `tipo`, `descrizione`) VALUES
-(1, 'referendum trivelle', '2022-03-01 08:00:00', '2022-03-03 23:00:00', 'referendum', 'referendum per l\'approvazione degli interventi di estrazione del gas nel mar Adriatico'),
-(2, 'Elezioni politiche', '2022-05-13 08:00:00', '2022-05-15 23:00:00', 'votazione ordinale', 'Votazione per l\'elezione dei rappresentanti del parlamento della Repubblica Italiana.');
+INSERT INTO `votazioni` (`id`, `nome`, `data_inizio`, `data_fine`, `tipo`, `descrizione`, `maggioranzaAssoluta`, `votoAPartiti`, `quorum`) VALUES
+(1, 'referendum trivelle', '2022-03-01 08:00:00', '2022-03-03 23:00:00', 'referendum', 'referendum per l\'approvazione degli interventi di estrazione del gas nel mar Adriatico', NULL, NULL, NULL),
+(2, 'Elezioni politiche', '2022-05-13 08:00:00', '2022-05-15 23:00:00', 'votazione ordinale', 'Votazione per l\'elezione dei rappresentanti del parlamento della Repubblica Italiana.', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -227,7 +230,7 @@ INSERT INTO `votazioni` (`id`, `nome`, `data_inizio`, `data_fine`, `tipo`, `desc
 CREATE TABLE `voti_categorici_partiti` (
   `id` int(11) NOT NULL,
   `votazione` bigint(20) UNSIGNED NOT NULL,
-  `partito` varchar(50) NOT NULL
+  `partito` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -249,9 +252,9 @@ CREATE TABLE `voti_categorici_rappresentanti` (
 --
 
 CREATE TABLE `voti_ordinali_partiti` (
-  `partito` varchar(50) NOT NULL,
+  `partito` varchar(50) DEFAULT NULL,
   `votazione` bigint(20) UNSIGNED NOT NULL,
-  `posizione` int(11) NOT NULL
+  `posizione` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -262,8 +265,8 @@ CREATE TABLE `voti_ordinali_partiti` (
 
 CREATE TABLE `voti_ordinali_rappresentanti` (
   `votazione` bigint(20) UNSIGNED NOT NULL,
-  `rappresentante` bigint(20) UNSIGNED NOT NULL,
-  `posizione` int(11) NOT NULL
+  `rappresentante` bigint(20) UNSIGNED DEFAULT NULL,
+  `posizione` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -275,7 +278,7 @@ CREATE TABLE `voti_ordinali_rappresentanti` (
 CREATE TABLE `voti_referendum` (
   `id` int(10) UNSIGNED NOT NULL,
   `votazione` bigint(20) UNSIGNED NOT NULL,
-  `scelta` tinyint(1) NOT NULL
+  `scelta` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

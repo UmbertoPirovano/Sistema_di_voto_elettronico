@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import dbConnection.StandardVoteDAO;
 import dbConnection.VoteDAO;
+import system.Sessione;
 
 public abstract class Votazione {
 	
@@ -78,7 +79,9 @@ public abstract class Votazione {
 	/**
 	 * Permette di esprime la propria preferenza nella votazione corrente.
 	 */
-	public abstract void vota();
+	public void vota() {
+		dbConnection.vota(this, Sessione.getSessione().getVoto());
+	}
 	
 	/**
 	 * Restitusice la conversione in tipo Date di una Stringa contenente una data nel formato "yy-MM-dd HH:mm:ss".

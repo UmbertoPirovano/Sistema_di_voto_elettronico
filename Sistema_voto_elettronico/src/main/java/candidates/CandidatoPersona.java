@@ -57,5 +57,13 @@ public class CandidatoPersona implements Candidato, Comparable<CandidatoPersona>
 	public String toString() {
 		return "" + nome + " " + cognome + " ("+ affiliazione + ")";
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof CandidatoPersona))
+			return false;
+		CandidatoPersona other = (CandidatoPersona) o;
+		return this.nome.equals(other.nome) && this.cognome.equals(other.cognome) && this.affiliazione.equals(other.affiliazione);
+	}
 
 }

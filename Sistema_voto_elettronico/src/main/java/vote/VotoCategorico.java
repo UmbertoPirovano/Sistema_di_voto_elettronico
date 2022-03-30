@@ -36,7 +36,7 @@ public class VotoCategorico extends VotoStandard {
 	 * @throws NullPointerException Se partito o preferenze sono null o se preferenze contiene un valore null.
 	 * @throws IllegalArgumentException Se uno dei rappresentanti in preferenze non appartiene a partito.
 	 */
-	public VotoCategorico(final CandidatoPartito partito, final Collection<CandidatoPersona> preferenze) {
+	public VotoCategorico(CandidatoPartito partito, Collection<CandidatoPersona> preferenze) {
 		Objects.requireNonNull(partito);
 		Objects.requireNonNull(preferenze);
 		preferenze.forEach(p -> Objects.requireNonNull(p));
@@ -49,6 +49,28 @@ public class VotoCategorico extends VotoStandard {
 		this.partito = new CandidatoPartito(new String(partito.getNome()), persone);
 		
 		this.preferenze = new HashSet<>(preferenze);
+	}
+	
+	/**
+	 * Valuta se il Partito passato come parametro e' quello selezionato in this.
+	 * @param p Il Partito da confrontare con quello selezionato.
+	 * @return true se p e' uguale a partito, false altrimenti.
+	 * @throws NullPointerException Se p e' null.
+	 */
+	public boolean confrontaPartito(CandidatoPartito p) {
+		Objects.requireNonNull(p);
+		return partito.equals(p);
+	}
+	
+	/**
+	 * Valuta se tra le preferenze di this e' presente quella passata come parametro.
+	 * @param p Il rappresentante da cercare tra le preferenze di this.
+	 * @return true se p si trova tra le preferenze, false altrimenti.
+	 * @throws NullPointerException Se p e' null.
+	 */
+	public boolean containsPreferenza(CandidatoPersona p) {
+		Objects.requireNonNull(p);
+		return preferenze.contains(p);
 	}
 	
 	/**
@@ -65,6 +87,7 @@ public class VotoCategorico extends VotoStandard {
 	 */
 	@Override
 	public void addPreferenza(Candidato c) {
+		Objects.requireNonNull(c);
 		if(c instanceof CandidatoPartito) {
 			if(schedaBianca()) {
 				CandidatoPartito p = (CandidatoPartito) c;
@@ -84,6 +107,7 @@ public class VotoCategorico extends VotoStandard {
 		
 	}
 	
+	
 	/**
 	 * Rimuove il Candidato passato come parametro, se presente tra quelli selezionati. Se il Candidato e' un rappresentante
 	 * presente in preferenze, esso viene semplicemente rimosso da preferenze. Se si tratta del partito selezionato, il partito viene
@@ -91,6 +115,7 @@ public class VotoCategorico extends VotoStandard {
 	 */
 	@Override
 	public void removePreferenza(Candidato c) {
+		Objects.requireNonNull(c);
 		if(c instanceof CandidatoPersona)
 			preferenze.remove(c);
 		else {

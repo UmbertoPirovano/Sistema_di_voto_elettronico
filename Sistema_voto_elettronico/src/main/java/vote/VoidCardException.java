@@ -4,5 +4,11 @@ package vote;
  * ovvero senza preferenze espresse al suo interno.
  */
 public class VoidCardException extends RuntimeException {
+	public VoidCardException() {
+		super();
+	}
 	
+	public VoidCardException(String msg) {
+		super(msg);
+	}
 }

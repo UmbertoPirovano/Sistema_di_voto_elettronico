@@ -29,31 +29,19 @@ public class VotoOrdinale extends VotoStandard implements Iterable<Candidato>{
 		preferenze = new ArrayList<>(lista);
 	}
 	
-	/**
-	 * Aggiunge il Candidato c alle preferenze contenute nel voto this.
-	 * @param c
-	 * @throws NullPointerException se c è null
-	 */
+	@Override
 	public void addPreferenza(Candidato c) {
 		Objects.requireNonNull(c);
 		preferenze.add(c);
 	}
 	
-	/**
-	 * Rimuove dalle preferenze il candidato c.
-	 * @param c Un oggetto Candidato non Null
-	 * @throws NullPointerException se c è null
-	 */
+	@Override
 	public void removePreferenza(Candidato c) {
 		Objects.requireNonNull(c);
 		preferenze.remove(c);
 	}
 	
-	/**
-	 * Restituisce true se this non contiene preferenze e dunque è una scheda bianca,
-	 * false altrimenti.
-	 * @return un boolean
-	 */
+	@Override
 	public boolean schedaBianca() {
 		if(preferenze.size() == 0) return true;
 		return false;

@@ -1,8 +1,13 @@
 package vote;
+/**
+ * Le istanze di questa classe rappresentano voti di un referendum. Gli oggetti di questo tipo sono immutabili.
+ *
+ */
 
 public class VotoReferendum implements Voto {
-	
+	//La scelta effettuata in this.
 	private boolean voto;
+	//Indica l'aver espresso la scelta o meno.
 	private boolean settato;
 	
 	public VotoReferendum(boolean v) {

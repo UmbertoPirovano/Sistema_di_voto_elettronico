@@ -11,15 +11,31 @@ import candidates.Candidato;
 import candidates.CandidatoPartito;
 import candidates.CandidatoPersona;
 
-public class VotoCategorico extends VotoStandard{
+/**
+ * Questa classe rappresenta istanze di Voti categorici, sia con preferenze sia senza. Gli oggetti di questo tipo sono mutabili.
+ */
+
+public class VotoCategorico extends VotoStandard {
+	//Il partito di cui si e' espressa la preferenza
 	private CandidatoPartito partito;
+	//Una collezione che contiene i rappresentanti scelti all'interno del partito selezionato
 	private Set<CandidatoPersona> preferenze;
 	
+	/**
+	 * Istanzia this ad una scheda bianca.
+	 */
 	public VotoCategorico() {
 		partito = null;
 		preferenze = new HashSet<>();
 	}
 	
+	/**
+	 * Istanzia this con i parametri passati come argomento.
+	 * @param partito Il partito scelto.
+	 * @param preferenze Una collezione dei rappresentati selezionati all'interno del partito.
+	 * @throws NullPointerException Se partito o preferenze sono null o se preferenze contiene un valore null.
+	 * @throws IllegalArgumentException Se uno dei rappresentanti in preferenze non appartiene a partito.
+	 */
 	public VotoCategorico(final CandidatoPartito partito, final Collection<CandidatoPersona> preferenze) {
 		Objects.requireNonNull(partito);
 		Objects.requireNonNull(preferenze);
@@ -67,7 +83,12 @@ public class VotoCategorico extends VotoStandard{
 		}
 		
 	}
-
+	
+	/**
+	 * Rimuove il Candidato passato come parametro, se presente tra quelli selezionati. Se il Candidato e' un rappresentante
+	 * presente in preferenze, esso viene semplicemente rimosso da preferenze. Se si tratta del partito selezionato, il partito viene
+	 * rimosso, cosi' come i rappresentanti in preferenze.
+	 */
 	@Override
 	public void removePreferenza(Candidato c) {
 		if(c instanceof CandidatoPersona)

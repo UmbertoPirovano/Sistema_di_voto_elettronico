@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import candidates.Candidato;
 import dbConnection.PollDAOImpl;
 import dbConnection.StandardVoteDAO;
+import system.Sessione;
 
 public class VotazioneStandard extends Votazione implements Iterable<Candidato> {
 	
@@ -125,16 +126,6 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 			candidati.put(c, node_id);
 	}
 	
-	/*
-	public void vota(List<String> scelte) {
-		for(int i=0 ; i < scelte.size() ; i++) {
-			for(Entry<Candidato, String> e : candidati.entrySet()) {
-				if(e.getValue() == scelte.get(i)) System.out.println(e.getKey().getNome());
-			}
-		}
-	}
-	*/
-	
 	/**
 	 * Fornito un array di id di Node che rappresentano oggetti Candidato, restituisce una lista di Candidati
 	 * associati a quegli id.
@@ -148,12 +139,6 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 			if(ids.contains(e.getValue())) c.add(e.getKey());
 		}
 		return c;
-	}
-
-	@Override
-	public void vota() {
-		
-		
 	}
 	
 	public String getTipo() {

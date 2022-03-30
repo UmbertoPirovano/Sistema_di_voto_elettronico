@@ -25,11 +25,5 @@ public class Referendum extends Votazione {
 	public boolean getQuorum() {
 		return quorum;
 	}
-
-	@Override
-	public void vota() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

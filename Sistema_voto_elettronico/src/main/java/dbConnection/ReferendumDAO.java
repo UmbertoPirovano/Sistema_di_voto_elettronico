@@ -28,7 +28,7 @@ public class ReferendumDAO implements VoteDAO{
 
 	@Override
 	public boolean vota(Votazione v, Voto voto) {
-		if(!(v instanceof Referendum) || !(voto instanceof VotoReferendum))
+		if(!(v instanceof Referendum) || !(voto instanceof VotoReferendum) || !(voto instanceof VotoReferendum))
 			throw new IllegalArgumentException();
 		con = getConnection();
 

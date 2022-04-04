@@ -92,11 +92,11 @@ public class PollDAOImpl implements PollDAO {
 		List<Candidato> candidati = new ArrayList<>();
 		try {
 			PreparedStatement st = null;
-			st = con.prepareStatement("SELECT R.nome, R.cognome, R.partito FROM candidati_rappresentanti AS C JOIN votazioni AS V ON V.id=C.votazione JOIN rappresentanti AS R ON R.id=C.rappresentante WHERE V.id= ?;");
+			st = con.prepareStatement("SELECT R.id, R.nome, R.cognome, R.partito FROM candidati_rappresentanti AS C JOIN votazioni AS V ON V.id=C.votazione JOIN rappresentanti AS R ON R.id=C.rappresentante WHERE V.id= ?;");
 			st.setInt(1, v.getId());
 			ResultSet res = st.executeQuery();
 			while(res.next()) {		
-				Candidato c = new CandidatoPersona(res.getString("nome"), res.getString("cognome"), new CandidatoPartito(res.getString("partito")));
+				Candidato c = new CandidatoPersona(Integer.parseInt(res.getString("id")), res.getString("nome"), res.getString("cognome"), new CandidatoPartito(res.getString("partito")));
 				candidati.add(c);
 			}
 		}catch (SQLException se) {

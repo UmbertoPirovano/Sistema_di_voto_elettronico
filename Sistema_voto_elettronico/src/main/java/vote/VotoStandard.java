@@ -1,6 +1,7 @@
 package vote;
 
 import candidates.Candidato;
+import poll.VotazioneStandard;
 
 public abstract class VotoStandard implements Voto{
 	/**

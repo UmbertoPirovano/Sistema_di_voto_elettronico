@@ -24,6 +24,10 @@ public class CandidatoPersona implements Candidato, Comparable<CandidatoPersona>
 		this.affiliazione = affiliazione;
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
 	@Override
 	public String getNome() {
 		return nome + " " + cognome;

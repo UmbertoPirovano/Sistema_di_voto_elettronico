@@ -3,6 +3,7 @@ package vote;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -15,40 +16,36 @@ import candidates.CandidatoPersona;
  * Questa classe rappresenta istanze di Voti categorici, sia con preferenze sia senza. Gli oggetti di questo tipo sono mutabili.
  */
 
-public class VotoCategorico extends VotoStandard {
+public class VotoCategorico extends VotoStandard implements Iterable<CandidatoPersona>{
 	//Il partito di cui si e' espressa la preferenza
 	private CandidatoPartito partito;
 	//Una collezione che contiene i rappresentanti scelti all'interno del partito selezionato
 	private Set<CandidatoPersona> preferenze;
-	
+	private boolean votoAPartiti;
 	/**
 	 * Istanzia this ad una scheda bianca.
 	 */
-	public VotoCategorico() {
+	public VotoCategorico(boolean votoAPartiti) {
 		partito = null;
 		preferenze = new HashSet<>();
+		this.votoAPartiti = votoAPartiti;
 	}
 	
 	/**
-	 * Istanzia this con i parametri passati come argomento.
-	 * @param partito Il partito scelto.
-	 * @param preferenze Una collezione dei rappresentati selezionati all'interno del partito.
-	 * @throws NullPointerException Se partito o preferenze sono null o se preferenze contiene un valore null.
-	 * @throws IllegalArgumentException Se uno dei rappresentanti in preferenze non appartiene a partito.
+	 * Restituisce il partito su cui e' stata espressa una preferenza in this, se e' possbile esprimere preferenze a partiti.
+	 * @return Il partito su cui e' stata espressa la preferenza.
+	 * @throws IllegalArgumentException Se this non e' un voto categorico con preferenze o se l'unica preferenza esprimibile deve essere 
+	 * su una persona.
 	 */
-	public VotoCategorico(CandidatoPartito partito, Collection<CandidatoPersona> preferenze) {
-		Objects.requireNonNull(partito);
-		Objects.requireNonNull(preferenze);
-		preferenze.forEach(p -> Objects.requireNonNull(p));
-		preferenze.forEach(p -> {if(!partito.contains(p)) throw new IllegalArgumentException("La persona "+ p +" non appartiene "
-				+ "al partito "+ partito);});
-		List<CandidatoPersona> persone = new ArrayList<>();
-		for(CandidatoPersona p: partito) {
-			persone.add(p);
-		}
-		this.partito = new CandidatoPartito(new String(partito.getNome()), persone);
-		
-		this.preferenze = new HashSet<>(preferenze);
+	public CandidatoPartito getPartito() {
+		if(!votoAPartiti)
+			throw new IllegalArgumentException("Called getPartito on a Vote with votoAPartiti = false");
+		return partito;
+	}
+	
+	@Override
+	public Iterator<CandidatoPersona> iterator(){
+		return preferenze.iterator();
 	}
 	
 	/**
@@ -56,8 +53,12 @@ public class VotoCategorico extends VotoStandard {
 	 * @param p Il Partito da confrontare con quello selezionato.
 	 * @return true se p e' uguale a partito, false altrimenti.
 	 * @throws NullPointerException Se p e' null.
+	 * @throws IllegalArgumentException Se this non e' un voto categorico con preferenze o se l'unica preferenza esprimibile deve essere 
+	 * su una persona.
 	 */
 	public boolean confrontaPartito(CandidatoPartito p) {
+		if(!votoAPartiti)
+			throw new IllegalArgumentException("Called confrontaPartito on a Vote with votoAPartiti = false");
 		Objects.requireNonNull(p);
 		return partito.equals(p);
 	}
@@ -78,7 +79,9 @@ public class VotoCategorico extends VotoStandard {
 	 */
 	@Override
 	public boolean schedaBianca() {
-		return partito == null;
+		if(votoAPartiti)
+			return partito == null;
+		return preferenze.size() == 0;
 	}
 	
 	/**
@@ -89,20 +92,26 @@ public class VotoCategorico extends VotoStandard {
 	public void addPreferenza(Candidato c) {
 		Objects.requireNonNull(c);
 		if(c instanceof CandidatoPartito) {
-			if(schedaBianca()) {
-				CandidatoPartito p = (CandidatoPartito) c;
-				List<CandidatoPersona> persone = new ArrayList<>();
-				for(CandidatoPersona per: p) {
-					persone.add(per);
+			if(votoAPartiti)
+				if(schedaBianca()) {
+					CandidatoPartito p = (CandidatoPartito) c;
+					List<CandidatoPersona> persone = new ArrayList<>();
+					for(CandidatoPersona per: p) {
+						persone.add(per);
+					}
+					partito = new CandidatoPartito(new String(p.getNome()), persone);
 				}
-				partito = new CandidatoPartito(new String(p.getNome()), persone);
-			}
+			else
+				throw new IllegalArgumentException("Called addPartito on a Vote with votoAPartiti = false");
 		}else {
-			if(!schedaBianca()) {
-				CandidatoPersona p = (CandidatoPersona) c;
-				if(partito.contains(p))
-					preferenze.add(p);
-			}
+			if(votoAPartiti) {
+				if(!schedaBianca()) {
+					CandidatoPersona p = (CandidatoPersona) c;
+					if(partito.contains(p))
+						preferenze.add(p);
+				}
+			}else
+				preferenze.add((CandidatoPersona) c);
 		}
 		
 	}
@@ -119,10 +128,12 @@ public class VotoCategorico extends VotoStandard {
 		if(c instanceof CandidatoPersona)
 			preferenze.remove(c);
 		else {
-			CandidatoPartito other = (CandidatoPartito) c;
-			if(other.equals(partito)) {
-				partito = null;
-				preferenze = new HashSet<>();
+			if(votoAPartiti) {
+				CandidatoPartito other = (CandidatoPartito) c;
+				if(other.equals(partito)) {
+					partito = null;
+					preferenze = new HashSet<>();
+				}
 			}
 		}
 	}

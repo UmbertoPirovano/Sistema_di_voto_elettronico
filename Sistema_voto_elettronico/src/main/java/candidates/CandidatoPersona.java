@@ -4,18 +4,21 @@ import java.util.Objects;
 
 public class CandidatoPersona implements Candidato, Comparable<CandidatoPersona> {
 	
+	private int id;
 	private String nome;
 	private String cognome;
 	private CandidatoPartito affiliazione;
 	
 	
-	public CandidatoPersona(String nome, String cognome) {
+	public CandidatoPersona(int id, String nome, String cognome) {
+		this.id = id;
 		this.nome = Objects.requireNonNull(nome);
 		this.cognome = Objects.requireNonNull(cognome);
 		this.affiliazione = null;
 	}
 	
-	public CandidatoPersona(String nome, String cognome, CandidatoPartito affiliazione) {
+	public CandidatoPersona(int id, String nome, String cognome, CandidatoPartito affiliazione) {
+		this.id = id;
 		this.nome = Objects.requireNonNull(nome);
 		this.cognome = Objects.requireNonNull(cognome);
 		this.affiliazione = affiliazione;

@@ -16,6 +16,7 @@ import poll.Referendum;
 import poll.Votazione;
 import poll.VotazioneStandard;
 import system.Sessione;
+import users.Elettore;
 import users.User;
 
 public class PollDAOImpl implements PollDAO {	
@@ -122,6 +123,39 @@ public class PollDAOImpl implements PollDAO {
 			se.printStackTrace();
 		}
 		return candidati;
+	}
+
+	@Override
+	public void vote(Elettore e, Votazione v) {
+		con = getConnection();
+		if(checkVoted(e,v))
+			throw new DuplicateVoteException();
+		try {
+			PreparedStatement st = con.prepareStatement("INSERT INTO ha_votato(votazione, persona) VALUES(?, ?);");
+			st.setInt(1, v.getId());
+			st.setInt(2, e.getId());
+			st.executeUpdate();
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean checkVoted(Elettore e, Votazione v) {
+		con = getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT count(*) FROM ha_votato hv WHERE ? = hv.votazione AND ? = hv.persona;");
+			st.setInt(1, v.getId());
+			st.setInt(2, e.getId());
+			ResultSet rS = st.executeQuery();
+			if(rS.getInt("count(*)") == 1)
+				return true;
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}
+		
+		return false;
 	}
 
 }

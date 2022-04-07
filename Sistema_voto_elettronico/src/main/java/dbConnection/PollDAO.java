@@ -4,6 +4,7 @@ import java.util.List;
 
 import candidates.Candidato;
 import poll.Votazione;
+import users.Elettore;
 import users.User;
 
 public interface PollDAO {
@@ -28,6 +29,24 @@ public interface PollDAO {
 	 * @param v
 	 */
 	void book(User u, Votazione v);
+	
+	/**
+	 * Crea l'associazione Elettore - Votazione, se essa non e' gia' stata creata in precedenza.
+	 * @param e
+	 * @param v
+	 * @throws NullPointerException Se e o v sono null.
+	 * @throws DuplicateVoteException Se l'associazione e - v e' gia'stata creata in precedenza.
+	 */
+	void vote(Elettore e, Votazione v);
+	
+	/**
+	 * Verifica se l'Elettore passato come parametro ha gia' espresso la sua preferenze per la Votazione indicata.
+	 * @param e
+	 * @param v
+	 * @return true se la preferenza di e su v e' gia' stata espressa, false altrimenti.
+	 * @throws NullPointerException Se e o v sono null.
+	 */
+	boolean checkVoted(Elettore e, Votazione v);
 	
 	/**
 	 * Restituisce una lista di persone candidate per la votazione v.

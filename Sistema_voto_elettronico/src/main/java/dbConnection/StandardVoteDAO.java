@@ -57,6 +57,9 @@ public class StandardVoteDAO implements VoteDAO{
 			case "preferenziale":
 				if(!(voto instanceof VotoCategorico))
 					throw new IllegalArgumentException();
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown type: "+vote.getTipo().toLowerCase());
 		}
 		con = getConnection();
 		
@@ -109,7 +112,7 @@ public class StandardVoteDAO implements VoteDAO{
 							st = con.prepareStatement("INSERT INTO voti_categorici_partiti(votazione, partito) VALUES(?, ?);",Statement.RETURN_GENERATED_KEYS);
 							st.setInt(1, vote.getId());
 							st.setString(2, cPa.getNome());
-							st.executeQuery();
+							st.executeUpdate();
 							int id = st.getGeneratedKeys().getInt(0);
 							for(CandidatoPersona cPe: cat) {
 								st = con.prepareStatement("INSERT INTO preferenze_voto_categorico(voto_categorico, votazione, rappresentante) VALUES(?, ?, ?);");
@@ -157,12 +160,14 @@ public class StandardVoteDAO implements VoteDAO{
 		try {
 			if(!v.getVotoAPartiti() || v.getTipo().toLowerCase().equals("preferenziale")) {
 				pS = con.prepareStatement("SELECT r.id, r.nome, r.cognome FROM candidati_rappresentanti cr JOIN rappresentanti r ON cr.rappresentante = r.id WHERE cr.votazione = ?;");
+				pS.setInt(1, v.getId());
 				rS = pS.executeQuery();
 				while(rS.next()) {
 					candidates.add(new CandidatoPersona(rS.getInt(1), rS.getString(2), rS.getString(3)));
 				}
 			}else {
 				pS = con.prepareStatement("SELECT p.nome FROM candidati_partiti cp WHERE cp.votazione = ?;");
+				pS.setInt(0, v.getId());
 				rS = pS.executeQuery();
 				while(rS.next()) {
 					candidates.add(new CandidatoPartito(rS.getString(1)));

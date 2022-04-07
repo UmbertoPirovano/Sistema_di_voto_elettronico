@@ -39,14 +39,14 @@ public class UserDAOImpl implements UserDAO {
 			st = con.prepareStatement("SELECT * FROM elettore;");
 			ResultSet res = st.executeQuery();
 			while (res.next()) {
-				users.add(new Elettore(res.getString(2), res.getString(3), res.getString(4)));
+				users.add(new Elettore(res.getInt(1), res.getString(2), res.getString(3), res.getString(4)));
 			}
 
 			st = null;
 			st = con.prepareStatement("SELECT * FROM amministratore;");
 			res = st.executeQuery();
 			while (res.next()) {
-				users.add(new Amministratore(res.getString(2), res.getString(3), res.getString(4)));
+				users.add(new Amministratore(res.getInt(1), res.getString(2), res.getString(3), res.getString(4)));
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -66,7 +66,7 @@ public class UserDAOImpl implements UserDAO {
 			st.setInt(1, id);
 			ResultSet res = st.executeQuery();
 			while (res.next()) {
-				users.add(new Elettore(res.getString(2), res.getString(3), res.getString(4)));
+				users.add(new Elettore(res.getInt(1), res.getString(2), res.getString(3), res.getString(4)));
 			}
 
 			st = null;
@@ -74,7 +74,7 @@ public class UserDAOImpl implements UserDAO {
 			st.setInt(1, id);
 			res = st.executeQuery();
 			while (res.next()) {
-				users.add(new Amministratore(res.getString(2), res.getString(3), res.getString(4)));
+				users.add(new Amministratore(res.getInt(1), res.getString(2), res.getString(3), res.getString(4)));
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -95,7 +95,7 @@ public class UserDAOImpl implements UserDAO {
 			st.setString(2, surname);
 			ResultSet res = st.executeQuery();
 			while (res.next()) {
-				users.add(new Elettore(res.getString(2), res.getString(3), res.getString(4)));
+				users.add(new Elettore(res.getInt(1), res.getString(2), res.getString(3), res.getString(4)));
 			}
 
 			st = null;
@@ -104,7 +104,7 @@ public class UserDAOImpl implements UserDAO {
 			st.setString(2, surname);
 			res = st.executeQuery();
 			while (res.next()) {
-				users.add(new Amministratore(res.getString(2), res.getString(3), res.getString(4)));
+				users.add(new Amministratore(res.getInt(1), res.getString(2), res.getString(3), res.getString(4)));
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -122,8 +122,8 @@ public class UserDAOImpl implements UserDAO {
 			st.setString(1, username);
 			ResultSet res = st.executeQuery();
 			while(res.next()) {
-				if(res.getBoolean("admin")) return new Amministratore(res.getString("name"), res.getString("surname"), res.getString("username"));
-				else return new Elettore(res.getString("name"), res.getString("surname"), res.getString("username"));
+				if(res.getBoolean("admin")) return new Amministratore(res.getInt(1), res.getString("name"), res.getString("surname"), res.getString("username"));
+				else return new Elettore(res.getInt(1), res.getString("name"), res.getString("surname"), res.getString("username"));
 			}
 		}catch (SQLException se) {
 			se.printStackTrace();

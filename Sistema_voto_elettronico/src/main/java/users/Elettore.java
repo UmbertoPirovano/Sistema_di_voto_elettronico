@@ -21,8 +21,8 @@ public class Elettore extends User{
 	 * @param surname Cognome dell'elettore.
 	 * @param username Lo username dell'elettore.
 	 */
-	public Elettore(String name, String surname, String username) {
-		super(name, surname, username);
+	public Elettore(int id, String name, String surname, String username) {
+		super(id, name, surname, username);
 	}
 	
 }

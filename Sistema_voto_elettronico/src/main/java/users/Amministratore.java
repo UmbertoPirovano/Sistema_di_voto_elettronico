@@ -21,8 +21,8 @@ public class Amministratore extends User{
 	 * @param surname Il cognome dell'amministratore.
 	 * @param username Lo username dell'amministratore.
 	 */
-	public Amministratore(String name, String surname, String username){
-		super(name, surname, username);
+	public Amministratore(int id, String name, String surname, String username){
+		super(id, name, surname, username);
 	}
 	
 }

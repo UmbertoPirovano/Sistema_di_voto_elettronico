@@ -11,6 +11,7 @@ import java.util.Iterator;
  *
  */
 public abstract class User {
+	private int id;
 	private final String name;
 	private final String surname;
 	private final String username;
@@ -21,10 +22,19 @@ public abstract class User {
 	 * @param surname Cognome dell'utente.
 	 * @param username Lo username dell'utente.
 	 */
-	public User(String name, String surname, String username){
+	public User(int id, String name, String surname, String username){
+		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.username = username;
+	}
+	
+	/**
+	 * Restituisce l'id di questo User.
+	 * @return L'id di questo User.
+	 */
+	public int getId() {
+		return id;
 	}
 	
 	/**

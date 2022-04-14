@@ -3,7 +3,10 @@ package dbConnection;
 import java.util.List;
 
 import candidates.Candidato;
+import candidates.CandidatoPartito;
+import candidates.CandidatoPersona;
 import poll.Votazione;
+import poll.VotazioneStandard;
 import users.Elettore;
 import users.User;
 
@@ -61,5 +64,90 @@ public interface PollDAO {
 	 * @return
 	 */
 	List<Candidato> getPartiti(Votazione v);
+	
+	/**
+	 * Restituisce una lista contenente tutte le votazioni terminate.
+	 * @return Una lista contenente tutte le votazioni terminate.
+	 */
+	List<Votazione> votazioniTerminate();
+	
+	/**
+	 * Restituisce una lista contenente tutte le votazioni terminate nell'anno indicato come parametro.
+	 * @param anno Un anno.
+	 * @return Una lista contenente tutte le votazioni terminate in anno.
+	 * @throws IllegalArgumentException se anno e' minore di 0 o maggiore dell'anno corrente.
+	 */
+	List<Votazione> votazioniTerminate(int anno);
+	
+	/**
+	 * Restituisce una lista contenente tutte le votazioni terminate nel mese dell'anno indicati come parametro.
+	 * @param anno Un anno.
+	 * @param Un mese.
+	 * @return Una lista contenente tutte le votazioni terminate in mese/anno.
+	 * @throws IllegalArgumentException se anno e' minore di 0 o maggiore dell'anno corrente, oppure se mese non e' compreso tra 0 e 12.
+	 */
+	List<Votazione> votazioniTerminate(int anno, int mese);
+	
+	/**
+	 * Aggiunge al database la votazione passata come parametro, se essa non e' gia' presente.
+	 * @param v La votazione da aggiungere al database.
+	 * @throws NullPointerException Se v e' null.
+	 */
+	void creaVotazione(Votazione v);
+	
+	/**
+	 * Rimuove dal database la votazione passata come parametro, se la contiene.
+	 * @param v La votazione da rimuovere.
+	 * @throws NullPointerException Se v e' null.
+	 */
+	void rimuoviVotazione(Votazione v);
+	
+	/**
+	 * Aggiorna, nel database, la votazione passata come parametro.
+	 * @param v La votazione da aggiornare.
+	 * @throws NullPointerException Se v e' null.
+	 */
+	void aggiornaVotazione(Votazione v);
+	
+	/**
+	 * Restituisce una lista delle votazioni in corso.
+	 * @return Una lista delle votazioni in corso.
+	 */
+	List<Votazione> votazioniInCorso();
+	
+	/**
+	 * Aggiunge il partito passato come parametro alla votazione indicata.
+	 * @param v Un partito.
+	 * @param p Una votazione standard.
+	 * @throws NullPointerException Se v o p sono null.
+	 */
+	void addPartitoToVotazione(VotazioneStandard v, CandidatoPartito p);
+	
+	/**
+	 * Aggiunge il candidato passato come parametro alla votazione indicata. In caso di votazione categorica con preferenze, il candidato
+	 * verrà aggiunto solo se il partito a cui appartiene partecipa alla votazione.
+	 * @param p Il candidato da aggiungere.
+	 * @param v La votazione a cui aggiungere p.
+	 * @throws NullPointerException Se p o v sono null.
+	 * @throws PartyNotInVoteException Se il partito di p non partecipa a v.
+	 */
+	void addCandidatoToVotazione(CandidatoPersona p, VotazioneStandard v);
+	
+	/**
+	 * Rimuove dalla votazione indicata il partito passato come parametro.
+	 * @param p Il partito da rimuovere.
+	 * @param v La votazione da cui rimuove p.
+	 * @throws NullPointerException Se p o v sono null.
+	 */
+	void removePartitoFromVotazione(CandidatoPartito p, VotazioneStandard v);
+	
+	/**
+	 * Rimuove dalla votazione indicata il candidato passato come parametro.
+	 * @param p Il candidato da rimuovere.
+	 * @param v La votazione da cui rimuove p.
+	 * @throws NullPointerException Se p o v sono null.
+	 */
+	void removeCandidatoFromVotazione(CandidatoPersona p, VotazioneStandard v);
+	
 	
 }

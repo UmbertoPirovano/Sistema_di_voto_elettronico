@@ -158,4 +158,70 @@ public class PollDAOImpl implements PollDAO {
 		return false;
 	}
 
+	@Override
+	public List<Votazione> votazioniTerminate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Votazione> votazioniTerminate(int anno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Votazione> votazioniTerminate(int anno, int mese) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void creaVotazione(Votazione v) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void rimuoviVotazione(Votazione v) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void aggiornaVotazione(Votazione v) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Votazione> votazioniInCorso() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addPartitoToVotazione(VotazioneStandard v, CandidatoPartito p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addCandidatoToVotazione(CandidatoPersona p, VotazioneStandard v) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removePartitoFromVotazione(CandidatoPartito p, VotazioneStandard v) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeCandidatoFromVotazione(CandidatoPersona p, VotazioneStandard v) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

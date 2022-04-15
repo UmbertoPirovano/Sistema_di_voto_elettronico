@@ -13,12 +13,21 @@ import system.Sessione;
 
 public abstract class Votazione {
 	
-	private final int id;
+	private int id;
 	private final String nome;
 	private final Date data_inizio;
 	private final Date data_fine;
 	private final String descrizione;
 	VoteDAO dbConnection;
+	
+	public Votazione(String nome, String data_inizio, String data_fine, String descrizione) {
+		this.nome = Objects.requireNonNull(nome);
+		this.data_inizio = stringToDate(data_inizio);
+		this.data_fine = stringToDate(data_fine);
+		this.descrizione = Objects.requireNonNull(descrizione);
+		
+		assert repOk();
+	}
 	
 	public Votazione(int id, String nome, String data_inizio, String data_fine, String descrizione) {
 		this.id = id;

@@ -23,7 +23,7 @@ public class VotazioneStandard extends Votazione implements Iterable<Candidato> 
 	
 	private int init_index;
 	
-	private VotazioneStandard(int id, String nome, String data_inizio, String data_fine, String descrizione, TipoVotazione tipo, boolean maggioranzaAssoluta, boolean votoAPartiti) {
+	public VotazioneStandard(int id, String nome, String data_inizio, String data_fine, String descrizione, TipoVotazione tipo, boolean maggioranzaAssoluta, boolean votoAPartiti) {
 		super(id, nome, data_inizio, data_fine, descrizione);
 		dbConnection = new StandardVoteDAO();
 		Objects.requireNonNull(tipo);

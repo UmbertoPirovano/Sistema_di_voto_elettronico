@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,6 +14,7 @@ import candidates.Candidato;
 import candidates.CandidatoPartito;
 import candidates.CandidatoPersona;
 import poll.Referendum;
+import poll.TipoVotazione;
 import poll.Votazione;
 import poll.VotazioneStandard;
 import system.Sessione;
@@ -160,8 +162,46 @@ public class PollDAOImpl implements PollDAO {
 
 	@Override
 	public List<Votazione> votazioniTerminate() {
-		// TODO Auto-generated method stub
-		return null;
+		con = getConnection();
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		List<Votazione> votazioni = new ArrayList<>();
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT * FROM votazioni v WHERE v.data_fine < ?;");
+			st.setTimestamp(1, ts);
+			ResultSet rS = st.executeQuery();
+			while(rS.next()) {
+				int id = rS.getInt(1);
+				String nome = rS.getString(2);
+				String inizio = rS.getTimestamp(3).toString();
+				String fine = rS.getTimestamp(4).toString();
+				String tipo = rS.getString(5);
+				String descrizione = rS.getString(6);
+				if(tipo.toLowerCase().trim().equals("ordinale") || tipo.toLowerCase().trim().equals("categorico") || tipo.toLowerCase().trim().equals("preferenziale")) {
+					boolean maggioranzaAssoluta = rS.getBoolean(7);
+					boolean votoAPartiti = rS.getBoolean(8);
+					
+					switch(tipo.toLowerCase().trim()) {
+						case "ordinale":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.ORDINALE, maggioranzaAssoluta, votoAPartiti));
+							break;
+						case "categorico":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.CATEGORICO, maggioranzaAssoluta, votoAPartiti));
+							break;
+						case "preferenziale":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.PREFERENZIALE, maggioranzaAssoluta, votoAPartiti));
+					}
+				}else
+					if(tipo.toLowerCase().trim().equals("referendum")) {
+						boolean quorum = rS.getBoolean(9); 
+						votazioni.add(new Referendum(id, nome, inizio, fine, descrizione, quorum));
+					}else
+						throw new IllegalArgumentException("Type not found: "+tipo.toLowerCase().trim());
+				
+			}
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}
+		return votazioni;
 	}
 
 	@Override

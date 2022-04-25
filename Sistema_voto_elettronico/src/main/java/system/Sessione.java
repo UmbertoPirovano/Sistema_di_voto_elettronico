@@ -17,10 +17,19 @@ import vote.Voto;
 
 public class Sessione {
 	
+	/**
+	 * Attributi
+	 * L'attributo sessione contiene l'oggetto this.
+	 * utente è l'utente attualmente abilitato e che sta interagendo con il sistema.
+	 * votazione è la votazione attualmente selezionata sulla quale si stanno effettuando operazioni.
+	 * voto è l'oggetto voto che si è creato in seguito ad una votazione effettuata dall'utente
+	 * prenotazione è un attributo booleano che è true se il sistema di prenotazione delle votazioni è attivo. Di default è false.
+	 */
 	private static Sessione sessione = null;
 	private User utente;
 	private Votazione votazione;
 	private Voto voto;
+	private static boolean prenotazione = true;
 	
 	private Sessione() {
 		super();
@@ -82,6 +91,14 @@ public class Sessione {
 	
 	public Voto getVoto() {
 		return voto;
+	}
+	
+	/**
+	 * Restituisce true se il sistema di prenotazione delle votazioni è abilitato, false altrimenti.
+	 * @return
+	 */
+	public boolean getSettingsPrenotazione() {
+		return prenotazione;
 	}
 	
 	/**

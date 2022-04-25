@@ -51,7 +51,7 @@ public class CandidatoPartito implements Candidato, Iterable<CandidatoPersona>, 
 	public void addCandidato(String nome, String cognome) {
 		Objects.requireNonNull(nome);
 		Objects.requireNonNull(cognome);
-		candidati.add(new CandidatoPersona(nome, cognome, this));
+		//candidati.add(new CandidatoPersona(nome, cognome, this));
 	}
 	
 	/**

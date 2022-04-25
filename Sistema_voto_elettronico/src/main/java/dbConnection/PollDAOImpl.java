@@ -147,11 +147,11 @@ public class PollDAOImpl implements PollDAO {
 		con = getConnection();
 		
 		try {
-			PreparedStatement st = con.prepareStatement("SELECT count(*) FROM ha_votato hv WHERE ? = hv.votazione AND ? = hv.persona;");
+			PreparedStatement st = con.prepareStatement("SELECT count(*) AS n FROM ha_votato AS hv WHERE ? = hv.votazione AND ? = hv.persona;");
 			st.setInt(1, v.getId());
 			st.setInt(2, e.getId());
 			ResultSet rS = st.executeQuery();
-			if(rS.getInt("count(*)") == 1)
+			if(rS.getInt("n") == 1)
 				return true;
 		}catch(SQLException se) {
 			se.printStackTrace();

@@ -23,6 +23,7 @@ import poll.Referendum;
 import poll.Votazione;
 import poll.VotazioneStandard;
 import system.Sessione;
+import users.Elettore;
 
 public class RowVotazione {
 	private final Votazione v;
@@ -109,16 +110,30 @@ public class RowVotazione {
 	 */
 	private void handleAzione() {
 		PollDAO p = new PollDAOImpl();
-		Sessione.getSessione().setVotazione(v);																//!!!Qui impostiamo la votazione attiva.
+		Sessione.getSessione().setVotazione(v);		//!!!Qui impostiamo la votazione attiva in sessione.
+		Elettore e = (Elettore) Sessione.getSessione().getUser();
+		
 		button_azione.getScene().getWindow().hide();
-		if(p.checkBooking(Sessione.getSessione().getUser(), v)) {
-			if(v instanceof Referendum) {
-				showReferendum();
-			} else if(v instanceof VotazioneStandard) {
-				showStandardPoll();				
+		if(Sessione.getSessione().getSettingsPrenotazione()) {
+			//caso in cui il sistema di prenotazione è abilitato
+			if(p.checkBooking(Sessione.getSessione().getUser(), v) && !p.checkVoted(e, v)) {
+				if(v instanceof Referendum) {
+					showReferendum();
+				} else if(v instanceof VotazioneStandard) {
+					showStandardPoll();				
+				}
+			}else if(!p.checkVoted(e, v)){
+				showBookingWindow();
 			}
 		}else{
-			showBookingWindow();
+			//caso in cui il sistema di prenotazione è disabilitato
+			if(!p.checkVoted(e, v)) {
+				if(v instanceof Referendum) {
+					showReferendum();
+				} else if(v instanceof VotazioneStandard) {
+					showStandardPoll();				
+				}
+			}
 		}
 	}
 	

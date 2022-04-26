@@ -29,7 +29,7 @@ public class Sessione {
 	private User utente;
 	private Votazione votazione;
 	private Voto voto;
-	private static boolean prenotazione = true;
+	private static boolean prenotazione = false;
 	
 	private Sessione() {
 		super();

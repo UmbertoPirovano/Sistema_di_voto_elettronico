@@ -144,6 +144,8 @@ public class PollDAOImpl implements PollDAO {
 
 	@Override
 	public boolean checkVoted(Elettore e, Votazione v) {
+		Objects.requireNonNull(e);
+		Objects.requireNonNull(v);
 		con = getConnection();
 		
 		try {
@@ -151,6 +153,7 @@ public class PollDAOImpl implements PollDAO {
 			st.setInt(1, v.getId());
 			st.setInt(2, e.getId());
 			ResultSet rS = st.executeQuery();
+			rS.next();
 			if(rS.getInt("n") == 1)
 				return true;
 		}catch(SQLException se) {

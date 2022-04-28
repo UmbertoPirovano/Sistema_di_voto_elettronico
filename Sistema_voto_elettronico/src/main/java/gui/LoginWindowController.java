@@ -81,7 +81,10 @@ public class LoginWindowController {
     	if(login) {    	
     		statusLabel.setTextFill(Color.color(0, 1, 0));
     		statusLabel.setText("Benvenuto " + username);
-    		showPollSelection();    		
+    		if(mode.equalsIgnoreCase("elettore"))
+    			showPollSelection();
+    		else if(mode.equalsIgnoreCase("amministratore"))
+    			showAdminMenu();
     	}else {
     		statusLabel.setTextFill(Color.color(1, 0, 0));
     		statusLabel.setText("Verificare le credenziali e il tipo di utente.");
@@ -134,6 +137,23 @@ public class LoginWindowController {
             Stage stage = new Stage();
         	stage.setTitle("Sistema di voto elettronico - Selezione votazioni");
         	stage.setScene(new Scene(root, 900, 780));
+        	stage.setResizable(false);
+        	stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+    }
+    
+    /**
+     * Chiude la finestra di login ed apre il menù amministratore.
+     */
+    void showAdminMenu() {
+    	try {
+			submitButton.getScene().getWindow().hide();
+    		Parent root = FXMLLoader.load(getClass().getResource("AdminMenu.fxml"));
+            Stage stage = new Stage();
+        	stage.setTitle("Sistema di voto elettronico - Menù amministratore");
+        	stage.setScene(new Scene(root, 900, 800));
         	stage.setResizable(false);
         	stage.show();
 		}catch (IOException e) {

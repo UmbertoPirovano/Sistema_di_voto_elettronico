@@ -113,10 +113,10 @@ public class RowVotazione {
 		Sessione.getSessione().setVotazione(v);		//!!!Qui impostiamo la votazione attiva in sessione.
 		Elettore e = (Elettore) Sessione.getSessione().getUser();
 		
-		button_azione.getScene().getWindow().hide();
 		if(Sessione.getSessione().getSettingsPrenotazione()) {
 			//caso in cui il sistema di prenotazione è abilitato
 			if(p.checkBooking(Sessione.getSessione().getUser(), v) && !p.checkVoted(e, v)) {
+				button_azione.getScene().getWindow().hide();
 				if(v instanceof Referendum) {
 					showReferendum();
 				} else if(v instanceof VotazioneStandard) {
@@ -128,6 +128,7 @@ public class RowVotazione {
 		}else{
 			//caso in cui il sistema di prenotazione è disabilitato
 			if(!p.checkVoted(e, v)) {
+				button_azione.getScene().getWindow().hide();
 				if(v instanceof Referendum) {
 					showReferendum();
 				} else if(v instanceof VotazioneStandard) {

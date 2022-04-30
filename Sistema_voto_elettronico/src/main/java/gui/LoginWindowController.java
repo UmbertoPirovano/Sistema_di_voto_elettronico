@@ -53,6 +53,23 @@ public class LoginWindowController {
     @FXML
     private Label statusLabel;
     
+    @FXML
+    private Button settingsButton;
+    
+    @FXML
+    void showSettings(ActionEvent event) {
+    	try {
+    		Parent root = FXMLLoader.load(getClass().getResource("SettingsWindow.fxml"));
+            Stage stage = new Stage();
+        	stage.setTitle("Sistema di voto elettronico - Settings");
+        	stage.setScene(new Scene(root, 600, 400));
+        	stage.setResizable(false);
+        	stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+    }
+    
     /**
      * Quando viene premuto il tasto invio esegue il login con i dati inseriti in userField e pwField.
      * @param ke Il tasto premuto.

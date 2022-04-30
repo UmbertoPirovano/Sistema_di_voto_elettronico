@@ -19,13 +19,7 @@ public class UserLoginDAOImpl implements UserLoginDAO {
 	 * @return Connessione al DB contenente gli utenti.
 	 */
 	private static Connection getConnection() {
-		Connection c = null;
-		try {
-			c = DriverManager.getConnection("jdbc:mysql://localhost/sistema_di_voto?user=root&password=");
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return c;
+		return DatabaseConnection.getConnection();
 	}
 
 	@Override

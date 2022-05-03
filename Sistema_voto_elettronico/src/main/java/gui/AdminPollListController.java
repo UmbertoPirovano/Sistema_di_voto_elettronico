@@ -81,7 +81,16 @@ public class AdminPollListController implements Initializable {
 
     @FXML
     void showPollEditor(ActionEvent event) {
-    	
+    	try {
+    		Parent root = FXMLLoader.load(getClass().getResource("AdminPollEditor.fxml"));
+            Stage stage = new Stage();
+        	stage.setTitle("Sistema di voto elettronico - Editor votazioni");
+        	stage.setScene(new Scene(root, 700, 800));
+        	stage.setResizable(false);
+        	stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
     }
 
 	@Override

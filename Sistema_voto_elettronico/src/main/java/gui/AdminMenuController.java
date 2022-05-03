@@ -41,7 +41,17 @@ public class AdminMenuController implements Initializable {
 
     @FXML
     void showPollListAdmin(ActionEvent event) {
-
+    	try {
+			logoutButton.getScene().getWindow().hide();
+    		Parent root = FXMLLoader.load(getClass().getResource("AdminPollList.fxml"));
+            Stage stage = new Stage();
+        	stage.setTitle("Sistema di voto elettronico - Gestione votazioni (admin)");
+        	stage.setScene(new Scene(root, 900, 800));
+        	stage.setResizable(false);
+        	stage.show();
+		}catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
     }
 
     @FXML

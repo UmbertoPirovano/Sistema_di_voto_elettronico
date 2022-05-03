@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import dbConnection.PollDAO;
@@ -47,6 +48,9 @@ public class PollSelectionController {
     
     @FXML
     private TableColumn<RowVotazione, String> col_action;
+    
+    @FXML
+    private TableColumn<RowVotazione, String> col_status;
 	
     @FXML
     private Button logoutButton;
@@ -82,17 +86,24 @@ public class PollSelectionController {
     	col_type.setCellValueFactory(new PropertyValueFactory<>("Tipo"));
     	col_startDate.setCellValueFactory(new PropertyValueFactory<>("Data_inizio"));
     	col_endDate.setCellValueFactory(new PropertyValueFactory<>("Data_fine"));
+    	col_status.setCellValueFactory(new PropertyValueFactory<>("Stato"));
+    	col_action.setCellValueFactory(new PropertyValueFactory<>("buttonBar"));
     	
-    	col_description.setCellValueFactory(new PropertyValueFactory<>("button_info"));
-    	col_action.setCellValueFactory(new PropertyValueFactory<>("button_azione"));
-    	
-    	PollDAO polls = new PollDAOImpl();
+    	refreshList();   	
+    }
+    
+    private void refreshList() {
+		votazioniTable.getItems().clear();
+		
+		PollDAO polls = new PollDAOImpl();
     	List<Votazione> votazioni = polls.getAll();
+    	
     	for(Votazione v : votazioni) {
     		RowVotazione rv = new RowVotazione(v);
     		votazioniTable.getItems().add(rv);
-    	}    	
-    }
+    	}
+    	Collections.sort(votazioniTable.getItems());
+	}
     
     void showLoginWindow() {
     	try {

@@ -14,18 +14,25 @@ import dbConnection.PollDAOImpl;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import poll.Referendum;
 import poll.Votazione;
 import poll.VotazioneStandard;
 import system.Sessione;
+import users.Amministratore;
 import users.Elettore;
+import java.util.Date;
 
-public class RowVotazione {
+
+public class RowVotazione implements Comparable<RowVotazione> {
 	private final Votazione v;
 	private final SimpleIntegerProperty id;
 	private final SimpleStringProperty nome;
@@ -33,8 +40,8 @@ public class RowVotazione {
 	private final SimpleStringProperty data_inizio;
 	private final SimpleStringProperty data_fine;
 	private final SimpleStringProperty descrizione;
-	private Button button_info;
-	private Button button_azione;
+	private final SimpleStringProperty stato;
+	private ButtonBar buttonBar;
 	
 	public RowVotazione(Votazione v) {
 		this.v = Objects.requireNonNull(v);
@@ -44,16 +51,65 @@ public class RowVotazione {
 			this.tipo = new SimpleStringProperty("REFERENDUM");
 		else
 			this.tipo = new SimpleStringProperty(((VotazioneStandard) v).getTipo());
-		this.data_inizio = new SimpleStringProperty(v.getData_inizio());
-		this.data_fine = new SimpleStringProperty(v.getData_fine());
+		this.data_inizio = new SimpleStringProperty(v.getDataInizioFormatted());
+		this.data_fine = new SimpleStringProperty(v.getDataFineFormatted());
 		this.descrizione = new SimpleStringProperty(v.getDescrizione());
-		this.button_info = new Button("Info");
-		this.button_azione = new Button("Prenota o vota");
+		this.stato = new SimpleStringProperty(v.getStato());
 		
+		Button button_info = new Button();
+		ImageView infoPng = new ImageView(new Image(getClass().getResource("info.png").toString()));
+		infoPng.setFitHeight(20);
+		infoPng.setPreserveRatio(true);
+		button_info.setGraphic(infoPng);
 		button_info.setOnAction(event -> showMessageWindow());
-		button_azione.setOnAction(event -> handleAzione());
+		
+		Button button_vota = new Button();
+		ImageView votaPng = new ImageView(new Image(getClass().getResource("vote.png").toString()));
+		votaPng.setFitHeight(20);
+		votaPng.setPreserveRatio(true);
+		button_vota.setGraphic(votaPng);
+		button_vota.setOnAction(event -> handleAzioneVota());
+		
+		Button button_modifica = new Button();
+		ImageView modificaPng = new ImageView(new Image(getClass().getResource("edit.png").toString()));
+		modificaPng.setFitHeight(20);
+		modificaPng.setPreserveRatio(true);
+		button_modifica.setGraphic(modificaPng);
+		button_modifica.setOnAction(event -> handleAzioneModifica());
+		
+		Button button_elimina = new Button();
+		ImageView eliminaPng = new ImageView(new Image(getClass().getResource("delete.png").toString()));
+		eliminaPng.setFitHeight(20);
+		eliminaPng.setPreserveRatio(true);
+		button_elimina.setGraphic(eliminaPng);
+		button_elimina.setOnAction(event -> handleAzioneElimina());
+		
+		buttonBar = new ButtonBar();
+		//buttonBar.setPadding(new Insets(0, 0, 0, 0));
+		buttonBar.setButtonMinWidth(20);
+		
+		buttonBar.getButtons().addAll(button_info);
+		
+		if(Sessione.getSessione().getUser() instanceof Elettore) {
+			buttonBar.setTranslateX(-15);
+			buttonBar.getButtons().addAll(button_vota);
+		}else if(Sessione.getSessione().getUser() instanceof Amministratore) {
+			buttonBar.setTranslateX(-25);
+			buttonBar.getButtons().addAll(button_modifica, button_elimina);
+		}
+		
 	}
 	
+	private Object handleAzioneElimina() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Object handleAzioneModifica() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public int getId() {
 		return id.get();
 	}
@@ -78,12 +134,12 @@ public class RowVotazione {
 		return descrizione.get();
 	}
 	
-	public Button getButton_info() {
-		return button_info;
+	public String getStato() {
+		return stato.get();
 	}
 	
-	public Button getButton_azione() {
-		return button_azione;
+	public ButtonBar getButtonBar() {
+		return buttonBar;
 	}
 	
 	/**
@@ -108,7 +164,7 @@ public class RowVotazione {
 	 * Alla pressione del bottone "Prenota o vota" se l'utente non è ancora prenotato per questa votazione apre la schermata di prenotazione,
 	 * altrimenti apre la schermata di votazione. La schermata corrente viene chiusa.
 	 */
-	private void handleAzione() {
+	private void handleAzioneVota() {
 		PollDAO p = new PollDAOImpl();
 		Sessione.getSessione().setVotazione(v);		//!!!Qui impostiamo la votazione attiva in sessione.
 		Elettore e = (Elettore) Sessione.getSessione().getUser();
@@ -116,7 +172,7 @@ public class RowVotazione {
 		if(Sessione.getSessione().getSettingsPrenotazione()) {
 			//caso in cui il sistema di prenotazione è abilitato
 			if(p.checkBooking(Sessione.getSessione().getUser(), v) && !p.checkVoted(e, v)) {
-				button_azione.getScene().getWindow().hide();
+				buttonBar.getScene().getWindow().hide();
 				if(v instanceof Referendum) {
 					showReferendum();
 				} else if(v instanceof VotazioneStandard) {
@@ -128,7 +184,7 @@ public class RowVotazione {
 		}else{
 			//caso in cui il sistema di prenotazione è disabilitato
 			if(!p.checkVoted(e, v)) {
-				button_azione.getScene().getWindow().hide();
+				buttonBar.getScene().getWindow().hide();
 				if(v instanceof Referendum) {
 					showReferendum();
 				} else if(v instanceof VotazioneStandard) {
@@ -185,5 +241,10 @@ public class RowVotazione {
 		}catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+
+	@Override
+	public int compareTo(RowVotazione o) {
+		return v.getDataInizio().compareTo(o.v.getDataInizio());
 	}	
 }

@@ -60,8 +60,14 @@ public abstract class Votazione {
 	 * @return
 	 */
 	@SuppressWarnings("deprecation")
-	public String getData_inizio() {
-		return data_inizio.toGMTString();
+	public Date getDataInizio() {
+		return data_inizio;
+	}
+	
+	public String getDataInizioFormatted() {
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy, hh:mm:ss");
+		String day = formatter.format(getDataInizio());
+		return day;
 	}
 	
 	/**
@@ -69,8 +75,14 @@ public abstract class Votazione {
 	 * @return
 	 */
 	@SuppressWarnings("deprecation")
-	public String getData_fine() {
-		return data_fine.toGMTString();
+	public Date getDataFine() {
+		return data_fine;
+	}
+	
+	public String getDataFineFormatted() {
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy, hh:mm:ss");
+		String day = formatter.format(getDataFine());
+		return day;
 	}
 	
 	/**
@@ -108,5 +120,10 @@ public abstract class Votazione {
 		return null;
 	}
 	
-	
+	public String getStato() {
+		Date now = new Date(System.currentTimeMillis());
+		if(now.before(data_inizio)) return "In preparazione";
+		else if(now.after(data_inizio) && now.before(data_fine)) return "In corso";
+		else return "Terminata";
+	}	
 }

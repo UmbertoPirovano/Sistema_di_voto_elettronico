@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="779.0" prefWidth="905.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PollSelectionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="779.0" prefWidth="905.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PollSelectionController">
    <children>
       <AnchorPane prefHeight="110.0" prefWidth="903.0" style="-fx-background-color: lightblue;" AnchorPane.bottomAnchor="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -35,11 +35,11 @@
         <columns>
           <TableColumn fx:id="col_id" maxWidth="100.0" prefWidth="35.0" text="id" />
           <TableColumn fx:id="col_name" maxWidth="1000.0" prefWidth="170.0" text="nome" />
-            <TableColumn fx:id="col_type" maxWidth="1000.0" prefWidth="120.0" text="tipo" />
-            <TableColumn fx:id="col_startDate" maxWidth="300.0" prefWidth="150.0" text="inizio" />
-            <TableColumn fx:id="col_endDate" maxWidth="300.0" prefWidth="150.0" text="fine" />
-            <TableColumn fx:id="col_description" maxWidth="1000.0" prefWidth="50.0" text="info" />
-            <TableColumn fx:id="col_action" text="azione" />
+            <TableColumn fx:id="col_type" maxWidth="1000.0" prefWidth="110.0" text="tipo" />
+            <TableColumn fx:id="col_startDate" maxWidth="300.0" prefWidth="140.0" text="inizio" />
+            <TableColumn fx:id="col_endDate" maxWidth="300.0" prefWidth="140.0" text="fine" />
+            <TableColumn fx:id="col_status" prefWidth="90.0" text="stato" />
+            <TableColumn fx:id="col_action" maxWidth="117.79998779296875" minWidth="68.800048828125" prefWidth="117.79998779296875" resizable="false" text="azione" />
         </columns>
       </TableView>
       <Text layoutX="114.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Votazioni presenti nel sistema:" wrappingWidth="342.13673400878906" AnchorPane.leftAnchor="50.0">

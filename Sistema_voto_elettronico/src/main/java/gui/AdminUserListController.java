@@ -105,9 +105,8 @@ public class AdminUserListController implements Initializable {
     	for(User u : users) {
     		RowUser ru = new RowUser(u);
     		userTable.getItems().add(ru);
-    		Collections.sort(userTable.getItems());
-    	}
-		
+    	}		
+    	Collections.sort(userTable.getItems());
 	}
 
 	@Override

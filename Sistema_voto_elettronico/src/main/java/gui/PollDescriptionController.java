@@ -35,8 +35,8 @@ public class PollDescriptionController {
     		label_tipo.setText("Referendum");
     	else
     		label_tipo.setText(((VotazioneStandard) v).getTipo());
-    	label_dataInizio.setText(v.getData_inizio());
-    	label_dataFine.setText(v.getData_fine());
+    	label_dataInizio.setText(v.getDataInizioFormatted());
+    	label_dataFine.setText(v.getDataFineFormatted());
     	msg_field.setText(stringPadding(v.getDescrizione()));
     }
     

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import dbConnection.PollDAO;
+import dbConnection.PollDAOImpl;
+import dbConnection.SystemDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,6 +21,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import poll.Referendum;
+import poll.Votazione;
 
 public class AdminPollEditorController implements Initializable {
 
@@ -158,7 +163,16 @@ public class AdminPollEditorController implements Initializable {
     	clearAllLabel();
     	LocalDateTime start = buildDate(referendumStartDateField, referendumStartHhChoice, referendumStartMmChoice);
     	LocalDateTime end = buildDate(referendumEndDateField, referendumEndHhChoice, referendumEndMmChoice);
-    	if (!validateDate(start, end)) return;
+    	if(!validateDate(start, end)) return;
+    	
+    	Votazione v = null;
+    	if(referendumTypeChoice.getValue().equalsIgnoreCase("Con quorum"))
+    		v = new Referendum(0, referendumNameField.getText(), start.toString(), end.toString(), referendumDescriptionField.getText(), true);
+    	else if(referendumTypeChoice.getValue().equalsIgnoreCase("Senza quorum"))
+    		v = new Referendum(0, referendumNameField.getText(), start.toString(), end.toString(), referendumDescriptionField.getText(), false);
+    	
+    	PollDAO pollDao = new PollDAOImpl();
+    	pollDao.creaVotazione(v);
     }
     
     @FXML
@@ -178,7 +192,14 @@ public class AdminPollEditorController implements Initializable {
 		initializeTimePicker(categoricoStartHhChoice, categoricoStartMmChoice);
 		initializeTimePicker(referendumEndHhChoice, referendumEndMmChoice);
 		initializeTimePicker(ordinaleEndHhChoice, ordinaleEndMmChoice);
-		initializeTimePicker(categoricoEndHhChoice, categoricoEndMmChoice);		
+		initializeTimePicker(categoricoEndHhChoice, categoricoEndMmChoice);
+		
+		referendumTypeChoice.getItems().addAll("Senza quorum", "Con quorum");
+		referendumTypeChoice.setValue("Senza quorum");
+		ordinaleTypeChoice.getItems().addAll("Votazione a candidati", "Votazione a partiti");
+		ordinaleTypeChoice.setValue("Votazione a candidati");
+		categoricoTypeChoice.getItems().addAll("a candidati senza preferenze", "a partiti senza preferenze", "con preferenze");
+		categoricoTypeChoice.setValue("a candidati senza preferenze");
 	}
 	
 	/**
@@ -239,9 +260,9 @@ public class AdminPollEditorController implements Initializable {
 	 * @return Un oggetto LocalDateTime che rappresenta la coppia data-ora
 	 */
 	private LocalDateTime buildDate(DatePicker datePicker, ChoiceBox<Integer> boxHh, ChoiceBox<Integer> boxMm) {
-		LocalDateTime date = referendumEndDateField.getValue().atStartOfDay();
-    	date = date.withHour(referendumEndHhChoice.getValue());
-    	date = date.withMinute(referendumEndMmChoice.getValue());
+		LocalDateTime date = datePicker.getValue().atStartOfDay();
+    	date = date.withHour(boxHh.getValue());
+    	date = date.withMinute(boxMm.getValue());
     	return date;
 	}
 	
@@ -252,16 +273,19 @@ public class AdminPollEditorController implements Initializable {
 	 * @return true se d1 è una data che precede d2 ma segue la data corrente, false altrimenti
 	 */
 	private boolean validateDate(LocalDateTime d1, LocalDateTime d2) {
-		if(d1.isAfter(LocalDateTime.now()) && d1.isBefore(d2)) return true;
+		LocalDateTime now = SystemDAO.getDbDateTime();
+		System.out.println(now);
+		System.out.println(d1);
+		System.out.println(d2);
+		if(d1.isAfter(now) && d1.isBefore(d2)) return true;
 		else if(d2.isBefore(d1)) {
 			displayError(referendumEndDateLabel, "Data non valida");
 			return false;
-		}else if(d1.isBefore(LocalDateTime.now())) {
+		}else if(d1.isBefore(now)) {
 			displayError(referendumStartDateLabel, "Data non valida");
 			return false;
 		}
 		displayError(referendumStatusLabel, "Controlla i campi");
 		return false;
 	}
-
 }

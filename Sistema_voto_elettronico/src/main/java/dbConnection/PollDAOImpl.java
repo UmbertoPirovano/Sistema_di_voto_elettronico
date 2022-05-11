@@ -203,25 +203,173 @@ public class PollDAOImpl implements PollDAO {
 
 	@Override
 	public List<Votazione> votazioniTerminate(int anno) {
-		// TODO Auto-generated method stub
-		return null;
+		con = getConnection();
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		
+		if(anno > ts.toLocalDateTime().getYear())
+			throw new IllegalArgumentException();
+		
+		List<Votazione> votazioni = new ArrayList<>();
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT * FROM votazioni v WHERE v.data_fine < ? AND YEAR(v.data_inizio) = ?;");
+			st.setTimestamp(1, ts);
+			st.setInt(2, anno);
+			ResultSet rS = st.executeQuery();
+			while(rS.next()) {
+				int id = rS.getInt(1);
+				String nome = rS.getString(2);
+				String inizio = rS.getTimestamp(3).toString();
+				String fine = rS.getTimestamp(4).toString();
+				String tipo = rS.getString(5);
+				String descrizione = rS.getString(6);
+				if(tipo.toLowerCase().trim().equals("ordinale") || tipo.toLowerCase().trim().equals("categorico") || tipo.toLowerCase().trim().equals("preferenziale")) {
+					boolean maggioranzaAssoluta = rS.getBoolean(7);
+					boolean votoAPartiti = rS.getBoolean(8);
+					
+					switch(tipo.toLowerCase().trim()) {
+						case "ordinale":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.ORDINALE, maggioranzaAssoluta, votoAPartiti));
+							break;
+						case "categorico":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.CATEGORICO, maggioranzaAssoluta, votoAPartiti));
+							break;
+						case "preferenziale":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.PREFERENZIALE, maggioranzaAssoluta, votoAPartiti));
+					}
+				}else
+					if(tipo.toLowerCase().trim().equals("referendum")) {
+						boolean quorum = rS.getBoolean(9); 
+						votazioni.add(new Referendum(id, nome, inizio, fine, descrizione, quorum));
+					}else
+						throw new IllegalArgumentException("Type not found: "+tipo.toLowerCase().trim());
+				
+			}
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}
+		return votazioni;
 	}
 
 	@Override
 	public List<Votazione> votazioniTerminate(int anno, int mese) {
-		// TODO Auto-generated method stub
-		return null;
+		con = getConnection();
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		
+		if(anno > ts.toLocalDateTime().getYear())
+			throw new IllegalArgumentException();
+		
+		if(mese < 1 || mese > 12 || (anno == ts.toLocalDateTime().getYear() && mese > ts.toLocalDateTime().getMonth().getValue()))
+			throw new IllegalArgumentException();
+			
+		List<Votazione> votazioni = new ArrayList<>();
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT * FROM votazioni v WHERE v.data_fine < ? AND YEAR(v.data_inizio) = ? AND MONTH(v.data_inizio) = ?;");
+			st.setTimestamp(1, ts);
+			st.setInt(2, anno);
+			st.setInt(3, mese);
+			ResultSet rS = st.executeQuery();
+			while(rS.next()) {
+				int id = rS.getInt(1);
+				String nome = rS.getString(2);
+				String inizio = rS.getTimestamp(3).toString();
+				String fine = rS.getTimestamp(4).toString();
+				String tipo = rS.getString(5);
+				String descrizione = rS.getString(6);
+				if(tipo.toLowerCase().trim().equals("ordinale") || tipo.toLowerCase().trim().equals("categorico") || tipo.toLowerCase().trim().equals("preferenziale")) {
+					boolean maggioranzaAssoluta = rS.getBoolean(7);
+					boolean votoAPartiti = rS.getBoolean(8);
+					
+					switch(tipo.toLowerCase().trim()) {
+						case "ordinale":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.ORDINALE, maggioranzaAssoluta, votoAPartiti));
+							break;
+						case "categorico":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.CATEGORICO, maggioranzaAssoluta, votoAPartiti));
+							break;
+						case "preferenziale":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.PREFERENZIALE, maggioranzaAssoluta, votoAPartiti));
+					}
+				}else
+					if(tipo.toLowerCase().trim().equals("referendum")) {
+						boolean quorum = rS.getBoolean(9); 
+						votazioni.add(new Referendum(id, nome, inizio, fine, descrizione, quorum));
+					}else
+						throw new IllegalArgumentException("Type not found: "+tipo.toLowerCase().trim());
+				
+			}
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}
+		return votazioni;
 	}
 
 	@Override
 	public void creaVotazione(Votazione v) {
-		// TODO Auto-generated method stub
+		con = getConnection();
+		if(v instanceof Referendum) {
+			try {
+				PreparedStatement checking = con.prepareStatement("SELECT COUNT(*) FROM votazioni v WHERE v.nome LIKE ? AND v.data_inizio = ? AND v.data_fine = ? AND v.tipo = ?;");
+				checking.setString(1, v.getNome());
+				checking.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
+				checking.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+				checking.setString(4, "referendum");
+				if(checking.executeQuery().getInt(1) > 0)
+					throw new IllegalArgumentException("La votazione e' gia' presente");
+				PreparedStatement insert = con.prepareStatement("INSERT INTO votazioni(nome,data_inizio,data_fine,tipo,descrizione,quorum) VALUES(?,?,?,?,?,?);");
+				insert.setTimestamp(1, new Timestamp(v.getDataInizio().getTime()));
+				insert.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+				insert.setString(4, "referendum");
+				insert.setString(5, v.getDescrizione());
+				insert.setBoolean(6, ((Referendum) v).getQuorum());
+				insert.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			PreparedStatement checking;
+			try {
+				checking = con.prepareStatement("SELECT COUNT(*) FROM votazioni v WHERE v.nome LIKE ? AND v.data_inizio = ? AND v.data_fine = ? AND v.tipo = ?;");
+				checking.setString(1, v.getNome());
+				checking.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
+				checking.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+				checking.setString(4, ((VotazioneStandard) v).getTipo());
+				if(checking.executeQuery().getInt(1) > 0)
+					throw new IllegalArgumentException("La votazione e' gia' presente");
+				PreparedStatement insert = con.prepareStatement("INSERT INTO votazioni(nome,data_inizio,data_fine,tipo,descrizione,maggioranzaAssoluta,votoAPartiti) VALUES(?,?,?,?,?,?,?);");
+				insert.setTimestamp(1, new Timestamp(v.getDataInizio().getTime()));
+				insert.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+				insert.setString(4, ((VotazioneStandard) v).getTipo());
+				insert.setString(5, v.getDescrizione());
+				insert.setBoolean(6, ((VotazioneStandard) v).getMaggioranzaAssoluta());
+				insert.setBoolean(7, ((VotazioneStandard) v).getVotoAPartiti());
+				insert.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 		
 	}
 
 	@Override
 	public void rimuoviVotazione(Votazione v) {
-		// TODO Auto-generated method stub
+		con = getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement("DELETE FROM votazioni v WHERE v.nome LIKE ? AND v.data_inizio = ? AND v.data_fine = ? AND v.tipo = ?;");
+			st.setString(1, v.getNome());
+			st.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
+			st.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+			if(v instanceof Referendum)
+				st.setString(4, "referendum");
+			else
+				st.setString(4, ((VotazioneStandard) v).getTipo());
+			st.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

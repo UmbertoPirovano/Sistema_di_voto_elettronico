@@ -358,10 +358,21 @@ public class PollDAOImpl implements PollDAO {
 		con = getConnection();
 		
 		try {
-			PreparedStatement st = con.prepareStatement("DELETE FROM votazioni v WHERE v.nome LIKE ? AND v.data_inizio = ? AND v.data_fine = ? AND v.tipo = ?;");
-			st.setString(1, v.getNome());
-			st.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
-			st.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+			PreparedStatement st = con.prepareStatement("SELECT YEAR(v.data_inizio), MONTH(v.data_inizio), DAY(v.data_inizio) FROM votazioni v WHERE v.id = ?;");
+			st.setInt(1, v.getId());
+			ResultSet rS = st.executeQuery();
+			if(rS.next()) {
+				int year = rS.getInt(1);
+				int month = rS.getInt(2);
+				int day = rS.getInt(3);
+				
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+				
+				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= day))
+					throw new PollNotUpdatableException();
+			}
+			st = con.prepareStatement("DELETE FROM votazioni v WHERE v.id = ?;");
+			st.setInt(1, v.getId());
 			if(v instanceof Referendum)
 				st.setString(4, "referendum");
 			else
@@ -375,14 +386,85 @@ public class PollDAOImpl implements PollDAO {
 
 	@Override
 	public void aggiornaVotazione(Votazione v) {
-		// TODO Auto-generated method stub
+		con = getConnection();
 		
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT YEAR(v.data_inizio), MONTH(v.data_inizio), DAY(v.data_inizio) FROM votazioni v WHERE v.id = ?;");
+			st.setInt(1, v.getId());
+			ResultSet rS = st.executeQuery();
+			if(rS.next()) {
+				int year = rS.getInt(1);
+				int month = rS.getInt(2);
+				int day = rS.getInt(3);
+				
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+				
+				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= day))
+					throw new PollNotUpdatableException();
+			}
+			
+			if(v instanceof Referendum) {
+				st = con.prepareStatement("UPDATE votazioni SET nome = ?, data_inizio = ?, data_fine = ?, descrizione = ?, quorum = ?;");
+				st.setString(1, v.getNome());
+				st.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
+				st.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+				st.setString(4, v.getDescrizione());
+				st.setBoolean(5, ((Referendum) v).getQuorum());
+			}else {
+				st = con.prepareStatement("UPDATE votazioni SET nome = ?, data_inizio = ?, data_fine = ?, descrizione = ?, maggioranzaAssoluta = ?;");
+				st.setString(1, v.getNome());
+				st.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
+				st.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+				st.setString(4, v.getDescrizione());
+				st.setBoolean(5, ((VotazioneStandard) v).getMaggioranzaAssoluta());
+			}
+			st.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public List<Votazione> votazioniInCorso() {
-		// TODO Auto-generated method stub
-		return null;
+		con = getConnection();
+		List<Votazione> votazioni = new ArrayList<>();
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT * FROM votazioni v WHERE v.data_inizio <= ? AND v.data_fine > ?;");
+			st.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+			st.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+			ResultSet rS = st.executeQuery();
+			while(rS.next()) {
+				int id = rS.getInt(1);
+				String nome = rS.getString(2);
+				String inizio = rS.getTimestamp(3).toString();
+				String fine = rS.getTimestamp(4).toString();
+				String tipo = rS.getString(5);
+				String descrizione = rS.getString(6);
+				if(tipo.toLowerCase().trim().equals("ordinale") || tipo.toLowerCase().trim().equals("categorico") || tipo.toLowerCase().trim().equals("preferenziale")) {
+					boolean maggioranzaAssoluta = rS.getBoolean(7);
+					boolean votoAPartiti = rS.getBoolean(8);
+					
+					switch(tipo.toLowerCase().trim()) {
+						case "ordinale":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.ORDINALE, maggioranzaAssoluta, votoAPartiti));
+							break;
+						case "categorico":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.CATEGORICO, maggioranzaAssoluta, votoAPartiti));
+							break;
+						case "preferenziale":
+							votazioni.add(new VotazioneStandard(id, nome, inizio, fine, descrizione, TipoVotazione.PREFERENZIALE, maggioranzaAssoluta, votoAPartiti));
+					}
+				}else
+					if(tipo.toLowerCase().trim().equals("referendum")) {
+						boolean quorum = rS.getBoolean(9); 
+						votazioni.add(new Referendum(id, nome, inizio, fine, descrizione, quorum));
+					}else
+						throw new IllegalArgumentException("Type not found: "+tipo.toLowerCase().trim());
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return votazioni;
 	}
 
 	@Override

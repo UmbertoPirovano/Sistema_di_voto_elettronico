@@ -20,6 +20,9 @@ public abstract class Votazione {
 	private final String descrizione;
 	VoteDAO dbConnection;
 	
+	//IL CONTROLLO SULLA DATA DI INIZIO DEVE ESSERE EFFETTUATO IN FASE DI CREAZIONE DELL'OGGETTO VOTAZIONE
+	//AGGIUNGERE UN CONTROLLO IN FASE DI CREAZIONE DELLA VOTAZIONE: LA DATA DI INIZIO DEVE ESSERE SUCCESSIVA A QUELLA ATTUALE
+	
 	public Votazione(String nome, String data_inizio, String data_fine, String descrizione) {
 		this.nome = Objects.requireNonNull(nome);
 		this.data_inizio = stringToDate(data_inizio);

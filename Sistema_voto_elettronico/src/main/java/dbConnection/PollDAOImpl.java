@@ -307,31 +307,7 @@ public class PollDAOImpl implements PollDAO {
 	public void creaVotazione(Votazione v) {
 		con = getConnection();
 		if(v instanceof Referendum) {
-			try {
-				PreparedStatement checking = con.prepareStatement("SELECT COUNT(*) FROM votazioni v WHERE v.nome LIKE ? AND v.data_inizio = ? AND v.data_fine = ? AND v.tipo = ?;");
-				checking.setString(1, v.getNome());
-				checking.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
-				checking.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
-				checking.setString(4, "referendum");
-				ResultSet rs = checking.executeQuery();
-				if(rs.next()) {
-					if(rs.getInt(1) > 0)
-						throw new IllegalArgumentException("La votazione e' gia' presente");
-				}else {
-					throw new SQLException("Nessun risultato");
-				}
-				PreparedStatement insert = con.prepareStatement("INSERT INTO votazioni(nome,data_inizio,data_fine,tipo,descrizione,quorum) VALUES(?,?,?,?,?,?);");
-				insert.setString(1, v.getNome());
-				insert.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
-				insert.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
-				insert.setString(4, "referendum");
-				insert.setString(5, v.getDescrizione());
-				insert.setBoolean(6, ((Referendum) v).getQuorum());
-				insert.executeUpdate();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			insertReferendum(v);
 		}else {
 			PreparedStatement checking;
 			try {
@@ -357,6 +333,34 @@ public class PollDAOImpl implements PollDAO {
 			
 		}
 		
+	}
+	
+	private void insertReferendum(Votazione v) {
+		try {
+			PreparedStatement checking = con.prepareStatement("SELECT COUNT(*) FROM votazioni v WHERE v.nome LIKE ? AND v.data_inizio = ? AND v.data_fine = ? AND v.tipo = ?;");
+			checking.setString(1, v.getNome());
+			checking.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
+			checking.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+			checking.setString(4, "referendum");
+			ResultSet rs = checking.executeQuery();
+			if(rs.next()) {
+				if(rs.getInt(1) > 0)
+					throw new IllegalArgumentException("La votazione e' gia' presente");
+			}else {
+				throw new SQLException("Nessun risultato");
+			}
+			PreparedStatement insert = con.prepareStatement("INSERT INTO votazioni(nome,data_inizio,data_fine,tipo,descrizione,quorum) VALUES(?,?,?,?,?,?);");
+			insert.setString(1, v.getNome());
+			insert.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
+			insert.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+			insert.setString(4, "referendum");
+			insert.setString(5, v.getDescrizione());
+			insert.setBoolean(6, ((Referendum) v).getQuorum());
+			insert.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

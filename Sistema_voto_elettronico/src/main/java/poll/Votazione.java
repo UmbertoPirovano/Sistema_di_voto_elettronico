@@ -42,6 +42,16 @@ public abstract class Votazione {
 		assert repOk();
 	}
 	
+	public Votazione(int id, String nome, Date data_inizio, Date data_fine, String descrizione) {
+		this.id = id;
+		this.nome = Objects.requireNonNull(nome);
+		this.data_inizio = Objects.requireNonNull(data_inizio);
+		this.data_fine = Objects.requireNonNull(data_fine);
+		this.descrizione = Objects.requireNonNull(descrizione);
+		
+		assert repOk();
+	}
+	
 	/**
 	 * Restituisce l'id della votazione this.
 	 * @return

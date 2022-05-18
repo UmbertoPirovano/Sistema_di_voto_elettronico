@@ -3,7 +3,9 @@ package gui;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -161,15 +163,15 @@ public class AdminPollEditorController implements Initializable {
     @FXML
     void addReferendum(ActionEvent event) {
     	clearAllLabel();
-    	LocalDateTime start = buildDate(referendumStartDateField, referendumStartHhChoice, referendumStartMmChoice);
-    	LocalDateTime end = buildDate(referendumEndDateField, referendumEndHhChoice, referendumEndMmChoice);
+    	Date start = buildDate(referendumStartDateField, referendumStartHhChoice, referendumStartMmChoice);
+    	Date end = buildDate(referendumEndDateField, referendumEndHhChoice, referendumEndMmChoice);
     	if(!validateDate(start, end)) return;
     	
     	Votazione v = null;
     	if(referendumTypeChoice.getValue().equalsIgnoreCase("Con quorum"))
-    		v = new Referendum(0, referendumNameField.getText(), start.toString(), end.toString(), referendumDescriptionField.getText(), true);
+    		v = new Referendum(0, referendumNameField.getText(), start, end, referendumDescriptionField.getText(), true);
     	else if(referendumTypeChoice.getValue().equalsIgnoreCase("Senza quorum"))
-    		v = new Referendum(0, referendumNameField.getText(), start.toString(), end.toString(), referendumDescriptionField.getText(), false);
+    		v = new Referendum(0, referendumNameField.getText(), start, end, referendumDescriptionField.getText(), false);
     	
     	PollDAO pollDao = new PollDAOImpl();
     	pollDao.creaVotazione(v);
@@ -252,18 +254,19 @@ public class AdminPollEditorController implements Initializable {
 	}
 	
 	/**
-	 * Costruisce un oggetto LocalDateTime contenente data e ora a partire dal valore di un DatePicker e due ChoiceBox di Integer
+	 * Costruisce un oggetto Date contenente data e ora a partire dal valore di un DatePicker e due ChoiceBox di Integer
 	 * tramite i quali si selezionano rispettivamente ore e minuti.
 	 * @param datePicker L'oggetto DatePicker con il quale si seleziona la data
 	 * @param boxHh L'oggetto ChoiceBox con il quale si selezionano le ore
 	 * @param boxMm L'oggetto ChoiceBox con il quale si selezionano i minuti
-	 * @return Un oggetto LocalDateTime che rappresenta la coppia data-ora
+	 * @return Un oggetto Date che rappresenta la coppia data-ora
 	 */
-	private LocalDateTime buildDate(DatePicker datePicker, ChoiceBox<Integer> boxHh, ChoiceBox<Integer> boxMm) {
+	private Date buildDate(DatePicker datePicker, ChoiceBox<Integer> boxHh, ChoiceBox<Integer> boxMm) {		
 		LocalDateTime date = datePicker.getValue().atStartOfDay();
     	date = date.withHour(boxHh.getValue());
     	date = date.withMinute(boxMm.getValue());
-    	return date;
+    	Date d = Date.from(date.toInstant(ZoneOffset.UTC));
+    	return d;
 	}
 	
 	/**
@@ -272,16 +275,16 @@ public class AdminPollEditorController implements Initializable {
 	 * @param d2 la data che si intende usare come fine
 	 * @return true se d1 è una data che precede d2 ma segue la data corrente, false altrimenti
 	 */
-	private boolean validateDate(LocalDateTime d1, LocalDateTime d2) {
-		LocalDateTime now = SystemDAO.getDbDateTime();
+	private boolean validateDate(Date d1, Date d2) {
+		Date now = SystemDAO.getDbDateTime();
 		System.out.println(now);
 		System.out.println(d1);
 		System.out.println(d2);
-		if(d1.isAfter(now) && d1.isBefore(d2)) return true;
-		else if(d2.isBefore(d1)) {
+		if(d1.after(now) && d1.before(d2)) return true;
+		else if(d2.before(d1)) {
 			displayError(referendumEndDateLabel, "Data non valida");
 			return false;
-		}else if(d1.isBefore(now)) {
+		}else if(d1.before(now)) {
 			displayError(referendumStartDateLabel, "Data non valida");
 			return false;
 		}

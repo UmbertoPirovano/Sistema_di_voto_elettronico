@@ -309,30 +309,8 @@ public class PollDAOImpl implements PollDAO {
 		if(v instanceof Referendum) {
 			insertReferendum(v);
 		}else {
-			PreparedStatement checking;
-			try {
-				checking = con.prepareStatement("SELECT COUNT(*) FROM votazioni v WHERE v.nome LIKE ? AND v.data_inizio = ? AND v.data_fine = ? AND v.tipo = ?;");
-				checking.setString(1, v.getNome());
-				checking.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
-				checking.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
-				checking.setString(4, ((VotazioneStandard) v).getTipo());
-				if(checking.executeQuery().getInt(1) > 0)
-					throw new IllegalArgumentException("La votazione e' gia' presente");
-				PreparedStatement insert = con.prepareStatement("INSERT INTO votazioni(nome,data_inizio,data_fine,tipo,descrizione,maggioranzaAssoluta,votoAPartiti) VALUES(?,?,?,?,?,?,?);");
-				insert.setTimestamp(1, new Timestamp(v.getDataInizio().getTime()));
-				insert.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
-				insert.setString(4, ((VotazioneStandard) v).getTipo());
-				insert.setString(5, v.getDescrizione());
-				insert.setBoolean(6, ((VotazioneStandard) v).getMaggioranzaAssoluta());
-				insert.setBoolean(7, ((VotazioneStandard) v).getVotoAPartiti());
-				insert.executeUpdate();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-		
+			insertVotazioneStandard(v);			
+		}		
 	}
 	
 	private void insertReferendum(Votazione v) {
@@ -356,6 +334,29 @@ public class PollDAOImpl implements PollDAO {
 			insert.setString(4, "referendum");
 			insert.setString(5, v.getDescrizione());
 			insert.setBoolean(6, ((Referendum) v).getQuorum());
+			insert.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void insertVotazioneStandard(Votazione v) {
+		try {
+			PreparedStatement checking = con.prepareStatement("SELECT COUNT(*) FROM votazioni v WHERE v.nome LIKE ? AND v.data_inizio = ? AND v.data_fine = ? AND v.tipo = ?;");
+			checking.setString(1, v.getNome());
+			checking.setTimestamp(2, new Timestamp(v.getDataInizio().getTime()));
+			checking.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+			checking.setString(4, ((VotazioneStandard) v).getTipo());
+			if(checking.executeQuery().getInt(1) > 0)
+				throw new IllegalArgumentException("La votazione e' gia' presente");
+			PreparedStatement insert = con.prepareStatement("INSERT INTO votazioni(nome,data_inizio,data_fine,tipo,descrizione,maggioranzaAssoluta,votoAPartiti) VALUES(?,?,?,?,?,?,?);");
+			insert.setTimestamp(1, new Timestamp(v.getDataInizio().getTime()));
+			insert.setTimestamp(3, new Timestamp(v.getDataFine().getTime()));
+			insert.setString(4, ((VotazioneStandard) v).getTipo());
+			insert.setString(5, v.getDescrizione());
+			insert.setBoolean(6, ((VotazioneStandard) v).getMaggioranzaAssoluta());
+			insert.setBoolean(7, ((VotazioneStandard) v).getVotoAPartiti());
 			insert.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

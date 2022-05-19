@@ -179,12 +179,28 @@ public class AdminPollEditorController implements Initializable {
     
     @FXML
     void addOrdinale(ActionEvent event) {
-
+    	clearAllLabel();
+    	Date start = buildDate(ordinaleStartDateField, ordinaleStartHhChoice, ordinaleStartMmChoice);
+    	Date end = buildDate(ordinaleEndDateField, ordinaleEndHhChoice, ordinaleEndMmChoice);
+    	if(!validateDate(start, end)) return;
+    	
+    	Votazione v = null;
+    	
+    	PollDAO pollDao = new PollDAOImpl();
+    	pollDao.creaVotazione(v);
     }
     
     @FXML
     void addCategorico(ActionEvent event) {
-
+    	clearAllLabel();
+    	Date start = buildDate(categoricoStartDateField, categoricoStartHhChoice, categoricoStartMmChoice);
+    	Date end = buildDate(categoricoEndDateField, categoricoEndHhChoice, categoricoEndMmChoice);
+    	if(!validateDate(start, end)) return;
+    	
+    	Votazione v = null;
+    	
+    	PollDAO pollDao = new PollDAOImpl();
+    	pollDao.creaVotazione(v);
     }
 
 	@Override
@@ -265,7 +281,7 @@ public class AdminPollEditorController implements Initializable {
 		LocalDateTime date = datePicker.getValue().atStartOfDay();
     	date = date.withHour(boxHh.getValue());
     	date = date.withMinute(boxMm.getValue());
-    	Date d = Date.from(date.toInstant(ZoneOffset.UTC));
+    	Date d = Date.from(date.toInstant(ZoneOffset.of("+02:00")));
     	return d;
 	}
 	
@@ -283,12 +299,18 @@ public class AdminPollEditorController implements Initializable {
 		if(d1.after(now) && d1.before(d2)) return true;
 		else if(d2.before(d1)) {
 			displayError(referendumEndDateLabel, "Data non valida");
+			displayError(ordinaleEndDateLabel, "Data non valida");
+			displayError(categoricoEndDateLabel, "Data non valida");
 			return false;
 		}else if(d1.before(now)) {
 			displayError(referendumStartDateLabel, "Data non valida");
+			displayError(ordinaleStartDateLabel, "Data non valida");
+			displayError(categoricoStartDateLabel, "Data non valida");
 			return false;
 		}
 		displayError(referendumStatusLabel, "Controlla i campi");
+		displayError(ordinaleStatusLabel, "Controlla i campi");
+		displayError(categoricoStatusLabel, "Controlla i campi");
 		return false;
 	}
 }

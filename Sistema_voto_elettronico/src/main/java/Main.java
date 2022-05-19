@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+import dbConnection.SystemDAO;
 import dbConnection.UserDAO;
 import dbConnection.UserDAOImpl;
 import gui.GuiApplication;
@@ -23,7 +24,7 @@ public class Main {
 		
 		
 		
-		
+		System.out.println("Sistema avviato alle: " + SystemDAO.getDbDateTime());
 		Sessione s = Sessione.getSessione();
 		GuiApplication.show();		
 		s.destroy();

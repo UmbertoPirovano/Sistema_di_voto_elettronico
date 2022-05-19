@@ -12,8 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AdminPollListController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#mouse" prefHeight="800.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AdminPollListController">
    <top>
       <AnchorPane prefHeight="110.0" prefWidth="200.0" style="-fx-background-color: lightblue;" BorderPane.alignment="CENTER">
          <children>
@@ -67,7 +66,7 @@
                   <Label prefHeight="18.0" prefWidth="149.0" text="Crea una votazione" />
                </buttons>
             </ButtonBar>
-            <TableView fx:id="votazioniTable" prefHeight="554.0" prefWidth="805.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
+            <TableView fx:id="votazioniTable" onMouseMoved="#mouse" prefHeight="554.0" prefWidth="805.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
                <columns>
                   <TableColumn fx:id="col_id" maxWidth="100.0" prefWidth="32.000003814697266" text="id" />
                   <TableColumn fx:id="col_name" maxWidth="1000.0" prefWidth="140.0" text="nome" />

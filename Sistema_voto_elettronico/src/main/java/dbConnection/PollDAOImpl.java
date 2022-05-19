@@ -369,6 +369,8 @@ public class PollDAOImpl implements PollDAO {
 		con = getConnection();
 		
 		try {
+			//CONTROLLO SULLA DATA DELEGATO ALL'APPLICAZIONE
+			/*
 			PreparedStatement st = con.prepareStatement("SELECT YEAR(v.data_inizio), MONTH(v.data_inizio), DAY(v.data_inizio) FROM votazioni v WHERE v.id = ?;");
 			st.setInt(1, v.getId());
 			ResultSet rS = st.executeQuery();
@@ -382,12 +384,9 @@ public class PollDAOImpl implements PollDAO {
 				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= day))
 					throw new PollNotUpdatableException();
 			}
-			st = con.prepareStatement("DELETE FROM votazioni v WHERE v.id = ?;");
+			*/
+			PreparedStatement st = con.prepareStatement("DELETE FROM votazioni WHERE votazioni.id = ?;");
 			st.setInt(1, v.getId());
-			if(v instanceof Referendum)
-				st.setString(4, "referendum");
-			else
-				st.setString(4, ((VotazioneStandard) v).getTipo());
 			st.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

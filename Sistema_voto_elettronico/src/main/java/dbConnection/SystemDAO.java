@@ -17,7 +17,7 @@ public interface SystemDAO {
 			st = con.prepareStatement("SELECT NOW() AS datetime;");
 			ResultSet res = st.executeQuery();
 			while(res.next()) {				
-				return Date.from(res.getTimestamp("datetime").toLocalDateTime().toInstant(ZoneOffset.UTC));
+				return Date.from(res.getTimestamp("datetime").toLocalDateTime().toInstant(ZoneOffset.of("+02:00")));
 			}
 		}catch (SQLException se) {
 			se.printStackTrace();

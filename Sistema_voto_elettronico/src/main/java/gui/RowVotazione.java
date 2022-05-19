@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import dbConnection.PollDAO;
 import dbConnection.PollDAOImpl;
+import dbConnection.SystemDAO;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXMLLoader;
@@ -89,20 +90,21 @@ public class RowVotazione implements Comparable<RowVotazione> {
 		buttonBar.setButtonMinWidth(20);
 		
 		buttonBar.getButtons().addAll(button_info);
-		
+		buttonBar.setTranslateX(-25);
+
+
 		if(Sessione.getSessione().getUser() instanceof Elettore) {
 			buttonBar.setTranslateX(-15);
 			buttonBar.getButtons().addAll(button_vota);
-		}else if(Sessione.getSessione().getUser() instanceof Amministratore) {
+		}else if(Sessione.getSessione().getUser() instanceof Amministratore && editable()) {
 			buttonBar.setTranslateX(-25);
 			buttonBar.getButtons().addAll(button_modifica, button_elimina);
-		}
-		
+		}		
 	}
 	
-	private Object handleAzioneElimina() {
-		// TODO Auto-generated method stub
-		return null;
+	private void handleAzioneElimina() {
+		PollDAO p = new PollDAOImpl();
+		p.rimuoviVotazione(v);
 	}
 
 	private Object handleAzioneModifica() {
@@ -246,5 +248,15 @@ public class RowVotazione implements Comparable<RowVotazione> {
 	@Override
 	public int compareTo(RowVotazione o) {
 		return v.getDataInizio().compareTo(o.v.getDataInizio());
-	}	
+	}
+	
+	/**
+	 * Restituisce true se la votazione è editabile dunque non è ancora iniziata o terminata, false altrimenti.
+	 * @return true se la votazione è editabile, false altrimenti.
+	 */
+	private boolean editable() {
+		Date now = SystemDAO.getDbDateTime();
+		if(v.getDataInizio().after(now)) return true;
+		return false;
+	}
 }

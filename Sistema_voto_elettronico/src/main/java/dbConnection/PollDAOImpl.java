@@ -479,25 +479,97 @@ public class PollDAOImpl implements PollDAO {
 
 	@Override
 	public void addPartitoToVotazione(VotazioneStandard v, CandidatoPartito p) {
-		// TODO Auto-generated method stub
+		con = getConnection();
 		
+		try {
+			PreparedStatement st1 = con.prepareStatement("SELECT COUNT(*) FROM votazioni WHERE id = ?;");
+			st1.setInt(1, v.getId());
+			PreparedStatement st2 = con.prepareStatement("SELECT COUNT(*) FROM partiti WHERE nome LIKE ?;");
+			st2.setString(1, p.getNome());
+			if(st1.executeQuery().getInt(1) > 0) {
+				if(st2.executeQuery().getInt(1) > 0) {
+					st1 = con.prepareStatement("INSERT INTO candidati_partiti(?,?);");
+					st1.setInt(1,v.getId());
+					st1.setString(2, p.getNome());
+					st1.executeUpdate();
+				}else {
+					throw new IllegalArgumentException("Partito non presente");
+				}
+			}else {
+				throw new IllegalArgumentException("Votazione non presente");
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}		
 	}
 
 	@Override
 	public void addCandidatoToVotazione(CandidatoPersona p, VotazioneStandard v) {
-		// TODO Auto-generated method stub
+		con = getConnection();
+		
+		try {
+			PreparedStatement st1 = con.prepareStatement("SELECT COUNT(*) FROM votazioni WHERE id = ?;");
+			st1.setInt(1, v.getId());
+			if(st1.executeQuery().getInt(1) > 0) {
+				st1 = con.prepareStatement("SELECT COUNT(*) FROM rappresentanti WHERE id = ?;");
+				st1.setInt(1, p.getId());
+				if(st1.executeQuery().getInt(1) > 0) {
+					if(!p.getAffiliazione().equals("indipendente")) {
+						st1 = con.prepareStatement("SELECT COUNT(*) FROM candidati partiti WHERE votazione = ? AND partito LIKE ?;");
+						st1.setInt(1, v.getId());
+						st1.setString(1, p.getAffiliazione());
+						
+						if(st1.executeQuery().getInt(1) == 0)
+							throw new IllegalArgumentException("Il partito del candidato selezionato non partecipa alla votazione");
+					}
+					
+					st1 = con.prepareStatement("INSERT INTO candidati_rappresentanti(?,?);");
+					st1.setInt(1,v.getId());
+					st1.setInt(2, p.getId());
+					st1.executeUpdate();
+				}else {
+					throw new IllegalArgumentException("Candidato non presente");
+				}
+			}else {
+				throw new IllegalArgumentException("Votazione non presente");
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public void removePartitoFromVotazione(CandidatoPartito p, VotazioneStandard v) {
-		// TODO Auto-generated method stub
+		con = getConnection();
 		
+		try {
+			PreparedStatement st = con.prepareStatement("DELETE FROM candidati_partiti WHERE votazione = ? AND partito LIKE ?;");
+			st.setInt(1, v.getId());
+			st.setString(2, p.getNome());
+			st.executeUpdate();
+			
+			st = con.prepareStatement("DELETE FROM candidati_rappresentanti WHERE votazione = ? AND rappresentante IN (SELECT rappresentanti.id FROM rappresentanti WHERE id = rappresentante AND partito LIKE ?);");
+			st.setInt(1, v.getId());
+			st.setString(2, p.getNome());
+			st.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void removeCandidatoFromVotazione(CandidatoPersona p, VotazioneStandard v) {
-		// TODO Auto-generated method stub
+		con = getConnection();
+		
+		try {
+			PreparedStatement st = con.prepareStatement("DELETE FROM candidati_rappresentanti WHERE votazione = ? AND rappresentante = ?;");
+			st.setInt(1, v.getId());
+			st.setInt(2, p.getId());
+			st.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

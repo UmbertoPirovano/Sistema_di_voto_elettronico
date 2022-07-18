@@ -370,7 +370,6 @@ public class PollDAOImpl implements PollDAO {
 		
 		try {
 			//CONTROLLO SULLA DATA DELEGATO ALL'APPLICAZIONE
-			/*
 			PreparedStatement st = con.prepareStatement("SELECT YEAR(v.data_inizio), MONTH(v.data_inizio), DAY(v.data_inizio) FROM votazioni v WHERE v.id = ?;");
 			st.setInt(1, v.getId());
 			ResultSet rS = st.executeQuery();
@@ -381,11 +380,13 @@ public class PollDAOImpl implements PollDAO {
 				
 				Timestamp ts = new Timestamp(System.currentTimeMillis());
 				
-				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= day))
+				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= (day - 7)))
 					throw new PollNotUpdatableException();
+			}else {
+				throw new SQLException("Nessun risultato");
 			}
-			*/
-			PreparedStatement st = con.prepareStatement("DELETE FROM votazioni WHERE votazioni.id = ?;");
+			
+			st = con.prepareStatement("DELETE FROM votazioni WHERE votazioni.id = ?;");
 			st.setInt(1, v.getId());
 			st.executeUpdate();
 		}catch(SQLException e) {
@@ -409,8 +410,10 @@ public class PollDAOImpl implements PollDAO {
 				
 				Timestamp ts = new Timestamp(System.currentTimeMillis());
 				
-				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= day))
+				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= (day - 7)))
 					throw new PollNotUpdatableException();
+			}else {
+				throw new SQLException("Nessun risultato");
 			}
 			
 			if(v instanceof Referendum) {
@@ -482,21 +485,31 @@ public class PollDAOImpl implements PollDAO {
 		con = getConnection();
 		
 		try {
-			PreparedStatement st1 = con.prepareStatement("SELECT COUNT(*) FROM votazioni WHERE id = ?;");
+			PreparedStatement st1 = con.prepareStatement("SELECT COUNT(*), YEAR(data_inizio), MONTH(data_inizio), DAY(data_inizio) FROM votazioni WHERE id = ?;");
 			st1.setInt(1, v.getId());
-			PreparedStatement st2 = con.prepareStatement("SELECT COUNT(*) FROM partiti WHERE nome LIKE ?;");
-			st2.setString(1, p.getNome());
-			if(st1.executeQuery().getInt(1) > 0) {
+			ResultSet rs =st1.executeQuery();
+			if(rs.getInt(1) > 0) {
+				int year = rs.getInt(2);
+				int month = rs.getInt(3);
+				int day = rs.getInt(4);
+				
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+				
+				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= (day - 7)))
+					throw new PollNotUpdatableException();
+				
+				PreparedStatement st2 = con.prepareStatement("SELECT COUNT(*) FROM partiti WHERE nome LIKE ?;");
+				st2.setString(1, p.getNome());
 				if(st2.executeQuery().getInt(1) > 0) {
 					st1 = con.prepareStatement("INSERT INTO candidati_partiti(?,?);");
 					st1.setInt(1,v.getId());
 					st1.setString(2, p.getNome());
 					st1.executeUpdate();
 				}else {
-					throw new IllegalArgumentException("Partito non presente");
+					throw new SQLException("Partito non presente");
 				}
 			}else {
-				throw new IllegalArgumentException("Votazione non presente");
+				throw new SQLException("Votazione non presente");
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -508,9 +521,19 @@ public class PollDAOImpl implements PollDAO {
 		con = getConnection();
 		
 		try {
-			PreparedStatement st1 = con.prepareStatement("SELECT COUNT(*) FROM votazioni WHERE id = ?;");
+			PreparedStatement st1 = con.prepareStatement("SELECT COUNT(*), YEAR(data_inizio), MONTH(data_inizio), DAY(data_inizio) FROM votazioni WHERE id = ?;");
 			st1.setInt(1, v.getId());
-			if(st1.executeQuery().getInt(1) > 0) {
+			ResultSet rs = st1.executeQuery();
+			if(rs.getInt(1) > 0) {
+				int year = rs.getInt(2);
+				int month = rs.getInt(3);
+				int day = rs.getInt(4);
+				
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+				
+				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= (day - 7)))
+					throw new PollNotUpdatableException();
+				
 				st1 = con.prepareStatement("SELECT COUNT(*) FROM rappresentanti WHERE id = ?;");
 				st1.setInt(1, p.getId());
 				if(st1.executeQuery().getInt(1) > 0) {
@@ -528,10 +551,10 @@ public class PollDAOImpl implements PollDAO {
 					st1.setInt(2, p.getId());
 					st1.executeUpdate();
 				}else {
-					throw new IllegalArgumentException("Candidato non presente");
+					throw new SQLException("Candidato non presente");
 				}
 			}else {
-				throw new IllegalArgumentException("Votazione non presente");
+				throw new SQLException("Votazione non presente");
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -544,7 +567,24 @@ public class PollDAOImpl implements PollDAO {
 		con = getConnection();
 		
 		try {
-			PreparedStatement st = con.prepareStatement("DELETE FROM candidati_partiti WHERE votazione = ? AND partito LIKE ?;");
+			PreparedStatement st = con.prepareStatement("SELECT YEAR(data_inizio), MONTH(data_inizio), DAY(data_inizio) FROM votazioni WHERE id = ?;");
+			st.setInt(1, v.getId());
+			ResultSet rs = st.executeQuery();
+			
+			if(rs.next()) {
+				int year = rs.getInt(1);
+				int month = rs.getInt(2);
+				int day = rs.getInt(3);
+			
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+			
+				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= (day - 7)))
+					throw new PollNotUpdatableException();
+			}else {
+				throw new SQLException("Votazione non presente");
+			}
+			
+			st = con.prepareStatement("DELETE FROM candidati_partiti WHERE votazione = ? AND partito LIKE ?;");
 			st.setInt(1, v.getId());
 			st.setString(2, p.getNome());
 			st.executeUpdate();
@@ -563,7 +603,24 @@ public class PollDAOImpl implements PollDAO {
 		con = getConnection();
 		
 		try {
-			PreparedStatement st = con.prepareStatement("DELETE FROM candidati_rappresentanti WHERE votazione = ? AND rappresentante = ?;");
+			PreparedStatement st = con.prepareStatement("SELECT YEAR(data_inizio), MONTH(data_inizio), DAY(data_inizio) FROM votazioni WHERE id = ?;");
+			st.setInt(1, v.getId());
+			ResultSet rs = st.executeQuery();
+			
+			if(rs.next()) {
+				int year = rs.getInt(1);
+				int month = rs.getInt(2);
+				int day = rs.getInt(3);
+			
+				Timestamp ts = new Timestamp(System.currentTimeMillis());
+			
+				if(ts.toLocalDateTime().getYear() > year || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() > month) || (ts.toLocalDateTime().getYear() == year && ts.toLocalDateTime().getMonth().getValue() == month && ts.toLocalDateTime().getDayOfMonth() >= (day - 7)))
+					throw new PollNotUpdatableException();
+			}else {
+				throw new SQLException("Votazione non presente");
+			}
+			
+			st = con.prepareStatement("DELETE FROM candidati_rappresentanti WHERE votazione = ? AND rappresentante = ?;");
 			st.setInt(1, v.getId());
 			st.setInt(2, p.getId());
 			st.executeUpdate();

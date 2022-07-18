@@ -63,7 +63,7 @@ public class VotazioneStandardController implements Initializable {
     	for(Node n : selectedList.getItems()) {
     		ids.add(n.getId());
     	}
-    	Voto v = new VotoOrdinale(p.getCandidatiFromNode(ids));
+    	Voto v = new VotoOrdinale(p.getVotoAPartiti(),p.getCandidatiFromNode(ids));
     	Sessione.getSessione().setVoto(v);
     	showConfirmWindow();
     }

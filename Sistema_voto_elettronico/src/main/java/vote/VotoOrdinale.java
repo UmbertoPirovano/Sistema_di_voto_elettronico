@@ -6,15 +6,19 @@ import java.util.List;
 import java.util.Objects;
 
 import candidates.Candidato;
+import candidates.CandidatoPartito;
+import candidates.CandidatoPersona;
 
 public class VotoOrdinale extends VotoStandard implements Iterable<Candidato>{
 	
+	private boolean votoAPartiti;
 	private List<Candidato> preferenze;
 	
 	/**
 	 * Istaniza un oggetto VotoStandard vuoto.
 	 */
-	public VotoOrdinale() {
+	public VotoOrdinale(boolean votoAPartiti) {
+		this.votoAPartiti = votoAPartiti;
 		preferenze = new ArrayList<>();
 	}
 	
@@ -24,20 +28,39 @@ public class VotoOrdinale extends VotoStandard implements Iterable<Candidato>{
 	 * @param lista - Una lista di oggetti Candidato
 	 * @throws NullPointerException se lista è null
 	 */
-	public VotoOrdinale(List<Candidato> lista) {
+	public VotoOrdinale(boolean votoAPartiti, List<Candidato> lista) {
 		Objects.requireNonNull(lista);
-		preferenze = new ArrayList<>(lista);
+		this.votoAPartiti = votoAPartiti;
+		if(this.votoAPartiti) {
+			for(Candidato c: lista)
+				if(!(c instanceof CandidatoPartito))
+					throw new IllegalArgumentException();
+			preferenze = new ArrayList<>(lista);
+		}else {
+			for(Candidato c: lista)
+				if(!(c instanceof CandidatoPersona))
+					throw new IllegalArgumentException();
+			preferenze = new ArrayList<>(lista);
+		}
 	}
 	
 	@Override
 	public void addPreferenza(Candidato c) {
 		Objects.requireNonNull(c);
+		
+		if((votoAPartiti && !(c instanceof CandidatoPartito)) || (!votoAPartiti && !(c instanceof CandidatoPersona)))
+			throw new IllegalArgumentException();
+		
 		preferenze.add(c);
 	}
 	
 	@Override
 	public void removePreferenza(Candidato c) {
 		Objects.requireNonNull(c);
+		
+		if((votoAPartiti && !(c instanceof CandidatoPartito)) || (!votoAPartiti && !(c instanceof CandidatoPersona)))
+			throw new IllegalArgumentException();
+		
 		preferenze.remove(c);
 	}
 	

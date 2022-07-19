@@ -1,6 +1,7 @@
 package gui;
 
 import java.net.URL;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -163,8 +164,8 @@ public class AdminPollEditorController implements Initializable {
     @FXML
     void addReferendum(ActionEvent event) {
     	clearAllLabel();
-    	Date start = buildDate(referendumStartDateField, referendumStartHhChoice, referendumStartMmChoice);
-    	Date end = buildDate(referendumEndDateField, referendumEndHhChoice, referendumEndMmChoice);
+    	Timestamp start = buildDate(referendumStartDateField, referendumStartHhChoice, referendumStartMmChoice);
+    	Timestamp end = buildDate(referendumEndDateField, referendumEndHhChoice, referendumEndMmChoice);
     	if(!validateDate(start, end)) return;
     	
     	Votazione v = null;
@@ -180,8 +181,8 @@ public class AdminPollEditorController implements Initializable {
     @FXML
     void addOrdinale(ActionEvent event) {
     	clearAllLabel();
-    	Date start = buildDate(ordinaleStartDateField, ordinaleStartHhChoice, ordinaleStartMmChoice);
-    	Date end = buildDate(ordinaleEndDateField, ordinaleEndHhChoice, ordinaleEndMmChoice);
+    	Timestamp start = buildDate(ordinaleStartDateField, ordinaleStartHhChoice, ordinaleStartMmChoice);
+    	Timestamp end = buildDate(ordinaleEndDateField, ordinaleEndHhChoice, ordinaleEndMmChoice);
     	if(!validateDate(start, end)) return;
     	
     	Votazione v = null;
@@ -193,8 +194,8 @@ public class AdminPollEditorController implements Initializable {
     @FXML
     void addCategorico(ActionEvent event) {
     	clearAllLabel();
-    	Date start = buildDate(categoricoStartDateField, categoricoStartHhChoice, categoricoStartMmChoice);
-    	Date end = buildDate(categoricoEndDateField, categoricoEndHhChoice, categoricoEndMmChoice);
+    	Timestamp start = buildDate(categoricoStartDateField, categoricoStartHhChoice, categoricoStartMmChoice);
+    	Timestamp end = buildDate(categoricoEndDateField, categoricoEndHhChoice, categoricoEndMmChoice);
     	if(!validateDate(start, end)) return;
     	
     	Votazione v = null;
@@ -277,12 +278,12 @@ public class AdminPollEditorController implements Initializable {
 	 * @param boxMm L'oggetto ChoiceBox con il quale si selezionano i minuti
 	 * @return Un oggetto Date che rappresenta la coppia data-ora
 	 */
-	private Date buildDate(DatePicker datePicker, ChoiceBox<Integer> boxHh, ChoiceBox<Integer> boxMm) {		
+	private Timestamp buildDate(DatePicker datePicker, ChoiceBox<Integer> boxHh, ChoiceBox<Integer> boxMm) {		
 		LocalDateTime date = datePicker.getValue().atStartOfDay();
     	date = date.withHour(boxHh.getValue());
     	date = date.withMinute(boxMm.getValue());
-    	Date d = Date.from(date.toInstant(ZoneOffset.of("+02:00")));
-    	return d;
+    	Timestamp ts = Timestamp.from(date.toInstant(ZoneOffset.of("+02:00")));
+    	return ts;
 	}
 	
 	/**
@@ -292,7 +293,7 @@ public class AdminPollEditorController implements Initializable {
 	 * @return true se d1 è una data che precede d2 ma segue la data corrente, false altrimenti
 	 */
 	private boolean validateDate(Date d1, Date d2) {
-		Date now = SystemDAO.getDbDateTime();
+		Timestamp now = SystemDAO.getDbDateTime();
 		System.out.println(now);
 		System.out.println(d1);
 		System.out.println(d2);

@@ -1,5 +1,6 @@
 package poll;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import dbConnection.ReferendumDAO;
@@ -20,7 +21,7 @@ public class Referendum extends Votazione {
 		this.quorum = quorum;
 	}
 	
-	public Referendum(int id, String nome, Date data_inizio, Date data_fine, String descrizione, boolean quorum) {
+	public Referendum(int id, String nome, Timestamp data_inizio, Timestamp data_fine, String descrizione, boolean quorum) {
 		super(id, nome, data_inizio, data_fine, descrizione);
 		dbConnection = new ReferendumDAO();
 		this.quorum = quorum;
